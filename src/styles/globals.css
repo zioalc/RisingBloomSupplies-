@@ -1,0 +1,115 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-size: clamp(16px, 15px + 0.35vw, 20px);
+  }
+
+  body {
+    color: #1c1c1c;
+    font-family: "DM Sans", sans-serif;
+    background: radial-gradient(
+      ellipse at top left,
+      #fae5ed 0%,
+      #fdf5f8 40%,
+      #fdf5f8 100%
+    );
+    min-height: 100vh;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #fdf5f8;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e8a0ad;
+  border-radius: 10px;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee 30s linear infinite;
+}
+
+.hero-product-shadow {
+  filter: drop-shadow(0 20px 60px rgba(181, 96, 106, 0.2));
+}
+
+.about-section-bg {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+@supports (-webkit-touch-callout: none) {
+  .about-section-bg {
+    background-attachment: scroll;
+  }
+}
+
+@layer components {
+  .site-container {
+    @apply mx-auto w-full max-w-[100%] px-[clamp(1.25rem,3.5vw,4rem)];
+  }
+
+  .site-container-prose {
+    @apply mx-auto w-full max-w-[min(100%,40rem)] text-center xl:max-w-3xl 2xl:max-w-4xl;
+  }
+
+  .section-padding {
+    @apply py-16 md:py-20 lg:py-24 xl:py-28;
+  }
+
+  .section-label {
+    @apply font-sans text-xs uppercase tracking-[0.25em] text-rose md:text-sm;
+  }
+
+  .section-title {
+    @apply mt-2 font-serif text-3xl text-charcoal md:text-4xl lg:text-5xl xl:text-6xl;
+  }
+
+  .section-divider {
+    @apply mx-auto mt-3 h-px w-16 bg-rose lg:mt-4 lg:w-20;
+  }
+
+  .section-content {
+    @apply mt-8 md:mt-10 lg:mt-12;
+  }
+
+  .page-padding {
+    @apply py-14 md:py-20 lg:py-24 xl:py-28;
+  }
+}

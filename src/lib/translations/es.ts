@@ -1,0 +1,101 @@
+import type { Translation } from "./en";
+
+export const es: Translation = {
+  nav_home: "Inicio",
+  nav_shop: "Tienda",
+  nav_about: "Acerca de",
+  nav_contact: "Contacto",
+  header_subtitle: "Por Brenda",
+  hero_label: "RISE & BLOOM",
+  hero_heading_1: "Pestañas",
+  hero_heading_2: "Sin Esfuerzo",
+  hero_sub:
+    "Hola, soy Brenda — artista de pestañas, técnica de uñas y fundadora de Rise & Bloom. Creé esta tienda para que lleves a casa pestañas y productos de belleza con la misma calidad que ofrezco en mi estudio.",
+  hero_btn_shop: "Comprar Ahora",
+  hero_btn_about: "Conoce a Brenda",
+  hero_btn_collections: "Ver Colecciones",
+  hero_stat_1: "Fácil Aplicación en Casa",
+  hero_stat_2: "Fijación Duradera",
+  hero_stat_3: "Resultados de Salón",
+  featured_label: "DE MI TIENDA",
+  featured_heading: "De la Tienda de Brenda",
+  featured_sub:
+    "Desplázate por pestañas, uñas y productos de belleza — toca cualquier artículo para ver detalles o agregar al carrito.",
+  featured_btn: "Ver Producto",
+  categories_heading: "Compra por Categoría",
+  cat_1: "Kits de Pestañas",
+  cat_1_desc: "Kits DIY de Brenda para pestañas llenas y hermosas",
+  cat_2: "Suministros de Uñas",
+  cat_2_desc: "Esenciales de uñas — seleccionados del estudio de Brenda",
+  cat_3: "Adhesivo y Sellador",
+  cat_3_desc: "Sets de adhesivo de larga duración",
+  cat_4: "Herramientas y Más",
+  cat_4_desc: "Pinzas, removedor y accesorios de belleza",
+  about_label: "CONOCE A BRENDA",
+  about_heading_1: "Pestañas, Uñas y",
+  about_heading_2: "Belleza que Ama",
+  about_body:
+    "Brenda creó Rise & Bloom con los servicios que ofrece cada día — extensiones de pestañas, cuidado de uñas y los productos que sus clientas piden una y otra vez. Cada kit en su tienda es algo que usa personalmente y respalda.",
+  about_btn: "La Historia de Brenda",
+  about_title: "Acerca de Brenda",
+  about_p1:
+    "Brenda es el corazón de Rise & Bloom — un estudio de pestañas y tienda de belleza donde ayuda a las mujeres a sentirse seguras y hermosas. Se especializa en kits DIY de pestañas, servicios profesionales de uñas y productos seleccionados para el cuidado en casa.",
+  about_p2:
+    "Lo que comenzó compartiendo sus productos favoritos de pestañas y uñas con amigas se convirtió en una tienda en línea completa. Hoy ofrece desde su kit Blink With Purpose hasta suministros de uñas y herramientas de belleza — todo elegido con la misma atención que pone en cada cita.",
+  about_p3:
+    "Cuando no está en el estudio, Brenda aparece en mercados de belleza y eventos locales, enseñando tips de aplicación y conectando con su comunidad. Rise & Bloom es su forma de hacer la belleza de salón accesible para todos.",
+  email_heading: "Florece con Brenda",
+  email_sub:
+    "Obtén acceso anticipado a nuevos kits, productos de uñas, ofertas exclusivas y fechas de eventos.",
+  email_placeholder: "Ingresa tu correo",
+  email_address_sr: "Correo electrónico",
+  email_btn: "Suscribirse",
+  instagram_heading: "Sigue a Brenda",
+  instagram_connect_heading: "Conectemos",
+  instagram_label: "En Instagram",
+  instagram_handle: "@riseandbloom",
+  footer_tagline:
+    "Pestañas, uñas y belleza — seleccionado por Brenda. Calidad de salón, entregado a tu puerta.",
+  footer_links: "Enlaces Rápidos",
+  footer_connect: "Conectar",
+  footer_copyright: "© 2026 Rise & Bloom por Brenda. Todos los derechos reservados.",
+  sold_out: "Agotado",
+  view_product: "Ver Producto",
+  view_details: "Ver Detalles",
+  add_to_cart: "Agregar al Carrito",
+  buy_now: "Comprar Ahora",
+  tap_for_details: "Toca para detalles",
+  gallery_swipe_hint: "Desliza o usa las flechas para ver todas las fotos",
+  carousel_swipe_short: "Desliza o usa las flechas",
+  shop_fallback_note:
+    "Mostrando el kit destacado de Brenda — conecta Shopify para cargar tu catálogo completo.",
+  shop_label: "RISE & BLOOM",
+  shop_heading: "La Tienda de Brenda",
+  shop_sub:
+    "Kits de pestañas, esenciales de uñas y productos de belleza — seleccionados por Brenda para su estudio y tienda en línea.",
+  shop_meta_title: "Tienda | Rise & Bloom por Brenda",
+  shop_meta_description:
+    "Compra la colección de Brenda: kits DIY de pestañas, suministros de uñas y productos de belleza en Rise & Bloom.",
+  contact_title: "Contáctanos",
+  contact_intro:
+    "Nos encantaría saber de ti. Escríbenos con preguntas sobre kits de pestañas, pedidos o próximos eventos — siempre estamos felices de ayudarte.",
+  contact_email_label: "Correo",
+  contact_social_label: "Redes Sociales",
+  contact_events_label: "Eventos Pop-Up",
+  contact_events_body:
+    "Encuéntranos en mercados de belleza y eventos pop-up durante todo el año. Síguenos en Instagram para fechas, ubicaciones y ofertas exclusivas de eventos en kits de pestañas.",
+  contact_shop_btn: "Ver la Tienda",
+  contact_meta_title: "Contacto | Rise & Bloom",
+  contact_meta_description:
+    "Ponte en contacto con Rise & Bloom. Escríbenos, síguenos en redes o visítanos en eventos pop-up.",
+  back_to_shop: "← Volver a la Tienda",
+  cart_title: "Tu Carrito",
+  cart_empty: "Tu carrito está vacío.",
+  cart_subtotal: "Subtotal",
+  cart_checkout: "Pagar",
+  select_option: "Seleccionar Opción",
+  variant_sold_out_suffix: " — Agotado",
+  product_category_full_kit: "Kit Completo",
+  marquee_text:
+    "✦ Racimos de Pestañas  ✦ Kits DIY  ✦ Adhesivo y Sellador  ✦ Fácil Aplicación  ✦ Resultados de Salón en Casa  ✦ Rise & Bloom  ",
+};
