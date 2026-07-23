@@ -55,7 +55,7 @@ export default function ProductGallery({
       <div
         ref={scrollRef}
         onScroll={handleScroll}
-        className="flex aspect-square snap-x snap-mandatory overflow-hidden scroll-smooth rounded-xl bg-warm-white scrollbar-hide"
+        className="flex aspect-square snap-x snap-mandatory overflow-x-auto scroll-smooth rounded-xl bg-warm-white scrollbar-hide"
       >
         {images.map((src, index) => (
           <div
@@ -95,19 +95,23 @@ export default function ProductGallery({
             <ChevronRight className="h-5 w-5" />
           </button>
 
-          <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5">
+          <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1">
             {images.map((_, index) => (
               <button
                 key={index}
                 type="button"
                 onClick={() => scrollToIndex(index)}
-                className={`h-2 rounded-full transition-all ${
-                  index === activeIndex
-                    ? "w-6 bg-mauve"
-                    : "w-2 bg-warm-white/80"
-                }`}
+                className="flex min-h-11 min-w-11 items-center justify-center"
                 aria-label={`Go to image ${index + 1}`}
-              />
+              >
+                <span
+                  className={`h-2 rounded-full transition-all ${
+                    index === activeIndex
+                      ? "w-6 bg-mauve"
+                      : "w-2 bg-warm-white/80"
+                  }`}
+                />
+              </button>
             ))}
           </div>
         </>

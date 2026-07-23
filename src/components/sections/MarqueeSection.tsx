@@ -1,26 +1,38 @@
 "use client";
 
+import { useMemo } from "react";
 import { useTranslation } from "@/lib/useTranslation";
+
+const CYCLES_PER_STRIP = 12;
+
+function buildMarqueeLine(items: string[]) {
+  const cycle = items.map((item) => `✦ ${item}`).join("   ");
+  return Array.from({ length: CYCLES_PER_STRIP }, () => cycle).join("   ");
+}
 
 export default function MarqueeSection() {
   const { t } = useTranslation();
 
+  const marqueeLine = useMemo(() => {
+    const items = t.marquee_text
+      .split("|")
+      .map((item) => item.trim())
+      .filter(Boolean);
+
+    return buildMarqueeLine(items);
+  }, [t.marquee_text]);
+
   return (
-    <div
-      className="overflow-hidden py-3"
-      style={{
-        background: "linear-gradient(90deg, #B5606A 0%, #D4869A 100%)",
-      }}
-    >
-      <div className="marquee-track flex w-max">
-        <span className="whitespace-nowrap px-4 font-sans text-sm uppercase tracking-[0.25em] text-white">
-          {t.marquee_text}
+    <div className="marquee-banner overflow-hidden py-0.5">
+      <div className="marquee-track flex w-max items-center">
+        <span className="shrink-0 whitespace-nowrap px-4 font-display text-[11px] uppercase leading-tight tracking-[0.12em] text-charcoal md:text-xs">
+          {marqueeLine}
         </span>
         <span
-          className="whitespace-nowrap px-4 font-sans text-sm uppercase tracking-[0.25em] text-white"
+          className="shrink-0 whitespace-nowrap px-4 font-display text-[11px] uppercase leading-tight tracking-[0.12em] text-charcoal md:text-xs"
           aria-hidden
         >
-          {t.marquee_text}
+          {marqueeLine}
         </span>
       </div>
     </div>

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { AtSign, Mail, MapPin } from "lucide-react";
 import Link from "next/link";
+import BackToHomeLink from "@/components/ui/BackToHomeLink";
+import { SOCIAL_LINKS, STORE_EMAIL } from "@/lib/contact";
 import { localizedPath, type Locale } from "@/lib/i18n";
 import { getTranslation } from "@/lib/translations";
 
@@ -26,6 +28,7 @@ export default function ContactPage({
   return (
     <div className="page-padding bg-cream">
       <div className="site-container site-container-prose text-center">
+        <BackToHomeLink locale={params.locale} className="mb-4" />
         <h1 className="font-serif text-3xl text-charcoal md:text-4xl">
           {t.contact_title}
         </h1>
@@ -39,11 +42,11 @@ export default function ContactPage({
               {t.contact_email_label}
             </h2>
             <a
-              href="mailto:hello@risingbloomsupplies.com"
+              href={`mailto:${STORE_EMAIL}`}
               className="mt-3 flex items-center gap-2 text-sm text-charcoal/75 transition-colors hover:text-mauve"
             >
               <Mail className="h-4 w-4 shrink-0 text-mauve" />
-              hello@risingbloomsupplies.com
+              {STORE_EMAIL}
             </a>
           </div>
 
@@ -52,13 +55,13 @@ export default function ContactPage({
               {t.contact_social_label}
             </h2>
             <a
-              href="https://instagram.com"
+              href={SOCIAL_LINKS.instagram}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-3 flex items-center gap-2 text-sm text-charcoal/75 transition-colors hover:text-mauve"
             >
               <AtSign className="h-4 w-4 shrink-0 text-mauve" />
-              @riseandbloom
+              {t.instagram_handle}
             </a>
           </div>
 
@@ -75,7 +78,7 @@ export default function ContactPage({
 
         <Link
           href={localizedPath(params.locale, "/shop")}
-          className="mt-8 inline-block rounded-full bg-mauve px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-charcoal"
+          className="mt-8 inline-block rounded-full bg-rose px-8 py-3 text-sm font-medium text-charcoal transition-colors hover:bg-nightview-dark hover:text-charcoal"
         >
           {t.contact_shop_btn}
         </Link>

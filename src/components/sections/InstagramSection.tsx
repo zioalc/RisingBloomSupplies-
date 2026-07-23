@@ -1,5 +1,6 @@
 "use client";
 
+import { SOCIAL_LINKS } from "@/lib/contact";
 import { useTranslation } from "@/lib/useTranslation";
 
 export default function InstagramSection() {
@@ -20,7 +21,7 @@ export default function InstagramSection() {
               key={index}
               className="aspect-square rounded-lg"
               style={{
-                background: "linear-gradient(135deg, #F5D0D8, #EDD0D8)",
+                background: "linear-gradient(135deg, #E2C8D4, #D8BCC8)",
               }}
               aria-hidden
             />
@@ -28,10 +29,10 @@ export default function InstagramSection() {
         </div>
 
         <a
-          href="https://instagram.com"
+          href={SOCIAL_LINKS.instagram}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-8 inline-block rounded-full border border-mauve px-8 py-3 text-sm font-medium text-mauve transition-colors hover:bg-mauve hover:text-white"
+          className="mt-8 inline-block rounded-full border border-mauve px-8 py-3 text-sm font-medium text-mauve transition-colors hover:bg-mauve hover:text-charcoal"
         >
           {t.instagram_heading}
         </a>

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Minus, Plus, Trash2, X } from "lucide-react";
 import { useEffect } from "react";
+import { FinalSaleCheckoutBlock } from "@/components/checkout/FinalSaleCheckoutBlock";
 import { useCart } from "@/lib/cartContext";
 import { formatPrice, getMultiItemCheckoutUrl } from "@/lib/utils";
 import { useTranslation } from "@/lib/useTranslation";
@@ -95,29 +96,29 @@ export default function CartDrawer() {
                     <button
                       type="button"
                       onClick={() => removeItem(item.variantId)}
-                      className="shrink-0 text-charcoal/40 transition-colors hover:text-mauve"
+                      className="flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-md text-charcoal/40 transition-colors hover:text-mauve"
                       aria-label={`Remove ${item.title}`}
                     >
                       <Trash2 className="h-4 w-4" />
                     </button>
                   </div>
 
-                  <p className="mt-1 text-sm text-mauve">
+                  <p className="mt-1 text-sm text-charcoal">
                     {formatPrice(item.price.amount, item.price.currencyCode)}
                   </p>
 
-                  <div className="mt-auto flex items-center gap-3 pt-2">
+                  <div className="mt-auto flex items-center gap-1 pt-2">
                     <button
                       type="button"
                       onClick={() =>
                         updateQuantity(item.variantId, item.quantity - 1)
                       }
-                      className="rounded-full border border-champagne p-1 text-charcoal transition-colors hover:border-mauve hover:text-mauve"
+                      className="flex min-h-11 min-w-11 items-center justify-center rounded-full border border-champagne text-charcoal transition-colors hover:border-mauve hover:text-mauve"
                       aria-label="Decrease quantity"
                     >
-                      <Minus className="h-3 w-3" />
+                      <Minus className="h-3.5 w-3.5" />
                     </button>
-                    <span className="text-sm text-charcoal">
+                    <span className="min-w-[1.75rem] text-center text-sm text-charcoal">
                       {item.quantity}
                     </span>
                     <button
@@ -125,10 +126,10 @@ export default function CartDrawer() {
                       onClick={() =>
                         updateQuantity(item.variantId, item.quantity + 1)
                       }
-                      className="rounded-full border border-champagne p-1 text-charcoal transition-colors hover:border-mauve hover:text-mauve"
+                      className="flex min-h-11 min-w-11 items-center justify-center rounded-full border border-champagne text-charcoal transition-colors hover:border-mauve hover:text-mauve"
                       aria-label="Increase quantity"
                     >
-                      <Plus className="h-3 w-3" />
+                      <Plus className="h-3.5 w-3.5" />
                     </button>
                   </div>
                 </div>
@@ -137,24 +138,24 @@ export default function CartDrawer() {
           </ul>
         )}
 
-        <div className="border-t border-champagne/60 px-6 py-6">
+        <div className="border-t border-champagne/60 px-6 pt-6 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
           <div className="flex items-center justify-between">
-            <span className="text-sm uppercase tracking-[0.12em] text-charcoal">
+            <span className="font-serif text-xl text-charcoal">
               {t.cart_subtotal}
             </span>
-            <span className="text-lg font-medium text-mauve">
+            <span className="text-lg font-normal tracking-wide text-charcoal">
               {formatPrice(subtotal.toFixed(2), currencyCode)}
             </span>
           </div>
 
-          {checkoutUrl && (
-            <a
-              href={checkoutUrl}
-              className="mt-4 block w-full rounded-full bg-mauve py-3 text-center text-sm font-medium text-white transition-colors hover:bg-charcoal"
-            >
-              {t.cart_checkout}
-            </a>
-          )}
+          {checkoutUrl ? (
+            <div className="mt-4">
+              <FinalSaleCheckoutBlock
+                checkoutUrl={checkoutUrl}
+                buttonLabel={t.cart_checkout}
+              />
+            </div>
+          ) : null}
         </div>
       </aside>
     </>

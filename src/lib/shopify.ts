@@ -17,6 +17,7 @@ export type ShopifyVariant = {
   title: string;
   availableForSale: boolean;
   price: ShopifyMoney;
+  compareAtPrice: ShopifyMoney | null;
 };
 
 export type ShopifyProduct = {
@@ -24,12 +25,15 @@ export type ShopifyProduct = {
   title: string;
   handle: string;
   description?: string;
+  productType?: string;
+  tags?: string[];
   availableForSale: boolean;
   priceRange: {
     minVariantPrice: ShopifyMoney;
   };
   images: ShopifyImage[];
   variants?: ShopifyVariant[];
+  collections?: Array<{ handle: string; title: string }>;
 };
 
 export type ShopifyCollection = {
@@ -121,26 +125,104 @@ function mapImages(
   );
 }
 
+const PRODUCT_CARD_FIELDS = `
+  id
+  title
+  handle
+  description
+  productType
+  tags
+  availableForSale
+  priceRange {
+    minVariantPrice {
+      amount
+      currencyCode
+    }
+  }
+  images(first: 5) {
+    edges {
+      node {
+        url
+        altText
+        width
+        height
+      }
+    }
+  }
+  variants(first: 10) {
+    edges {
+      node {
+        id
+        title
+        availableForSale
+        price {
+          amount
+          currencyCode
+        }
+        compareAtPrice {
+          amount
+          currencyCode
+        }
+      }
+    }
+  }
+  collections(first: 10) {
+    edges {
+      node {
+        handle
+        title
+      }
+    }
+  }
+`;
+
+type ShopifyProductNode = {
+  id: string;
+  title: string;
+  handle: string;
+  description: string;
+  productType: string;
+  tags: string[];
+  availableForSale: boolean;
+  priceRange: {
+    minVariantPrice: ShopifyMoney;
+  };
+  images: {
+    edges: Array<{ node: ShopifyImage }>;
+  };
+  variants: {
+    edges: Array<{ node: ShopifyVariant }>;
+  };
+  collections: {
+    edges: Array<{
+      node: { handle: string; title: string };
+    }>;
+  };
+};
+
+function mapProductNode(node: ShopifyProductNode): ShopifyProduct {
+  return {
+    id: node.id,
+    title: node.title,
+    handle: node.handle,
+    description: node.description,
+    productType: node.productType,
+    tags: node.tags,
+    availableForSale: node.availableForSale,
+    priceRange: node.priceRange,
+    images: mapImages(node.images.edges),
+    variants: node.variants.edges.map(({ node: variant }) => variant),
+    collections: node.collections.edges.map(({ node: collection }) => ({
+      handle: collection.handle,
+      title: collection.title,
+    })),
+  };
+}
+
 export async function getProducts(first: number): Promise<ShopifyProduct[]> {
   const data = await shopifyFetch<{
     products: {
-      edges: Array<{
-        node: {
-          id: string;
-          title: string;
-          handle: string;
-          availableForSale: boolean;
-          priceRange: {
-            minVariantPrice: ShopifyMoney;
-          };
-          images: {
-            edges: Array<{ node: ShopifyImage }>;
-          };
-          variants: {
-            edges: Array<{ node: ShopifyVariant }>;
-          };
-        };
-      }>;
+      edges: Array<{ node: ShopifyProductNode }>;
     };
   }>({
     query: `
@@ -148,39 +230,7 @@ export async function getProducts(first: number): Promise<ShopifyProduct[]> {
         products(first: $first) {
           edges {
             node {
-              id
-              title
-              handle
-              availableForSale
-              priceRange {
-                minVariantPrice {
-                  amount
-                  currencyCode
-                }
-              }
-              images(first: 5) {
-                edges {
-                  node {
-                    url
-                    altText
-                    width
-                    height
-                  }
-                }
-              }
-              variants(first: 10) {
-                edges {
-                  node {
-                    id
-                    title
-                    availableForSale
-                    price {
-                      amount
-                      currencyCode
-                    }
-                  }
-                }
-              }
+              ${PRODUCT_CARD_FIELDS}
             }
           }
         }
@@ -190,15 +240,72 @@ export async function getProducts(first: number): Promise<ShopifyProduct[]> {
     tags: ["products"],
   });
 
-  return data.products.edges.map(({ node }) => ({
-    id: node.id,
-    title: node.title,
-    handle: node.handle,
-    availableForSale: node.availableForSale,
-    priceRange: node.priceRange,
-    images: mapImages(node.images.edges),
-    variants: node.variants.edges.map(({ node: variant }) => variant),
-  }));
+  return data.products.edges.map(({ node }) => mapProductNode(node));
+}
+
+export async function searchProducts(
+  searchQuery: string,
+  first = 20,
+): Promise<ShopifyProduct[]> {
+  const trimmed = searchQuery.trim();
+  if (!trimmed) return [];
+
+  const data = await shopifyFetch<{
+    products: {
+      edges: Array<{ node: ShopifyProductNode }>;
+    };
+  }>({
+    query: `
+      query searchProducts($first: Int!, $query: String!) {
+        products(first: $first, query: $query) {
+          edges {
+            node {
+              ${PRODUCT_CARD_FIELDS}
+            }
+          }
+        }
+      }
+    `,
+    variables: { first, query: trimmed },
+    cache: "no-store",
+  });
+
+  return data.products.edges.map(({ node }) => mapProductNode(node));
+}
+
+export async function getCollectionProducts(
+  handle: string,
+  first = 50,
+): Promise<ShopifyProduct[]> {
+  const data = await shopifyFetch<{
+    collection: {
+      products: {
+        edges: Array<{ node: ShopifyProductNode }>;
+      };
+    } | null;
+  }>({
+    query: `
+      query getCollectionProducts($handle: String!, $first: Int!) {
+        collection(handle: $handle) {
+          products(first: $first) {
+            edges {
+              node {
+                ${PRODUCT_CARD_FIELDS}
+              }
+            }
+          }
+        }
+      }
+    `,
+    variables: { handle, first },
+    tags: ["products", `collection-${handle}`],
+  });
+
+  if (!data.collection) {
+    return [];
+  }
+
+  return data.collection.products.edges.map(({ node }) => mapProductNode(node));
 }
 
 export async function getProductByHandle(
@@ -253,6 +360,10 @@ export async function getProductByHandle(
                 title
                 availableForSale
                 price {
+                  amount
+                  currencyCode
+                }
+                compareAtPrice {
                   amount
                   currencyCode
                 }

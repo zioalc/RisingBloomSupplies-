@@ -1,12 +1,16 @@
 "use client";
 
-import { X } from "lucide-react";
-import { useEffect } from "react";
+import { Minus, Plus, X } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { FinalSaleCheckoutBlock } from "@/components/checkout/FinalSaleCheckoutBlock";
+import ProductGallery from "@/components/ui/ProductGallery";
+import ProductPrice from "@/components/ui/ProductPrice";
 import { useCart } from "@/lib/cartContext";
 import type { ProductViewData } from "@/lib/products";
-import { formatPrice, getCheckoutUrl } from "@/lib/utils";
+import { getDefaultVariant } from "@/lib/products";
+import type { ShopifyVariant } from "@/lib/shopify";
+import { getCheckoutUrl } from "@/lib/utils";
 import { useTranslation } from "@/lib/useTranslation";
-import ProductGallery from "./ProductGallery";
 
 type ProductModalProps = {
   product: ProductViewData | null;
@@ -14,14 +18,33 @@ type ProductModalProps = {
   onClose: () => void;
 };
 
+function shouldShowVariantSelector(variants: ShopifyVariant[]) {
+  if (variants.length <= 1) return false;
+  return !(variants.length === 1 && variants[0].title === "Default Title");
+}
+
 export default function ProductModal({
   product,
   initialImageIndex = 0,
   onClose,
 }: ProductModalProps) {
-  const { addItem, openDrawer } = useCart();
+  const { addItem } = useCart();
   const { t } = useTranslation();
   const isOpen = product !== null;
+  const variants = product?.variants ?? [];
+
+  const [selectedVariant, setSelectedVariant] = useState<
+    ShopifyVariant | undefined
+  >(undefined);
+  const [quantity, setQuantity] = useState(1);
+  const [descriptionExpanded, setDescriptionExpanded] = useState(false);
+
+  useEffect(() => {
+    if (!product) return;
+    setSelectedVariant(getDefaultVariant(product.variants));
+    setQuantity(1);
+    setDescriptionExpanded(false);
+  }, [product]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -38,17 +61,33 @@ export default function ProductModal({
     };
   }, [isOpen, onClose]);
 
+  const activeVariant = useMemo(() => {
+    if (!product) return undefined;
+    return selectedVariant ?? getDefaultVariant(product.variants);
+  }, [product, selectedVariant]);
+
   if (!product) return null;
 
+  const showVariantSelector = shouldShowVariantSelector(variants);
+  const price = activeVariant?.price ?? product.price;
+  const compareAtPrice = activeVariant?.compareAtPrice ?? product.compareAtPrice;
+  const isAvailable =
+    activeVariant?.availableForSale ?? product.available;
+  const description = product.description?.trim() ?? "";
+  const descriptionNeedsToggle = description.length > 180;
+
   const handleAddToCart = () => {
+    if (!activeVariant || !isAvailable) return;
+
     addItem({
       productId: product.productId,
-      variantId: product.variantId,
+      variantId: activeVariant.id,
       title: product.title,
-      price: product.price,
-      image: product.images[0] ?? null,
+      price: activeVariant.price,
+      image: product.images[0] ?? product.coverImage ?? null,
+      quantity,
     });
-    openDrawer();
+    onClose();
   };
 
   return (
@@ -64,7 +103,7 @@ export default function ProductModal({
         aria-hidden
       />
 
-      <div className="relative z-10 flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-t-2xl bg-warm-white shadow-2xl sm:max-h-[90vh] sm:rounded-2xl">
+      <div className="relative z-10 flex max-h-[94vh] w-full max-w-3xl flex-col overflow-hidden rounded-t-2xl bg-warm-white shadow-2xl sm:max-h-[90vh] sm:rounded-2xl">
         <button
           type="button"
           onClick={onClose}
@@ -74,7 +113,7 @@ export default function ProductModal({
           <X className="h-5 w-5" />
         </button>
 
-        <div className="overflow-y-auto">
+        <div className="overflow-y-auto pb-[max(1.25rem,env(safe-area-inset-bottom))]">
           <div className="grid md:grid-cols-2">
             <div className="overflow-hidden pt-12 md:p-6 md:pt-6">
               <ProductGallery
@@ -90,50 +129,147 @@ export default function ProductModal({
             </div>
 
             <div className="flex flex-col p-6 pt-2 md:p-6 md:pt-6">
-              <p className="font-sans text-xs uppercase tracking-wide text-rose">
-                {product.category === "Full Kit"
-                  ? t.product_category_full_kit
-                  : product.category}
-              </p>
+              {product.category ? (
+                <p className="font-sans text-xs uppercase tracking-wide text-rose">
+                  {product.category}
+                </p>
+              ) : null}
               <h2
                 id="product-modal-title"
-                className="mt-2 font-serif text-2xl text-charcoal md:text-3xl"
+                className={`font-serif text-2xl text-charcoal md:text-3xl ${
+                  product.category ? "mt-2" : ""
+                }`}
               >
                 {product.title}
               </h2>
-              <p className="mt-3 font-serif text-xl text-mauve">
-                {formatPrice(product.price.amount, product.price.currencyCode)}
-              </p>
 
-              {!product.available && (
+              {product.tagline ? (
+                <p className="mt-2 text-sm leading-relaxed text-soft-brown md:text-base">
+                  {product.tagline}
+                </p>
+              ) : null}
+
+              <ProductPrice
+                className="mt-3"
+                price={price}
+                compareAtPrice={compareAtPrice}
+                size="detail"
+                align="left"
+              />
+
+              {!isAvailable && (
                 <span className="mt-3 inline-block w-fit rounded-full bg-charcoal px-3 py-1 text-xs font-medium uppercase tracking-wide text-white">
                   {t.sold_out}
                 </span>
               )}
 
-              {product.description && (
-                <p className="mt-5 text-sm leading-relaxed text-soft-brown md:text-base">
-                  {product.description}
-                </p>
-              )}
+              {showVariantSelector ? (
+                <div className="mt-5">
+                  <label
+                    htmlFor="modal-variant-select"
+                    className="text-xs uppercase tracking-[0.15em] text-charcoal"
+                  >
+                    {t.select_option}
+                  </label>
+                  <select
+                    id="modal-variant-select"
+                    value={activeVariant?.id ?? ""}
+                    onChange={(event) => {
+                      const variant = variants.find(
+                        (item) => item.id === event.target.value,
+                      );
+                      if (variant) setSelectedVariant(variant);
+                    }}
+                    className="mt-2 w-full rounded-lg border border-champagne bg-warm-white px-4 py-3 text-sm text-charcoal focus:border-mauve focus:outline-none focus:ring-1 focus:ring-mauve"
+                  >
+                    {variants.map((variant) => (
+                      <option
+                        key={variant.id}
+                        value={variant.id}
+                        disabled={!variant.availableForSale}
+                      >
+                        {variant.title}
+                        {!variant.availableForSale
+                          ? t.variant_sold_out_suffix
+                          : ""}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              ) : null}
 
-              {product.available && (
-                <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              {isAvailable ? (
+                <div className="mt-5">
+                  <p className="text-xs uppercase tracking-[0.15em] text-charcoal">
+                    {t.quantity_label}
+                  </p>
+                  <div className="mt-2 flex w-fit items-center gap-1 rounded-full border border-champagne px-2 py-1">
+                    <button
+                      type="button"
+                      onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                      className="flex min-h-11 min-w-11 items-center justify-center rounded-full text-charcoal transition-colors hover:text-mauve"
+                      aria-label="Decrease quantity"
+                    >
+                      <Minus className="h-3.5 w-3.5" />
+                    </button>
+                    <span className="min-w-[1.5rem] text-center text-sm font-medium text-charcoal">
+                      {quantity}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setQuantity((q) => Math.min(20, q + 1))}
+                      className="flex min-h-11 min-w-11 items-center justify-center rounded-full text-charcoal transition-colors hover:text-mauve"
+                      aria-label="Increase quantity"
+                    >
+                      <Plus className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                </div>
+              ) : null}
+
+              {description ? (
+                <div className="mt-5">
+                  <p
+                    className={`text-sm leading-relaxed text-soft-brown md:text-base ${
+                      descriptionExpanded || !descriptionNeedsToggle
+                        ? ""
+                        : "line-clamp-4"
+                    }`}
+                  >
+                    {description}
+                  </p>
+                  {descriptionNeedsToggle ? (
+                    <button
+                      type="button"
+                      onClick={() => setDescriptionExpanded((open) => !open)}
+                      className="mt-2 text-sm font-medium text-mauve underline-offset-4 transition-colors hover:text-charcoal hover:underline"
+                      aria-expanded={descriptionExpanded}
+                    >
+                      {descriptionExpanded
+                        ? t.read_less
+                        : `… ${t.read_more}`}
+                    </button>
+                  ) : null}
+                </div>
+              ) : null}
+
+              {isAvailable && activeVariant ? (
+                <div className="mt-8 space-y-4">
                   <button
                     type="button"
                     onClick={handleAddToCart}
-                    className="flex-1 rounded-full bg-mauve px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-charcoal"
+                    className="w-full rounded-full bg-rose px-6 py-3 text-sm font-medium text-charcoal transition-colors hover:bg-nightview-dark hover:text-charcoal"
                   >
                     {t.add_to_cart}
                   </button>
-                  <a
-                    href={getCheckoutUrl(product.variantId)}
-                    className="flex-1 rounded-full border border-rose px-6 py-3 text-center text-sm font-medium text-mauve transition-colors hover:bg-mauve hover:text-white"
-                  >
-                    {t.buy_now}
-                  </a>
+
+                  <FinalSaleCheckoutBlock
+                    checkoutUrl={getCheckoutUrl(activeVariant.id, quantity)}
+                    buttonLabel={t.buy_now}
+                    buttonClassName="w-full rounded-full border border-rose px-6 py-3 text-center text-sm font-medium text-mauve transition-colors hover:bg-rose hover:text-charcoal"
+                  />
                 </div>
-              )}
+              ) : null}
             </div>
           </div>
         </div>

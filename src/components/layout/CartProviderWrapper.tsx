@@ -1,6 +1,8 @@
 "use client";
 
 import { CartProvider } from "@/lib/cartContext";
+import { WishlistProvider } from "@/lib/wishlistContext";
+import CartAddedToast from "@/components/ui/CartAddedToast";
 import CartDrawer from "@/components/ui/CartDrawer";
 
 export default function CartProviderWrapper({
@@ -10,8 +12,11 @@ export default function CartProviderWrapper({
 }) {
   return (
     <CartProvider>
-      {children}
-      <CartDrawer />
+      <WishlistProvider>
+        {children}
+        <CartDrawer />
+        <CartAddedToast />
+      </WishlistProvider>
     </CartProvider>
   );
 }

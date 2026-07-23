@@ -39,6 +39,7 @@ type CartContextValue = {
   items: CartItem[];
   itemCount: number;
   isDrawerOpen: boolean;
+  addedToast: string | null;
   addItem: (item: Omit<CartItem, "quantity"> & { quantity?: number }) => void;
   removeItem: (variantId: string) => void;
   updateQuantity: (variantId: string, quantity: number) => void;
@@ -46,6 +47,7 @@ type CartContextValue = {
   openDrawer: () => void;
   closeDrawer: () => void;
   toggleDrawer: () => void;
+  dismissAddedToast: () => void;
 };
 
 const CartContext = createContext<CartContextValue | null>(null);
@@ -122,6 +124,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(cartReducer, { items: [] });
   const [isHydrated, setIsHydrated] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [addedToast, setAddedToast] = useState<string | null>(null);
 
   useEffect(() => {
     try {
@@ -145,9 +148,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(state.items));
   }, [state.items, isHydrated]);
 
+  useEffect(() => {
+    if (!addedToast) return;
+    const timer = window.setTimeout(() => setAddedToast(null), 2500);
+    return () => window.clearTimeout(timer);
+  }, [addedToast]);
+
   const addItem = useCallback(
     (item: Omit<CartItem, "quantity"> & { quantity?: number }) => {
       dispatch({ type: "ADD_ITEM", payload: item });
+      setAddedToast(item.title);
     },
     [],
   );
@@ -167,6 +177,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const openDrawer = useCallback(() => setIsDrawerOpen(true), []);
   const closeDrawer = useCallback(() => setIsDrawerOpen(false), []);
   const toggleDrawer = useCallback(() => setIsDrawerOpen((open) => !open), []);
+  const dismissAddedToast = useCallback(() => setAddedToast(null), []);
 
   const itemCount = useMemo(
     () => state.items.reduce((total, item) => total + item.quantity, 0),
@@ -178,6 +189,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       items: state.items,
       itemCount,
       isDrawerOpen,
+      addedToast,
       addItem,
       removeItem,
       updateQuantity,
@@ -185,11 +197,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       openDrawer,
       closeDrawer,
       toggleDrawer,
+      dismissAddedToast,
     }),
     [
       state.items,
       itemCount,
       isDrawerOpen,
+      addedToast,
       addItem,
       removeItem,
       updateQuantity,
@@ -197,6 +211,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       openDrawer,
       closeDrawer,
       toggleDrawer,
+      dismissAddedToast,
     ],
   );
 

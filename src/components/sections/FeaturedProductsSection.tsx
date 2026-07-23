@@ -1,28 +1,26 @@
 "use client";
 
-import ProductCatalogRow from "@/components/shop/ProductCatalogRow";
-import { SHOP_CATALOG } from "@/lib/products";
+import CollectionSection from "@/components/sections/CollectionSection";
+import type { ProductViewData } from "@/lib/products";
+import { localizedPath } from "@/lib/i18n";
 import { useTranslation } from "@/lib/useTranslation";
 
-export default function FeaturedProductsSection() {
-  const { t } = useTranslation();
+type FeaturedProductsSectionProps = {
+  products: ProductViewData[];
+};
+
+/** Kept for reuse; homepage now renders CollectionSection directly. */
+export default function FeaturedProductsSection({
+  products,
+}: FeaturedProductsSectionProps) {
+  const { t, locale } = useTranslation();
 
   return (
-    <section className="section-padding bg-warm-white">
-      <div className="site-container">
-        <div className="site-container-prose">
-          <p className="section-label">{t.featured_label}</p>
-          <h2 className="section-title">{t.featured_heading}</h2>
-          <p className="mt-3 text-sm text-soft-brown">{t.featured_sub}</p>
-          <div className="section-divider" />
-        </div>
-
-        <ProductCatalogRow
-          products={SHOP_CATALOG}
-          variant="featured"
-          carouselLabel={t.featured_heading}
-        />
-      </div>
-    </section>
+    <CollectionSection
+      heading={t.featured_heading}
+      subtitle={t.featured_sub}
+      products={products}
+      viewAllHref={localizedPath(locale, "/shop")}
+    />
   );
 }

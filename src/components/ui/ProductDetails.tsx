@@ -3,9 +3,11 @@
 import { useState } from "react";
 import { useCart } from "@/lib/cartContext";
 import type { ShopifyProduct, ShopifyVariant } from "@/lib/shopify";
-import { formatPrice, getCheckoutUrl } from "@/lib/utils";
+import { FinalSaleCheckoutBlock } from "@/components/checkout/FinalSaleCheckoutBlock";
+import ProductGallery from "@/components/ui/ProductGallery";
+import ProductPrice from "@/components/ui/ProductPrice";
+import { getCheckoutUrl } from "@/lib/utils";
 import { useTranslation } from "@/lib/useTranslation";
-import ProductGallery from "./ProductGallery";
 
 type ProductDetailsProps = {
   product: ShopifyProduct;
@@ -21,7 +23,7 @@ function shouldShowVariantSelector(variants: ShopifyVariant[]) {
 }
 
 export default function ProductDetails({ product }: ProductDetailsProps) {
-  const { addItem, openDrawer } = useCart();
+  const { addItem } = useCart();
   const { t } = useTranslation();
   const variants = product.variants ?? [];
   const [selectedVariant, setSelectedVariant] = useState<
@@ -31,12 +33,10 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
   const showVariantSelector = shouldShowVariantSelector(variants);
   const activeVariant = selectedVariant ?? getDefaultVariant(variants);
   const price = activeVariant?.price ?? product.priceRange.minVariantPrice;
+  const compareAtPrice = activeVariant?.compareAtPrice ?? null;
   const isAvailable =
     activeVariant?.availableForSale ?? product.availableForSale;
-  const galleryImages =
-    product.images.length > 0
-      ? product.images.map((img) => img.url)
-      : ["/images/product-1.png"];
+  const galleryImages = product.images.map((img) => img.url);
 
   return (
     <div className="grid gap-8 md:grid-cols-2 md:gap-12">
@@ -57,9 +57,13 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
           {product.title}
         </h1>
 
-        <p className="mt-3 font-serif text-xl text-mauve">
-          {formatPrice(price.amount, price.currencyCode)}
-        </p>
+        <ProductPrice
+          className="mt-3"
+          price={price}
+          compareAtPrice={compareAtPrice}
+          size="detail"
+          align="left"
+        />
 
         {!isAvailable && (
           <span className="mt-4 inline-block rounded-full bg-charcoal px-3 py-1 text-xs font-medium uppercase tracking-wide text-white">
@@ -108,7 +112,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
         )}
 
         {activeVariant && isAvailable && (
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-8 space-y-4">
             <button
               type="button"
               onClick={() => {
@@ -119,18 +123,17 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                   price: activeVariant.price,
                   image: product.images[0]?.url ?? null,
                 });
-                openDrawer();
               }}
-              className="inline-block rounded-full bg-mauve px-8 py-3 text-center text-sm font-medium text-white transition-colors hover:bg-charcoal"
+              className="inline-block w-full rounded-full bg-rose px-8 py-3 text-center text-sm font-medium text-charcoal transition-colors hover:bg-nightview-dark hover:text-charcoal sm:w-auto"
             >
               {t.add_to_cart}
             </button>
-            <a
-              href={getCheckoutUrl(activeVariant.id)}
-              className="inline-block rounded-full border border-rose px-8 py-3 text-center text-sm font-medium text-mauve transition-colors hover:bg-mauve hover:text-white"
-            >
-              {t.buy_now}
-            </a>
+
+            <FinalSaleCheckoutBlock
+              checkoutUrl={getCheckoutUrl(activeVariant.id)}
+              buttonLabel={t.buy_now}
+              buttonClassName="inline-block w-full rounded-full border border-rose px-8 py-3 text-center text-sm font-medium text-mauve transition-colors hover:bg-rose hover:text-charcoal sm:w-auto"
+            />
           </div>
         )}
       </div>

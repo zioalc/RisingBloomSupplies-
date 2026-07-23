@@ -1,9 +1,8 @@
 import ProductDetails from "@/components/ui/ProductDetails";
-import { localizedPath, type Locale } from "@/lib/i18n";
+import BackToHomeLink from "@/components/ui/BackToHomeLink";
+import { type Locale } from "@/lib/i18n";
 import { getProductByHandle } from "@/lib/shopify";
-import { getTranslation } from "@/lib/translations";
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
 type ProductPageProps = {
@@ -40,7 +39,6 @@ export async function generateMetadata({
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
-  const t = getTranslation(params.locale);
   let product = null;
 
   try {
@@ -56,12 +54,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   return (
     <div className="page-padding bg-cream">
       <div className="site-container">
-        <Link
-          href={localizedPath(params.locale, "/shop")}
-          className="text-xs uppercase tracking-[0.15em] text-charcoal/60 transition-colors hover:text-mauve"
-        >
-          {t.back_to_shop}
-        </Link>
+        <BackToHomeLink locale={params.locale} />
 
         <div className="mt-6">
           <ProductDetails product={product} />
