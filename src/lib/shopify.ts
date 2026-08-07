@@ -237,6 +237,7 @@ export async function getProducts(first: number): Promise<ShopifyProduct[]> {
       }
     `,
     variables: { first },
+    cache: "no-store",
     tags: ["products"],
   });
 
@@ -298,6 +299,7 @@ export async function getCollectionProducts(
       }
     `,
     variables: { handle, first },
+    cache: "no-store",
     tags: ["products", `collection-${handle}`],
   });
 
@@ -306,6 +308,49 @@ export async function getCollectionProducts(
   }
 
   return data.collection.products.edges.map(({ node }) => mapProductNode(node));
+}
+
+/**
+ * Resolve products by Storefront GIDs. Missing / unpublished nodes come back null.
+ */
+export async function getProductsByIds(
+  ids: string[],
+): Promise<{ products: ShopifyProduct[]; missingIds: string[] }> {
+  const uniqueIds = Array.from(new Set(ids.filter(Boolean)));
+  if (uniqueIds.length === 0) {
+    return { products: [], missingIds: [] };
+  }
+
+  const data = await shopifyFetch<{
+    nodes: Array<ShopifyProductNode | null>;
+  }>({
+    query: `
+      query getProductsByIds($ids: [ID!]!) {
+        nodes(ids: $ids) {
+          ... on Product {
+            ${PRODUCT_CARD_FIELDS}
+          }
+        }
+      }
+    `,
+    variables: { ids: uniqueIds },
+    cache: "no-store",
+    tags: ["products"],
+  });
+
+  const products: ShopifyProduct[] = [];
+  const missingIds: string[] = [];
+
+  uniqueIds.forEach((id, index) => {
+    const node = data.nodes[index];
+    if (node && typeof node.id === "string" && node.handle) {
+      products.push(mapProductNode(node));
+    } else {
+      missingIds.push(id);
+    }
+  });
+
+  return { products, missingIds };
 }
 
 export async function getProductByHandle(

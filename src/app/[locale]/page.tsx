@@ -38,12 +38,7 @@ async function loadCollectionSection(
       ? `${localizedPath(locale, "/shop")}?category=${config.categorySlug}`
       : localizedPath(locale, "/shop");
 
-    const subtitle =
-      config.subtitleKey === "featured_sub"
-        ? t.featured_sub
-        : config.subtitleKey === "collection_section_sub"
-          ? t.collection_section_sub
-          : undefined;
+    const subtitle = config.subtitleKey ? t[config.subtitleKey] : undefined;
 
     return {
       handle: config.handle,

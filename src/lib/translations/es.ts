@@ -21,10 +21,68 @@ export const es: Translation = {
     "Favoritos seleccionados de Rise & Bloom — listos para explorar y comprar.",
   featured_btn: "Ver Producto",
   collection_section_sub: "Explora productos seleccionados de esta colección.",
+  nails_section_sub: "Geles, tips de uñas y detalles finales para un set que dura.",
+  lashes_section_sub:
+    "Racimos, adhesivos y cuidado para pestañas que se mantienen todo el día.",
+  makeup_section_sub: "Esenciales de todos los días para terminar tu look.",
+  tools_section_sub:
+    "Pinzas, bandejas, brochas y las herramientas que mantienen tu kit listo.",
   view_all: "Ver Todo",
   sale_badge: "Oferta",
   wishlist_add: "Agregar a favoritos",
   wishlist_remove: "Quitar de favoritos",
+  favorites_title: "Favoritos",
+  favorites_meta_title: "Favoritos | Rise & Bloom",
+  favorites_meta_description:
+    "Mira los productos que guardaste en este dispositivo en Rise & Bloom.",
+  favorites_heading: "Favoritos",
+  favorites_sub: "Productos que guardaste en este navegador.",
+  favorites_device_notice:
+    "Los artículos guardados solo se almacenan en este navegador y dispositivo. No se sincronizan entre teléfonos o computadoras.",
+  favorites_empty_title: "Aún no hay favoritos",
+  favorites_empty_message:
+    "Toca el corazón en cualquier producto para guardarlo aquí.",
+  favorites_shop_cta: "Ver la Tienda",
+  favorites_loading: "Cargando tus favoritos…",
+  favorites_error:
+    "No pudimos cargar tus productos guardados ahora. Inténtalo de nuevo.",
+  favorites_unavailable_notice:
+    "Algunos artículos guardados ya no están disponibles y se quitaron de esta lista.",
+  favorites_retry: "Intentar de nuevo",
+  aria_favorites: "Favoritos",
+  nav_favorites: "Favoritos",
+  nav_account: "Cuenta",
+  nav_sign_in: "Iniciar sesión",
+  aria_account: "Cuenta",
+  aria_sign_in: "Iniciar sesión",
+  account_label: "CUENTA",
+  account_heading: "Tu cuenta",
+  account_sub:
+    "Inicia sesión con tu correo para ver tus pedidos y los datos de tu cuenta.",
+  account_meta_title: "Cuenta | Rise & Bloom",
+  account_meta_description:
+    "Inicia sesión en tu cuenta de Rise & Bloom para ver pedidos y detalles de la cuenta.",
+  account_loading: "Cargando tu cuenta…",
+  account_guest_title: "Inicia sesión para continuar",
+  account_guest_message:
+    "Usa tu correo y un código de un solo uso. El pago como invitado sigue disponible.",
+  account_sign_in: "Iniciar sesión",
+  account_sign_in_again: "Volver a iniciar sesión",
+  account_sign_out: "Cerrar sesión",
+  account_continue_shopping: "Seguir comprando",
+  account_signed_in_as: "Sesión iniciada como",
+  account_orders_heading: "Historial de pedidos",
+  account_orders_empty_title: "Aún no hay pedidos",
+  account_orders_empty_message:
+    "Cuando hagas un pedido con la sesión iniciada, aparecerá aquí.",
+  account_expired_title: "Sesión expirada",
+  account_expired_message:
+    "Por tu seguridad, vuelve a iniciar sesión para ver tu cuenta.",
+  account_error_title: "Algo salió mal",
+  account_error_message:
+    "No pudimos cargar tu cuenta ahora. Intenta iniciar sesión de nuevo.",
+  account_auth_denied: "Se canceló el inicio de sesión. Puedes intentarlo de nuevo.",
+  account_auth_error: "El inicio de sesión no se completó. Inténtalo de nuevo.",
   quick_view: "Vista rápida",
   quantity_label: "Cantidad",
   view_full_product: "Ver detalles del producto",
@@ -107,6 +165,9 @@ export const es: Translation = {
   faq_q5: "¿Ofrecen recogida en tienda?",
   faq_a5:
     "Sí. Haz tu pedido en línea y selecciona la opción de recogida en tienda al pagar. ¡Los pedidos para recoger están listos en 15 minutos o menos!",
+  faq_q6: "¿Ofrecen códigos de descuento?",
+  faq_a6:
+    "Sí. Los códigos activos en Shopify incluyen WELCOME2026 (10% de descuento en todo el pedido para clientas de primera vez), BLOOMDAY (10% de descuento en todo el pedido para compras de cumpleaños) y BLOOMLOCAL10 (10% de descuento en todo el pedido con compra mínima de $25, pensado para clientas locales). Ingresa el código al pagar en Shopify. Consulta los Términos de Promociones para más detalles.",
   shipping_meta_title: "Envío y Recogida | Rise & Bloom",
   shipping_meta_description:
     "Conoce el envío, la recogida en tienda, las tarifas y la información de entrega de Rise & Bloom.",
@@ -210,10 +271,8 @@ export const es: Translation = {
   tap_for_details: "Toca para detalles",
   gallery_swipe_hint: "Desliza o usa las flechas para ver todas las fotos",
   carousel_swipe_short: "Desliza o usa las flechas",
-  shop_empty_products:
-    "Pronto habrá más productos en línea. Visita nuestra tienda en Bakersfield para ver la selección completa, o explora los destacados disponibles ahora.",
-  shop_empty_category:
-    "Pronto habrá más de esta colección en línea. Visita nuestra tienda en Bakersfield para ver la selección completa, o explora los destacados disponibles ahora.",
+  shop_empty_products: "No hay productos disponibles por ahora.",
+  shop_empty_category: "No hay productos en esta categoría por ahora.",
   shop_empty_title: "Pronto En Línea",
   shop_empty_detail: "3925 S Chester Ave · Bakersfield, CA 93307",
   shop_empty_visit_us: "Visítanos",
@@ -264,12 +323,36 @@ export const es: Translation = {
   marquee_text:
     "Rise & Bloom|Racimos de Pestañas|Kits DIY|Fácil Aplicación|Maquillaje|Larga Duración|Uñas|Suministros de Pestañas",
 
+  aria_open_menu: "Abrir menú",
+  aria_close_menu: "Cerrar menú",
+  aria_main_nav: "Navegación principal",
+  aria_search: "Buscar",
+  aria_cart: "Carrito",
+  aria_close_cart: "Cerrar carrito",
+  aria_shopping_cart: "Carrito de compras",
+  aria_close: "Cerrar",
+  aria_decrease_qty: "Disminuir cantidad",
+  aria_increase_qty: "Aumentar cantidad",
+  aria_remove_item: "Quitar {title}",
+  aria_previous_image: "Imagen anterior",
+  aria_next_image: "Imagen siguiente",
+  aria_go_to_image: "Ir a la imagen {n}",
+  aria_scroll_left: "Desplazar productos a la izquierda",
+  aria_scroll_right: "Desplazar productos a la derecha",
+  aria_expand: "Expandir {label}",
+  aria_collapse: "Contraer {label}",
+  aria_logo_home: "Inicio Rise & Bloom",
+  product_not_found_title: "Producto no encontrado | Rise & Bloom",
+  product_meta_fallback: "Compra {title} en Rise & Bloom.",
+  product_fallback_title: "Producto | Rise & Bloom",
+  shop_products_label: "Productos de la tienda",
+
   promo_announcement_aria: "Anuncio de promoción",
   promo_announcement_dismiss: "Cerrar anuncio",
-  promo_announcement_bloom10:
-    "¿Primera vez? Usa el código {code} para 10% de descuento en tu primer pedido en línea.",
+  promo_announcement_welcome:
+    "¿Primera vez? Usa el código {code} para 10% de descuento en todo tu pedido — solo clientas de primera vez.",
   promo_announcement_instore:
-    "Visítanos en tienda para recibir un código con más oportunidades de descuento en línea.",
+    "Clientas locales: pregunta en tienda sobre descuentos en línea (puede aplicar compra mínima).",
   promo_announcement_shipping:
     "Pedidos mayores de $100 califican para envío gratis.",
   promo_copy_code: "Copiar código",
@@ -280,41 +363,38 @@ export const es: Translation = {
   promo_shop_now: "Comprar Ahora",
   promo_welcome_title: "Bienvenida a Rise & Bloom",
   promo_welcome_body:
-    "Disfruta 10% de descuento en tu primer pedido en línea con el código {code}.",
+    "Disfruta 10% de descuento en todo tu pedido con el código {code} — solo clientas de primera vez.",
   promo_welcome_terms_note:
-    "Para clientes nuevos en línea. Shopify valida la elegibilidad al pagar.",
-  promo_birthday_title: "Birthday Bloom",
+    "Solo clientas de primera vez. Shopify valida la elegibilidad al pagar.",
+  promo_birthday_title: "Bloom de Cumpleaños",
   promo_birthday_body:
-    "Celebra con 15% de descuento en una compra elegible de cumpleaños.",
+    "Celebra con 10% de descuento en todo tu pedido con el código {code}.",
   promo_birthday_terms_note:
-    "Aplican elegibilidad, fechas y límites de uso. No verificamos cumpleaños ni enviamos este código por correo automáticamente, a menos que se configure un sistema de recompensas aparte.",
-  promo_local_title: "Gracias por Comprar en Tienda",
+    "Promoción de cumpleaños. Ingresa el código al pagar en Shopify. La elegibilidad la valida Shopify.",
+  promo_local_title: "Gracias por Comprar Local",
   promo_local_body:
-    "Gracias por comprar con nosotros en tienda. Disfruta 10% de descuento en tu próximo pedido en línea elegible con el código {code}.",
+    "Disfruta 10% de descuento en todo tu pedido en línea con el código {code}. Aplica una compra mínima de $25.",
   promo_local_terms_note:
-    "Esta oferta es para clientas que recibieron el código después de comprar en tienda. Ingresa el código al pagar en Shopify.",
-  promo_local_meta_title: "Gracias por tu Visita | Rise & Bloom",
+    "Pensado para clientas locales. Compra mínima de $25. Ingresa el código al pagar en Shopify.",
+  promo_local_meta_title: "Gracias Local | Rise & Bloom",
   promo_local_meta_description:
-    "Oferta privada de agradecimiento para clientas de Rise & Bloom en tienda.",
+    "Oferta de agradecimiento para clientas locales de Rise & Bloom.",
   promo_terms_meta_title: "Términos de Promociones | Rise & Bloom",
   promo_terms_meta_description:
-    "Términos de los códigos de promoción en línea de Rise & Bloom. Detalles finales sujetos a confirmación.",
+    "Términos de los códigos de promoción en línea de Rise & Bloom: WELCOME2026, BLOOMLOCAL10 y BLOOMDAY.",
   promo_terms_title: "Términos de Promociones",
   promo_terms_intro:
-    "Los códigos de promoción se crean y validan en Shopify. El sitio solo anuncia las ofertas. La elegibilidad, exclusiones y fechas finales deben coincidir con la configuración en Shopify Admin. Los valores marcados [TO CONFIRM] requieren aprobación de la clienta antes de publicarse como términos legales finales.",
+    "Los códigos de promoción se crean y validan en Shopify. Este sitio solo anuncia las ofertas. Ingresa los códigos al pagar en Shopify — los totales con descuento los aplica Shopify, no este sitio.",
   promo_terms_general_title: "General",
   promo_terms_general_body:
-    "• Los códigos deben ingresarse al pagar en Shopify para aplicarse.\n• Rise & Bloom no calcula totales con descuento en este sitio antes de que Shopify confirme el descuento.\n• Las ofertas pueden no aplicar a todos los productos o tipos de pedido.\n• Rise & Bloom puede modificar o finalizar promociones según la configuración de descuentos en Shopify.",
-  promo_terms_bloom10_title: "{code} — Primer pedido en línea",
-  promo_terms_bloom10_body:
-    "• Oferta: 10% de descuento en el primer pedido en línea.\n• Dirigido a clientas nuevas en línea.\n• Un uso por clienta: [TO CONFIRM]\n• Clientas elegibles: [TO CONFIRM]\n• Exclusiones: [TO CONFIRM]\n• Vencimiento: [TO CONFIRM]\n• Se puede combinar con otros descuentos: [TO CONFIRM]",
-  promo_terms_local_title: "{code} — Oferta para clientas en tienda",
+    "• Los códigos deben ingresarse al pagar en Shopify para aplicarse.\n• Rise & Bloom no calcula totales con descuento en este sitio antes de que Shopify confirme el descuento.\n• Códigos activos: WELCOME2026, BLOOMLOCAL10 y BLOOMDAY.\n• Rise & Bloom puede modificar o finalizar promociones según la configuración de descuentos en Shopify.",
+  promo_terms_welcome_title: "{code} — Clientas de primera vez",
+  promo_terms_welcome_body:
+    "• Oferta: 10% de descuento en todo el pedido.\n• Clientas elegibles: solo clientas de primera vez.\n• Ingresa el código al pagar en Shopify.",
+  promo_terms_local_title: "{code} — Clientas locales",
   promo_terms_local_body:
-    "• Oferta: 10% de descuento en un próximo pedido en línea elegible para clientas que recibieron el código tras comprar en tienda.\n• Este código no se anuncia en el sitio principal; compartir solo por QR/tarjeta impresa.\n• Un uso por clienta: [TO CONFIRM]\n• Clientas elegibles: [TO CONFIRM]\n• Exclusiones: [TO CONFIRM]\n• Vencimiento: [TO CONFIRM]\n• Se puede combinar con otros descuentos: [TO CONFIRM]",
-  promo_terms_bday_title: "{code} — Oferta de cumpleaños",
+    "• Oferta: 10% de descuento en todo el pedido.\n• Compra mínima: $25.\n• Pensado para clientas locales.\n• Ingresa el código al pagar en Shopify.",
+  promo_terms_bday_title: "{code} — Promoción de cumpleaños",
   promo_terms_bday_body:
-    "• Oferta: 15% de descuento en una compra elegible de cumpleaños.\n• Aplican elegibilidad, fechas y límites de uso.\n• Este sitio no verifica cumpleaños ni envía el código por correo automáticamente, salvo que se configure un sistema aparte.\n• Un uso por clienta / por año: [TO CONFIRM]\n• Ventana elegible (p. ej. mes de cumpleaños): [TO CONFIRM]\n• Exclusiones: [TO CONFIRM]\n• Vencimiento: [TO CONFIRM]\n• Se puede combinar con otros descuentos: [TO CONFIRM]",
-  promo_terms_placeholders_title: "Lista de confirmación",
-  promo_terms_placeholders_body:
-    "Confirma en Shopify Admin y actualiza esta página:\n• Reglas exactas de elegibilidad por código\n• Si cada código es de un solo uso\n• Exclusiones de productos / colecciones\n• Fechas de inicio y fin\n• Si los códigos se pueden combinar\n• Cómo se aplica la elegibilidad de cumpleaños (Shopify vs. manual / app de recompensas)",
+    "• Oferta: 10% de descuento en todo el pedido.\n• Pensado como promoción de cumpleaños.\n• Ingresa el código al pagar en Shopify.",
 };

@@ -18,7 +18,7 @@ export default function DesktopHeaderNav({ compact = false }: DesktopHeaderNavPr
   return (
     <nav
       className="hidden border-t border-nightview-light/40 lg:block"
-      aria-label="Main navigation"
+      aria-label={t.aria_main_nav}
     >
       <ul
         className={`site-container flex flex-wrap items-center justify-center gap-x-6 gap-y-1 transition-all duration-300 ${

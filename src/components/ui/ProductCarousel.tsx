@@ -55,7 +55,7 @@ export default function ProductCarousel({
         onClick={() => scroll("left")}
         disabled={!canScrollLeft}
         className="absolute -left-2 top-[38%] z-10 hidden -translate-y-1/2 rounded-full border border-champagne bg-warm-white p-2.5 text-mauve shadow-warm-card transition-all hover:bg-blush disabled:pointer-events-none disabled:opacity-0 md:-left-4 md:flex"
-        aria-label="Scroll products left"
+        aria-label={t.aria_scroll_left}
       >
         <ChevronLeft className="h-5 w-5" />
       </button>
@@ -65,7 +65,7 @@ export default function ProductCarousel({
         onClick={() => scroll("right")}
         disabled={!canScrollRight}
         className="absolute -right-2 top-[38%] z-10 hidden -translate-y-1/2 rounded-full border border-champagne bg-warm-white p-2.5 text-mauve shadow-warm-card transition-all hover:bg-blush disabled:pointer-events-none disabled:opacity-0 md:-right-4 md:flex"
-        aria-label="Scroll products right"
+        aria-label={t.aria_scroll_right}
       >
         <ChevronRight className="h-5 w-5" />
       </button>
@@ -85,7 +85,7 @@ export default function ProductCarousel({
           onClick={() => scroll("left")}
           disabled={!canScrollLeft}
           className="rounded-full border border-champagne bg-warm-white p-2.5 text-mauve shadow-sm transition-colors hover:bg-blush disabled:opacity-40"
-          aria-label="Scroll products left"
+          aria-label={t.aria_scroll_left}
         >
           <ChevronLeft className="h-5 w-5" />
         </button>
@@ -95,7 +95,7 @@ export default function ProductCarousel({
           onClick={() => scroll("right")}
           disabled={!canScrollRight}
           className="rounded-full border border-champagne bg-warm-white p-2.5 text-mauve shadow-sm transition-colors hover:bg-blush disabled:opacity-40"
-          aria-label="Scroll products right"
+          aria-label={t.aria_scroll_right}
         >
           <ChevronRight className="h-5 w-5" />
         </button>

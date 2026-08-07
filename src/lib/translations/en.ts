@@ -19,10 +19,67 @@ export const en = {
     "Handpicked favorites from Rise & Bloom — ready to browse and shop.",
   featured_btn: "View Product",
   collection_section_sub: "Shop curated picks from this collection.",
+  nails_section_sub: "Gels, tips, and finishing touches for a set that lasts.",
+  lashes_section_sub:
+    "Clusters, adhesives, and aftercare for lashes that hold all day.",
+  makeup_section_sub: "Everyday essentials to finish the look.",
+  tools_section_sub:
+    "Tweezers, trays, brushes, and the small tools that keep your kit ready.",
   view_all: "View All",
   sale_badge: "Sale",
   wishlist_add: "Add to wishlist",
   wishlist_remove: "Remove from wishlist",
+  favorites_title: "Favorites",
+  favorites_meta_title: "Favorites | Rise & Bloom",
+  favorites_meta_description:
+    "View products you saved on this device at Rise & Bloom.",
+  favorites_heading: "Favorites",
+  favorites_sub: "Products you saved on this browser.",
+  favorites_device_notice:
+    "Saved items are stored only on this browser and device. They are not synced across phones or computers.",
+  favorites_empty_title: "No favorites yet",
+  favorites_empty_message:
+    "Tap the heart on any product to save it here for later.",
+  favorites_shop_cta: "Browse Shop",
+  favorites_loading: "Loading your favorites…",
+  favorites_error:
+    "We couldn’t load your saved products right now. Please try again.",
+  favorites_unavailable_notice:
+    "Some saved items are no longer available and were removed from this list.",
+  favorites_retry: "Try again",
+  aria_favorites: "Favorites",
+  nav_favorites: "Favorites",
+  nav_account: "Account",
+  nav_sign_in: "Sign In",
+  aria_account: "Account",
+  aria_sign_in: "Sign in",
+  account_label: "ACCOUNT",
+  account_heading: "Your Account",
+  account_sub: "Sign in with email to view your orders and account details.",
+  account_meta_title: "Account | Rise & Bloom",
+  account_meta_description:
+    "Sign in to your Rise & Bloom account to view orders and account details.",
+  account_loading: "Loading your account…",
+  account_guest_title: "Sign in to continue",
+  account_guest_message:
+    "Use your email and a one-time code. Guest checkout stays available anytime.",
+  account_sign_in: "Sign In",
+  account_sign_in_again: "Sign In Again",
+  account_sign_out: "Sign Out",
+  account_continue_shopping: "Continue Shopping",
+  account_signed_in_as: "Signed in as",
+  account_orders_heading: "Order history",
+  account_orders_empty_title: "No orders yet",
+  account_orders_empty_message:
+    "When you place an order while signed in, it will show up here.",
+  account_expired_title: "Session expired",
+  account_expired_message:
+    "For your security, please sign in again to view your account.",
+  account_error_title: "Something went wrong",
+  account_error_message:
+    "We couldn’t load your account right now. Please try signing in again.",
+  account_auth_denied: "Sign-in was cancelled. You can try again anytime.",
+  account_auth_error: "Sign-in didn’t complete. Please try again.",
   quick_view: "Quick view",
   quantity_label: "Quantity",
   view_full_product: "View full product details",
@@ -105,6 +162,9 @@ export const en = {
   faq_q5: "Do you offer local store pickup?",
   faq_a5:
     "Yes. Place your order online, then select the pickup in store option at checkout. Pickup orders are ready within 15 minutes or less!",
+  faq_q6: "Do you offer discount codes?",
+  faq_a6:
+    "Yes. Active Shopify codes include WELCOME2026 (10% off the entire order for first-time customers), BLOOMDAY (10% off the entire order for birthday purchases), and BLOOMLOCAL10 (10% off the entire order with a $25 minimum, intended for local customers). Enter your code at Shopify checkout. See Promotion Terms for full details.",
   shipping_meta_title: "Shipping & Pickup Policy | Rise & Bloom",
   shipping_meta_description:
     "Learn about Rise & Bloom shipping, local store pickup, rates, and delivery information.",
@@ -208,10 +268,8 @@ export const en = {
   tap_for_details: "Tap for details",
   gallery_swipe_hint: "Swipe or use arrows to see all photos",
   carousel_swipe_short: "Swipe or use arrows",
-  shop_empty_products:
-    "More products are coming online soon. Visit our Bakersfield store for the full selection, or browse Featured items available now.",
-  shop_empty_category:
-    "More from this collection is coming online soon. Visit our Bakersfield store for the full selection, or browse Featured items available now.",
+  shop_empty_products: "No products available right now.",
+  shop_empty_category: "No products in this category right now.",
   shop_empty_title: "More Online Soon",
   shop_empty_detail: "3925 S Chester Ave · Bakersfield, CA 93307",
   shop_empty_visit_us: "Visit Us",
@@ -262,13 +320,37 @@ export const en = {
   marquee_text:
     "Rise & Bloom|Lash Clusters|DIY Kits|Easy Application|Makeup|Long Lasting|Nails|Lash Supplies",
 
+  aria_open_menu: "Open menu",
+  aria_close_menu: "Close menu",
+  aria_main_nav: "Main navigation",
+  aria_search: "Search",
+  aria_cart: "Cart",
+  aria_close_cart: "Close cart",
+  aria_shopping_cart: "Shopping cart",
+  aria_close: "Close",
+  aria_decrease_qty: "Decrease quantity",
+  aria_increase_qty: "Increase quantity",
+  aria_remove_item: "Remove {title}",
+  aria_previous_image: "Previous image",
+  aria_next_image: "Next image",
+  aria_go_to_image: "Go to image {n}",
+  aria_scroll_left: "Scroll products left",
+  aria_scroll_right: "Scroll products right",
+  aria_expand: "Expand {label}",
+  aria_collapse: "Collapse {label}",
+  aria_logo_home: "Rise & Bloom home",
+  product_not_found_title: "Product Not Found | Rise & Bloom",
+  product_meta_fallback: "Shop {title} at Rise & Bloom.",
+  product_fallback_title: "Product | Rise & Bloom",
+  shop_products_label: "Shop products",
+
   // —— Promotions (Shopify codes advertised only; validated at checkout) ——
   promo_announcement_aria: "Promotion announcement",
   promo_announcement_dismiss: "Dismiss announcement",
-  promo_announcement_bloom10:
-    "New here? Use code {code} for 10% off your first online order.",
+  promo_announcement_welcome:
+    "New here? Use code {code} for 10% off your entire order — first-time customers only.",
   promo_announcement_instore:
-    "Visit us in-store to get a code for more online discount opportunities.",
+    "Local customers: ask in-store about online discount opportunities (minimum purchase may apply).",
   promo_announcement_shipping:
     "Orders over $100 qualify for free shipping.",
   promo_copy_code: "Copy code",
@@ -279,43 +361,40 @@ export const en = {
   promo_shop_now: "Shop Now",
   promo_welcome_title: "Welcome to Rise & Bloom",
   promo_welcome_body:
-    "Enjoy 10% off your first online order with code {code}.",
+    "Enjoy 10% off your entire order with code {code} — first-time customers only.",
   promo_welcome_terms_note:
-    "For new online customers. Shopify validates eligibility at checkout.",
+    "First-time customers only. Shopify validates eligibility at checkout.",
   promo_birthday_title: "Birthday Bloom",
   promo_birthday_body:
-    "Celebrate with 15% off an eligible birthday purchase.",
+    "Celebrate with 10% off your entire order using code {code}.",
   promo_birthday_terms_note:
-    "Birthday offer eligibility, dates, and usage limits apply. We do not automatically verify birthdays or email this code unless a separate rewards system is set up.",
-  promo_local_title: "Thank You for Shopping In-Store",
+    "Birthday promotion. Enter the code at Shopify checkout. Eligibility is validated by Shopify.",
+  promo_local_title: "Thank You for Shopping Local",
   promo_local_body:
-    "Thank you for shopping with us in-store. Enjoy 10% off your next eligible online order with code {code}.",
+    "Enjoy 10% off your entire online order with code {code}. A $25 minimum purchase applies.",
   promo_local_terms_note:
-    "This offer is for customers who received the code after shopping in-store. Enter the code at Shopify checkout.",
-  promo_local_meta_title: "In-Store Thank You | Rise & Bloom",
+    "Intended for local customers. $25 minimum purchase. Enter the code at Shopify checkout.",
+  promo_local_meta_title: "Local Thank You | Rise & Bloom",
   promo_local_meta_description:
-    "A private thank-you offer for Rise & Bloom in-store customers.",
+    "A thank-you offer for Rise & Bloom local customers.",
   promo_terms_meta_title: "Promotion Terms | Rise & Bloom",
   promo_terms_meta_description:
-    "Terms for Rise & Bloom online promotion codes. Final details subject to client confirmation.",
+    "Terms for Rise & Bloom online promotion codes: WELCOME2026, BLOOMLOCAL10, and BLOOMDAY.",
   promo_terms_title: "Promotion Terms",
   promo_terms_intro:
-    "Promotion codes are created and validated in Shopify. The website only advertises offers. Final eligibility, exclusions, and dates must match the discount settings in Shopify Admin. Values marked [TO CONFIRM] need client approval before publishing as final legal terms.",
+    "Promotion codes are created and validated in Shopify. This website only advertises offers. Enter codes at Shopify checkout — discounted totals are applied by Shopify, not on this site.",
   promo_terms_general_title: "General",
   promo_terms_general_body:
-    "• Codes must be entered at Shopify checkout to apply.\n• Rise & Bloom does not calculate discounted totals on this website before Shopify confirms the discount.\n• Offers may not be available on all products or order types.\n• Rise & Bloom may modify or end promotions at any time as permitted by Shopify discount settings.",
-  promo_terms_bloom10_title: "{code} — First online order",
-  promo_terms_bloom10_body:
-    "• Offer: 10% off a first online order.\n• Intended for new online customers.\n• One use per customer: [TO CONFIRM]\n• Eligible customers: [TO CONFIRM — e.g. first-time online buyers only]\n• Exclusions: [TO CONFIRM — e.g. sale items, gift cards]\n• Expiration: [TO CONFIRM]\n• Can be combined with other discounts: [TO CONFIRM]",
-  promo_terms_local_title: "{code} — In-store customer offer",
+    "• Codes must be entered at Shopify checkout to apply.\n• Rise & Bloom does not calculate discounted totals on this website before Shopify confirms the discount.\n• Active codes: WELCOME2026, BLOOMLOCAL10, and BLOOMDAY.\n• Rise & Bloom may modify or end promotions at any time as permitted by Shopify discount settings.",
+  promo_terms_welcome_title: "{code} — First-time customers",
+  promo_terms_welcome_body:
+    "• Offer: 10% off the entire order.\n• Eligible customers: first-time customers only.\n• Enter the code at Shopify checkout.",
+  promo_terms_local_title: "{code} — Local customers",
   promo_terms_local_body:
-    "• Offer: 10% off a future eligible online order for customers who received the code after shopping in-store.\n• This code is not advertised on the main website; share via QR/printed card only.\n• One use per customer: [TO CONFIRM]\n• Eligible customers: [TO CONFIRM]\n• Exclusions: [TO CONFIRM]\n• Expiration: [TO CONFIRM]\n• Can be combined with other discounts: [TO CONFIRM]",
-  promo_terms_bday_title: "{code} — Birthday offer",
+    "• Offer: 10% off the entire order.\n• Minimum purchase: $25.\n• Intended for local customers.\n• Enter the code at Shopify checkout.",
+  promo_terms_bday_title: "{code} — Birthday promotion",
   promo_terms_bday_body:
-    "• Offer: 15% off an eligible birthday purchase.\n• Eligibility, dates, and usage limits apply.\n• Birthday is not automatically verified or emailed by this website unless a separate rewards/email system is configured.\n• One use per customer / per year: [TO CONFIRM]\n• Eligible window (e.g. birthday month): [TO CONFIRM]\n• Exclusions: [TO CONFIRM]\n• Expiration: [TO CONFIRM]\n• Can be combined with other discounts: [TO CONFIRM]",
-  promo_terms_placeholders_title: "Client confirmation checklist",
-  promo_terms_placeholders_body:
-    "Please confirm in Shopify Admin and update this page:\n• Exact customer eligibility rules for each code\n• Whether each code is single-use\n• Product / collection exclusions\n• Start and end dates\n• Whether codes can be stacked\n• How birthday eligibility is enforced (Shopify settings vs. manual / rewards app)",
+    "• Offer: 10% off the entire order.\n• Intended as a birthday promotion.\n• Enter the code at Shopify checkout.",
 } as const;
 
 export type Translation = {

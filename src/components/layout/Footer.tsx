@@ -77,7 +77,7 @@ export default function Footer() {
             <Link
               href={localizedPath(locale, "/")}
               className="inline-flex w-full max-w-[14rem] flex-col items-center sm:max-w-[15rem] md:max-w-[16rem] md:items-start"
-              aria-label="Rise & Bloom home"
+              aria-label={t.aria_logo_home}
             >
               <Image
                 src="/images/rise-bloom-logo.png"
@@ -87,7 +87,7 @@ export default function Footer() {
                 className="h-10 w-full object-contain object-left sm:h-11 md:h-12"
               />
               <span className="logo-display mt-1.5 w-full font-display text-[1.05rem] leading-tight tracking-[0.05em] sm:text-[1.15rem] md:mt-2 md:text-[1.35rem] lg:text-[1.45rem]">
-                NAILS & LASH SUPPLIES
+                {t.header_subtitle}
               </span>
             </Link>
 

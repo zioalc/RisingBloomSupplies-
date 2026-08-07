@@ -1,7 +1,9 @@
 "use client";
 
-import { Menu, Search, ShoppingBag } from "lucide-react";
+import { Menu, Heart, Search, ShoppingBag } from "lucide-react";
+import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
+import AuthNavControl from "@/components/account/AuthNavControl";
 import { useCart } from "@/lib/cartContext";
 import { localizedPath } from "@/lib/i18n";
 import DesktopHeaderNav from "@/components/layout/DesktopHeaderNav";
@@ -11,13 +13,18 @@ import MarqueeSection from "@/components/sections/MarqueeSection";
 import PromoAnnouncementBar from "@/components/promotions/PromoAnnouncementBar";
 import SearchOverlay from "@/components/search/SearchOverlay";
 import { useTranslation } from "@/lib/useTranslation";
+import { useWishlist } from "@/lib/wishlistContext";
 
 export default function Header() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { itemCount, toggleDrawer } = useCart();
-  const { locale, switchLocale } = useTranslation();
+  const { itemCount: wishlistCount, isHydrated: wishlistHydrated } =
+    useWishlist();
+  const { locale, switchLocale, t } = useTranslation();
+  const favoritesHref = localizedPath(locale, "/favorites");
+  const showWishlistBadge = wishlistHydrated && wishlistCount > 0;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -64,27 +71,38 @@ export default function Header() {
         }`}
       >
         <div
-          className={`site-container grid grid-cols-[auto_1fr_auto] items-center transition-all duration-300 lg:grid-cols-[1fr_auto_1fr] ${
+          className={`site-container grid grid-cols-[1fr_auto_1fr] items-center transition-all duration-300 ${
             scrolled
               ? "min-h-14 py-1 md:min-h-16 lg:min-h-16 lg:py-0"
               : "min-h-[5.75rem] py-1.5 sm:min-h-[6.25rem] md:min-h-[6.75rem] lg:h-[5.25rem] lg:py-0"
           }`}
         >
-          <div className="flex items-center justify-start">
+          <div className="flex items-center justify-start gap-0.5 sm:gap-1">
             <button
               type="button"
               className="rounded-md p-2 text-charcoal transition-colors hover:text-mauve lg:hidden"
               onClick={() => setSidebarOpen(true)}
               aria-expanded={sidebarOpen}
-              aria-label="Open menu"
+              aria-label={t.aria_open_menu}
             >
               <Menu className="h-5 w-5" strokeWidth={1.5} />
+            </button>
+            <button
+              type="button"
+              onClick={() => setSearchOpen(true)}
+              className="rounded-md p-2 text-charcoal transition-colors hover:text-mauve"
+              aria-label={t.aria_search}
+              aria-expanded={searchOpen}
+            >
+              <Search className="h-5 w-5 md:h-6 md:w-6" strokeWidth={1.5} />
             </button>
           </div>
 
           <HeaderLogo
             href={localizedPath(locale, "/")}
             compact={scrolled}
+            ariaLabel={t.aria_logo_home}
+            subtitle={t.header_subtitle}
           />
 
           <div className="flex items-center justify-end gap-1 sm:gap-2 md:gap-3">
@@ -114,20 +132,24 @@ export default function Header() {
               </button>
             </div>
 
-            <button
-              type="button"
-              onClick={() => setSearchOpen(true)}
-              className="rounded-md p-2 text-charcoal transition-colors hover:text-mauve"
-              aria-label="Search"
-              aria-expanded={searchOpen}
+            <AuthNavControl variant="header" />
+            <Link
+              href={favoritesHref}
+              className="relative rounded-md p-2 text-charcoal transition-colors hover:text-mauve"
+              aria-label={t.aria_favorites}
             >
-              <Search className="h-5 w-5 md:h-6 md:w-6" strokeWidth={1.5} />
-            </button>
+              <Heart className="h-5 w-5 md:h-6 md:w-6" strokeWidth={1.5} />
+              {showWishlistBadge ? (
+                <span className="absolute -right-0.5 -top-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-rose px-1 text-[11px] font-medium text-charcoal">
+                  {wishlistCount > 99 ? "99+" : wishlistCount}
+                </span>
+              ) : null}
+            </Link>
             <button
               type="button"
               onClick={toggleDrawer}
               className="relative rounded-md p-2 text-charcoal transition-colors hover:text-mauve"
-              aria-label="Cart"
+              aria-label={t.aria_cart}
             >
               <ShoppingBag className="h-5 w-5 md:h-6 md:w-6" strokeWidth={1.5} />
               {itemCount > 0 && (

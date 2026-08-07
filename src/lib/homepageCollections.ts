@@ -7,7 +7,7 @@ import type { Translation } from "@/lib/translations/en";
 export type HomepageCollectionConfig = {
   handle: string;
   headingKey: keyof Translation;
-  subtitleKey?: "featured_sub" | "collection_section_sub";
+  subtitleKey?: keyof Translation;
   categorySlug?: ShopCollectionSlug;
   limit: number;
   alternateBg?: boolean;
@@ -24,7 +24,7 @@ export const HOMEPAGE_COLLECTION_SECTIONS: HomepageCollectionConfig[] = [
   {
     handle: "nails",
     headingKey: "sidebar_nails",
-    subtitleKey: "collection_section_sub",
+    subtitleKey: "nails_section_sub",
     categorySlug: "nails",
     limit: 8,
     alternateBg: true,
@@ -32,7 +32,7 @@ export const HOMEPAGE_COLLECTION_SECTIONS: HomepageCollectionConfig[] = [
   {
     handle: "lashes",
     headingKey: "sidebar_lashes",
-    subtitleKey: "collection_section_sub",
+    subtitleKey: "lashes_section_sub",
     categorySlug: "lashes",
     limit: 8,
     alternateBg: false,
@@ -40,7 +40,7 @@ export const HOMEPAGE_COLLECTION_SECTIONS: HomepageCollectionConfig[] = [
   {
     handle: "makeup",
     headingKey: "sidebar_makeup",
-    subtitleKey: "collection_section_sub",
+    subtitleKey: "makeup_section_sub",
     categorySlug: "makeup",
     limit: 8,
     alternateBg: true,
@@ -48,7 +48,7 @@ export const HOMEPAGE_COLLECTION_SECTIONS: HomepageCollectionConfig[] = [
   {
     handle: "tools-accessories",
     headingKey: "sidebar_tools_accessories",
-    subtitleKey: "collection_section_sub",
+    subtitleKey: "tools_section_sub",
     categorySlug: "tools-accessories",
     limit: 8,
     alternateBg: false,

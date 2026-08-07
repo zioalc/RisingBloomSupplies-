@@ -2,45 +2,40 @@
 
 import ProductCatalogRow from "@/components/shop/ProductCatalogRow";
 import ProductsEmptyState from "@/components/ui/ProductsEmptyState";
-import { STORE_ADDRESS } from "@/lib/contact";
 import { localizedPath } from "@/lib/i18n";
+import type { ProductViewData } from "@/lib/products";
 import { filterProductsByCategory } from "@/lib/shopCategories";
-import { mapShopProducts } from "@/lib/products";
-import type { ShopifyProduct } from "@/lib/shopify";
 import { useTranslation } from "@/lib/useTranslation";
 
 type ShopProductGridProps = {
-  products: ShopifyProduct[];
+  products: ProductViewData[];
   category?: string | null;
   pageHeading?: string;
+  /** When true, products are already collection-scoped from the server */
+  skipCategoryFilter?: boolean;
 };
 
 export default function ShopProductGrid({
   products,
   category,
   pageHeading,
+  skipCategoryFilter = false,
 }: ShopProductGridProps) {
   const { t, locale } = useTranslation();
-  const displayProducts = filterProductsByCategory(
-    mapShopProducts(products),
-    category,
-  );
+  const displayProducts = skipCategoryFilter
+    ? products
+    : filterProductsByCategory(products, category);
 
   if (displayProducts.length === 0) {
-    const isCategoryEmpty = Boolean(category) || products.length > 0;
-
     return (
       <ProductsEmptyState
-        title={t.shop_empty_title}
         message={
-          isCategoryEmpty ? t.shop_empty_category : t.shop_empty_products
+          category ? t.shop_empty_category : t.shop_empty_products
         }
-        detail={t.shop_empty_detail}
         actions={[
           {
-            href: STORE_ADDRESS.mapsUrl,
-            label: t.shop_empty_visit_us,
-            external: true,
+            href: localizedPath(locale, "/shop"),
+            label: t.nav_shop_all,
           },
           {
             href: localizedPath(locale, "/"),

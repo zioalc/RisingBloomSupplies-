@@ -36,9 +36,9 @@ export default function LocalThankYouPage({ params }: PageProps) {
           title={t.promo_local_title}
           description={t.promo_local_body.replace(
             "{code}",
-            PROMOTIONS.lovelocal10.code,
+            PROMOTIONS.bloomlocal10.code,
           )}
-          code={PROMOTIONS.lovelocal10.code}
+          code={PROMOTIONS.bloomlocal10.code}
           ctaLabel={t.promo_shop_now}
           ctaHref={localizedPath(params.locale, "/shop")}
           termsNote={t.promo_local_terms_note}

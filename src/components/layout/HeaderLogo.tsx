@@ -4,16 +4,23 @@ import Link from "next/link";
 type HeaderLogoProps = {
   href: string;
   compact?: boolean;
+  ariaLabel?: string;
+  subtitle?: string;
 };
 
-export default function HeaderLogo({ href, compact = false }: HeaderLogoProps) {
+export default function HeaderLogo({
+  href,
+  compact = false,
+  ariaLabel = "Rise & Bloom",
+  subtitle,
+}: HeaderLogoProps) {
   return (
     <Link
       href={href}
       className={`group block min-w-0 text-center transition-all duration-300 ${
         compact ? "scale-[0.88] md:scale-[0.92]" : "scale-100"
       }`}
-      aria-label="Rise & Bloom Nails & Lash Supplies"
+      aria-label={ariaLabel}
     >
       <div className="flex flex-col items-center">
         <Image
@@ -29,9 +36,9 @@ export default function HeaderLogo({ href, compact = false }: HeaderLogoProps) {
           }`}
         />
 
-        {!compact ? (
+        {!compact && subtitle ? (
           <span className="logo-display mt-1 whitespace-nowrap px-1 font-display text-[0.82rem] leading-tight tracking-[0.04em] sm:mt-1.5 sm:text-[0.95rem] md:text-[1.2rem] lg:mt-1.5 lg:text-[1.75rem]">
-            NAILS & LASH SUPPLIES
+            {subtitle}
           </span>
         ) : null}
       </div>

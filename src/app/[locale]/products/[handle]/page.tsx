@@ -2,6 +2,7 @@ import ProductDetails from "@/components/ui/ProductDetails";
 import BackToHomeLink from "@/components/ui/BackToHomeLink";
 import { type Locale } from "@/lib/i18n";
 import { getProductByHandle } from "@/lib/shopify";
+import { getTranslation } from "@/lib/translations";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -12,11 +13,13 @@ type ProductPageProps = {
 export async function generateMetadata({
   params,
 }: ProductPageProps): Promise<Metadata> {
+  const t = getTranslation(params.locale);
+
   try {
     const product = await getProductByHandle(params.handle);
 
     if (!product) {
-      return { title: "Product Not Found | Rise & Bloom" };
+      return { title: t.product_not_found_title };
     }
 
     const plainDescription = product.description
@@ -28,13 +31,14 @@ export async function generateMetadata({
     return {
       title: `${product.title} | Rise & Bloom`,
       description:
-        plainDescription || `Shop ${product.title} at Rise & Bloom.`,
+        plainDescription ||
+        t.product_meta_fallback.replace("{title}", product.title),
       openGraph: product.images[0]
         ? { images: [{ url: product.images[0].url }] }
         : undefined,
     };
   } catch {
-    return { title: "Product | Rise & Bloom" };
+    return { title: t.product_fallback_title };
   }
 }
 

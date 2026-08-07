@@ -2,8 +2,9 @@ import ShopProductGrid from "@/components/shop/ShopProductGrid";
 import BackToHomeLink from "@/components/ui/BackToHomeLink";
 import type { Locale } from "@/lib/i18n";
 import { getShopPageLabelKey } from "@/lib/navigation";
+import { mapShopProducts, type ProductViewData } from "@/lib/products";
 import { isShopCollectionSlug } from "@/lib/shopCategories";
-import { getProducts, type ShopifyProduct } from "@/lib/shopify";
+import { getCollectionProducts, getProducts } from "@/lib/shopify";
 import { getTranslation } from "@/lib/translations";
 import type { Metadata } from "next";
 
@@ -59,10 +60,15 @@ export default async function ShopPage({
   const pageHeading = labelKey ? t[labelKey] : t.shop_heading;
   const showShopIntro = !labelKey;
 
-  let products: ShopifyProduct[] = [];
+  let products: ProductViewData[] = [];
 
   try {
-    products = await getProducts(50);
+    // Load the Shopify collection directly so new items appear on category pages.
+    // Map on the server so the client only receives plain ProductViewData.
+    const shopifyProducts = activeCategory
+      ? await getCollectionProducts(activeCategory, 50)
+      : await getProducts(50);
+    products = mapShopProducts(shopifyProducts);
   } catch {
     products = [];
   }
@@ -91,6 +97,8 @@ export default async function ShopPage({
             products={products}
             category={activeCategory}
             pageHeading={pageHeading}
+            /** Products already come from the selected collection when category is set */
+            skipCategoryFilter={Boolean(activeCategory)}
           />
         </div>
       </div>

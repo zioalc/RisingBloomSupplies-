@@ -4,6 +4,7 @@ import ProductCard from "@/components/ui/ProductCard";
 import ProductModal from "@/components/ui/ProductModal";
 import { useCart } from "@/lib/cartContext";
 import type { ProductViewData } from "@/lib/products";
+import { useTranslation } from "@/lib/useTranslation";
 import { useState } from "react";
 
 type ProductCatalogRowProps = {
@@ -14,14 +15,16 @@ type ProductCatalogRowProps = {
 
 export default function ProductCatalogRow({
   products,
-  carouselLabel = "Shop products",
+  carouselLabel,
   compactTop = false,
 }: ProductCatalogRowProps) {
   const { addItem } = useCart();
+  const { t } = useTranslation();
   const [selectedProduct, setSelectedProduct] = useState<ProductViewData | null>(
     null,
   );
   const [initialImageIndex, setInitialImageIndex] = useState(0);
+  const gridLabel = carouselLabel ?? t.shop_products_label;
 
   const openProduct = (product: ProductViewData, imageIndex = 0) => {
     setInitialImageIndex(imageIndex);
@@ -49,7 +52,7 @@ export default function ProductCatalogRow({
         className={`grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-10 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-12 ${
           compactTop ? "mt-6 md:mt-8" : "mt-8 md:mt-10"
         }`}
-        aria-label={carouselLabel}
+        aria-label={gridLabel}
       >
         {products.map((product) => (
           <ProductCard

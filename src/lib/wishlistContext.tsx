@@ -18,11 +18,13 @@ export type WishlistItem = {
 
 type WishlistContextValue = {
   items: WishlistItem[];
+  itemCount: number;
   isHydrated: boolean;
   isInWishlist: (productId: string) => boolean;
   toggleWishlist: (item: WishlistItem) => void;
   addToWishlist: (item: WishlistItem) => void;
   removeFromWishlist: (productId: string) => void;
+  removeManyFromWishlist: (productIds: string[]) => void;
 };
 
 const WishlistContext = createContext<WishlistContextValue | null>(null);
@@ -78,6 +80,14 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
     );
   }, []);
 
+  const removeManyFromWishlist = useCallback((productIds: string[]) => {
+    if (productIds.length === 0) return;
+    const removeSet = new Set(productIds);
+    setItems((current) =>
+      current.filter((entry) => !removeSet.has(entry.productId)),
+    );
+  }, []);
+
   const toggleWishlist = useCallback((item: WishlistItem) => {
     setItems((current) => {
       const exists = current.some(
@@ -93,11 +103,13 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
   const value = useMemo(
     () => ({
       items,
+      itemCount: items.length,
       isHydrated,
       isInWishlist,
       toggleWishlist,
       addToWishlist,
       removeFromWishlist,
+      removeManyFromWishlist,
     }),
     [
       items,
@@ -106,6 +118,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
       toggleWishlist,
       addToWishlist,
       removeFromWishlist,
+      removeManyFromWishlist,
     ],
   );
 

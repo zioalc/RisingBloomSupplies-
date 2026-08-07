@@ -1,4 +1,7 @@
+"use client";
+
 import { formatPrice, isCompareAtSale } from "@/lib/utils";
+import { useTranslation } from "@/lib/useTranslation";
 
 type Money = {
   amount: string;
@@ -37,8 +40,9 @@ export default function ProductPrice({
   align = "center",
   className = "",
 }: ProductPriceProps) {
+  const { locale } = useTranslation();
   const styles = sizeClasses[size];
-  const formattedPrice = formatPrice(price.amount, price.currencyCode);
+  const formattedPrice = formatPrice(price.amount, price.currencyCode, locale);
   const onSale = isCompareAtSale(price, compareAtPrice);
 
   if (!onSale || !compareAtPrice) {
@@ -53,6 +57,7 @@ export default function ProductPrice({
   const formattedCompare = formatPrice(
     compareAtPrice.amount,
     compareAtPrice.currencyCode,
+    locale,
   );
 
   const alignClass =

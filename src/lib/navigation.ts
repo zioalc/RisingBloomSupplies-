@@ -63,6 +63,18 @@ export const MOBILE_NAVIGATION_MENU: NavigationItem[] = [
   },
   {
     type: "link",
+    id: "favorites",
+    labelKey: "nav_favorites",
+    href: (locale) => localizedPath(locale, "/favorites"),
+  },
+  {
+    type: "link",
+    id: "account",
+    labelKey: "nav_account",
+    href: (locale) => localizedPath(locale, "/account"),
+  },
+  {
+    type: "link",
     id: "contact",
     labelKey: "nav_contact",
     href: (locale) => localizedPath(locale, "/contact"),

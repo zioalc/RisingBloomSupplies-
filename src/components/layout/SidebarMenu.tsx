@@ -3,6 +3,7 @@
 import { Suspense, useEffect, useState } from "react";
 import { X } from "lucide-react";
 import NavigationSidebar from "@/components/layout/NavigationSidebar";
+import { useTranslation } from "@/lib/useTranslation";
 
 type SidebarMenuProps = {
   open: boolean;
@@ -11,6 +12,7 @@ type SidebarMenuProps = {
 
 export default function SidebarMenu({ open, onClose }: SidebarMenuProps) {
   const [visible, setVisible] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (open) {
@@ -32,7 +34,7 @@ export default function SidebarMenu({ open, onClose }: SidebarMenuProps) {
           open ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
         onClick={onClose}
-        aria-label="Close menu"
+        aria-label={t.aria_close_menu}
         tabIndex={open ? 0 : -1}
       />
 
@@ -47,7 +49,7 @@ export default function SidebarMenu({ open, onClose }: SidebarMenuProps) {
             type="button"
             onClick={onClose}
             className="rounded-md p-2 text-nightview transition-colors hover:bg-nightview-light/25 hover:text-brand-pink"
-            aria-label="Close menu"
+            aria-label={t.aria_close_menu}
           >
             <X className="h-5 w-5" strokeWidth={1.5} />
           </button>

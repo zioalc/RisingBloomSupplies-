@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useTranslation } from "@/lib/useTranslation";
 
 type ProductGalleryProps = {
   images: string[];
@@ -15,6 +16,7 @@ export default function ProductGallery({
   alt,
   initialIndex = 0,
 }: ProductGalleryProps) {
+  const { t } = useTranslation();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(initialIndex);
   const hasMultiple = images.length > 1;
@@ -81,7 +83,7 @@ export default function ProductGallery({
             onClick={() => scrollToIndex(activeIndex - 1)}
             disabled={activeIndex === 0}
             className="absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-warm-white/90 p-2 text-charcoal shadow-md transition-opacity disabled:opacity-0"
-            aria-label="Previous image"
+            aria-label={t.aria_previous_image}
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
@@ -90,7 +92,7 @@ export default function ProductGallery({
             onClick={() => scrollToIndex(activeIndex + 1)}
             disabled={activeIndex === images.length - 1}
             className="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-warm-white/90 p-2 text-charcoal shadow-md transition-opacity disabled:opacity-0"
-            aria-label="Next image"
+            aria-label={t.aria_next_image}
           >
             <ChevronRight className="h-5 w-5" />
           </button>
@@ -102,7 +104,10 @@ export default function ProductGallery({
                 type="button"
                 onClick={() => scrollToIndex(index)}
                 className="flex min-h-11 min-w-11 items-center justify-center"
-                aria-label={`Go to image ${index + 1}`}
+                aria-label={t.aria_go_to_image.replace(
+                  "{n}",
+                  String(index + 1),
+                )}
               >
                 <span
                   className={`h-2 rounded-full transition-all ${

@@ -1,5 +1,12 @@
-export function formatPrice(amount: string, currencyCode: string) {
-  return new Intl.NumberFormat("en-US", {
+import type { Locale } from "@/lib/i18n";
+
+export function formatPrice(
+  amount: string,
+  currencyCode: string,
+  locale: Locale = "en",
+) {
+  const numberLocale = locale === "es" ? "es-US" : "en-US";
+  return new Intl.NumberFormat(numberLocale, {
     style: "currency",
     currency: currencyCode,
   }).format(parseFloat(amount));

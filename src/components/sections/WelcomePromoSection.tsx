@@ -17,9 +17,9 @@ export default function WelcomePromoSection() {
           title={t.promo_welcome_title}
           description={t.promo_welcome_body.replace(
             "{code}",
-            PROMOTIONS.bloom10.code,
+            PROMOTIONS.welcome2026.code,
           )}
-          code={PROMOTIONS.bloom10.code}
+          code={PROMOTIONS.welcome2026.code}
           ctaLabel={t.promo_shop_now}
           ctaHref={localizedPath(locale, "/shop")}
           termsNote={t.promo_welcome_terms_note}

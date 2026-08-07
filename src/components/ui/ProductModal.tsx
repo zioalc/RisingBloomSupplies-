@@ -108,7 +108,7 @@ export default function ProductModal({
           type="button"
           onClick={onClose}
           className="absolute right-4 top-4 z-20 rounded-full bg-warm-white/90 p-2 text-charcoal shadow-sm transition-colors hover:text-mauve"
-          aria-label="Close"
+          aria-label={t.aria_close}
         >
           <X className="h-5 w-5" />
         </button>
@@ -208,7 +208,7 @@ export default function ProductModal({
                       type="button"
                       onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                       className="flex min-h-11 min-w-11 items-center justify-center rounded-full text-charcoal transition-colors hover:text-mauve"
-                      aria-label="Decrease quantity"
+                      aria-label={t.aria_decrease_qty}
                     >
                       <Minus className="h-3.5 w-3.5" />
                     </button>
@@ -219,7 +219,7 @@ export default function ProductModal({
                       type="button"
                       onClick={() => setQuantity((q) => Math.min(20, q + 1))}
                       className="flex min-h-11 min-w-11 items-center justify-center rounded-full text-charcoal transition-colors hover:text-mauve"
-                      aria-label="Increase quantity"
+                      aria-label={t.aria_increase_qty}
                     >
                       <Plus className="h-3.5 w-3.5" />
                     </button>

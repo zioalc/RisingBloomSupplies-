@@ -15,8 +15,11 @@ export default function BirthdayPromoSection() {
           variant="compact"
           visibility="birthday"
           title={t.promo_birthday_title}
-          description={t.promo_birthday_body}
-          code={PROMOTIONS.bloombday.code}
+          description={t.promo_birthday_body.replace(
+            "{code}",
+            PROMOTIONS.bloomday.code,
+          )}
+          code={PROMOTIONS.bloomday.code}
           ctaLabel={t.promo_shop_now}
           ctaHref={localizedPath(locale, "/shop")}
           termsNote={t.promo_birthday_terms_note}

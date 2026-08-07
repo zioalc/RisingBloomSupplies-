@@ -27,29 +27,25 @@ export default function PromotionTermsPage({ params }: PageProps) {
       body: t.promo_terms_general_body,
     },
     {
-      title: t.promo_terms_bloom10_title.replace(
+      title: t.promo_terms_welcome_title.replace(
         "{code}",
-        PROMOTIONS.bloom10.code,
+        PROMOTIONS.welcome2026.code,
       ),
-      body: t.promo_terms_bloom10_body,
+      body: t.promo_terms_welcome_body,
     },
     {
       title: t.promo_terms_local_title.replace(
         "{code}",
-        PROMOTIONS.lovelocal10.code,
+        PROMOTIONS.bloomlocal10.code,
       ),
       body: t.promo_terms_local_body,
     },
     {
       title: t.promo_terms_bday_title.replace(
         "{code}",
-        PROMOTIONS.bloombday.code,
+        PROMOTIONS.bloomday.code,
       ),
       body: t.promo_terms_bday_body,
-    },
-    {
-      title: t.promo_terms_placeholders_title,
-      body: t.promo_terms_placeholders_body,
     },
   ];
 

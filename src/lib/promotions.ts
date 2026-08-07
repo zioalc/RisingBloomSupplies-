@@ -6,25 +6,19 @@
  * invent eligibility. Customers enter codes at Shopify Checkout
  * unless a secure eligibility system is added later.
  *
- * --- Checkout / discount URL notes (Shopify) ---
- * Supported Shopify patterns (not auto-wired in this app):
- * 1. Discount landing URL:
- *    https://{shop}/discount/{CODE}
- *    Stores the code in a cookie, then redirects into the shop.
- * 2. Cart permalink query:
- *    https://{shop}/cart/{variantId}:{qty}?discount={CODE}&checkout
- * 3. Storefront Cart API `cartDiscountCodesUpdate`
- *    (not used — cart is local + checkout permalink today)
+ * Active Shopify codes:
+ * - WELCOME2026 — 10% off entire order, first-time customers only
+ * - BLOOMLOCAL10 — 10% off entire order, $25 minimum, local customers
+ * - BLOOMDAY — 10% off entire order, birthday promotion
  *
- * Current checkout helpers (`getCheckoutUrl`, `getMultiItemCheckoutUrl`)
- * do NOT append discount codes. Customers are instructed to enter the
- * code during Shopify checkout so LOVELOCAL10 / BLOOMBDAY are not
- * applied without eligibility checks.
+ * Checkout helpers do NOT append discount codes. Customers enter
+ * codes at Shopify checkout so non-public offers are not applied
+ * without Shopify eligibility checks.
  */
 
 export type PromoVisibility = "public" | "in_store" | "birthday";
 
-export type PromotionId = "bloom10" | "lovelocal10" | "bloombday";
+export type PromotionId = "welcome2026" | "bloomlocal10" | "bloomday";
 
 export type PromotionDefinition = {
   id: PromotionId;
@@ -35,29 +29,26 @@ export type PromotionDefinition = {
 };
 
 export const PROMOTIONS: Record<PromotionId, PromotionDefinition> = {
-  bloom10: {
-    id: "bloom10",
-    code: "BLOOM10",
+  welcome2026: {
+    id: "welcome2026",
+    code: "WELCOME2026",
     visibility: "public",
     advertisePublicly: true,
   },
-  lovelocal10: {
-    id: "lovelocal10",
-    code: "LOVELOCAL10",
+  bloomlocal10: {
+    id: "bloomlocal10",
+    code: "BLOOMLOCAL10",
     visibility: "in_store",
     advertisePublicly: false,
   },
-  bloombday: {
-    id: "bloombday",
-    code: "BLOOMBDAY",
+  bloomday: {
+    id: "bloomday",
+    code: "BLOOMDAY",
     visibility: "birthday",
     advertisePublicly: true,
   },
 };
 
-export const PROMO_ANNOUNCEMENT_BLOOM10_KEY = "rb-promo-bloom10-bar-v3";
-export const PROMO_ANNOUNCEMENT_INSTORE_KEY = "rb-promo-instore-bar-v3";
-export const PROMO_ANNOUNCEMENT_SHIPPING_KEY = "rb-promo-shipping-bar-v3";
-
-/** @deprecated use PROMO_ANNOUNCEMENT_BLOOM10_KEY */
-export const PROMO_ANNOUNCEMENT_STORAGE_KEY = PROMO_ANNOUNCEMENT_BLOOM10_KEY;
+export const PROMO_ANNOUNCEMENT_WELCOME_KEY = "rb-promo-welcome2026-bar-v4";
+export const PROMO_ANNOUNCEMENT_LOCAL_KEY = "rb-promo-local-bar-v4";
+export const PROMO_ANNOUNCEMENT_SHIPPING_KEY = "rb-promo-shipping-bar-v4";

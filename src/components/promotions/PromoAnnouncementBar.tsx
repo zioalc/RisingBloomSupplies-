@@ -4,13 +4,13 @@ import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 import {
   PROMOTIONS,
-  PROMO_ANNOUNCEMENT_BLOOM10_KEY,
-  PROMO_ANNOUNCEMENT_INSTORE_KEY,
+  PROMO_ANNOUNCEMENT_WELCOME_KEY,
+  PROMO_ANNOUNCEMENT_LOCAL_KEY,
   PROMO_ANNOUNCEMENT_SHIPPING_KEY,
 } from "@/lib/promotions";
 import { useTranslation } from "@/lib/useTranslation";
 
-type PromoStep = "bloom10" | "instore" | "shipping" | "hidden";
+type PromoStep = "welcome" | "instore" | "shipping" | "hidden";
 
 function readDismissed(key: string) {
   try {
@@ -30,35 +30,35 @@ function writeDismissed(key: string) {
 
 export default function PromoAnnouncementBar() {
   const { t } = useTranslation();
-  const [step, setStep] = useState<PromoStep>("bloom10");
+  const [step, setStep] = useState<PromoStep>("welcome");
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const bloomDismissed = readDismissed(PROMO_ANNOUNCEMENT_BLOOM10_KEY);
-    const instoreDismissed = readDismissed(PROMO_ANNOUNCEMENT_INSTORE_KEY);
+    const welcomeDismissed = readDismissed(PROMO_ANNOUNCEMENT_WELCOME_KEY);
+    const localDismissed = readDismissed(PROMO_ANNOUNCEMENT_LOCAL_KEY);
     const shippingDismissed = readDismissed(PROMO_ANNOUNCEMENT_SHIPPING_KEY);
 
     if (shippingDismissed) {
       setStep("hidden");
-    } else if (instoreDismissed) {
+    } else if (localDismissed) {
       setStep("shipping");
-    } else if (bloomDismissed) {
+    } else if (welcomeDismissed) {
       setStep("instore");
     } else {
-      setStep("bloom10");
+      setStep("welcome");
     }
     setReady(true);
   }, []);
 
   const dismiss = () => {
-    if (step === "bloom10") {
-      writeDismissed(PROMO_ANNOUNCEMENT_BLOOM10_KEY);
+    if (step === "welcome") {
+      writeDismissed(PROMO_ANNOUNCEMENT_WELCOME_KEY);
       setStep("instore");
       return;
     }
 
     if (step === "instore") {
-      writeDismissed(PROMO_ANNOUNCEMENT_INSTORE_KEY);
+      writeDismissed(PROMO_ANNOUNCEMENT_LOCAL_KEY);
       setStep("shipping");
       return;
     }
@@ -72,8 +72,11 @@ export default function PromoAnnouncementBar() {
   if (!ready || step === "hidden") return null;
 
   const message =
-    step === "bloom10"
-      ? t.promo_announcement_bloom10.replace("{code}", PROMOTIONS.bloom10.code)
+    step === "welcome"
+      ? t.promo_announcement_welcome.replace(
+          "{code}",
+          PROMOTIONS.welcome2026.code,
+        )
       : step === "instore"
         ? t.promo_announcement_instore
         : t.promo_announcement_shipping;

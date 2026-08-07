@@ -9,7 +9,7 @@ import { formatPrice, getMultiItemCheckoutUrl } from "@/lib/utils";
 import { useTranslation } from "@/lib/useTranslation";
 
 export default function CartDrawer() {
-  const { t } = useTranslation();
+  const { t, locale } = useTranslation();
   const {
     items,
     isDrawerOpen,
@@ -51,7 +51,7 @@ export default function CartDrawer() {
           isDrawerOpen ? "translate-x-0" : "translate-x-full"
         }`}
         aria-hidden={!isDrawerOpen}
-        aria-label="Shopping cart"
+        aria-label={t.aria_shopping_cart}
       >
         <div className="flex items-center justify-between border-b border-champagne/60 px-6 py-4">
           <h2 className="font-serif text-xl text-charcoal">{t.cart_title}</h2>
@@ -59,7 +59,7 @@ export default function CartDrawer() {
             type="button"
             onClick={closeDrawer}
             className="rounded-md p-2 text-charcoal transition-colors hover:text-mauve"
-            aria-label="Close cart"
+            aria-label={t.aria_close_cart}
           >
             <X className="h-5 w-5" />
           </button>
@@ -97,14 +97,21 @@ export default function CartDrawer() {
                       type="button"
                       onClick={() => removeItem(item.variantId)}
                       className="flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-md text-charcoal/40 transition-colors hover:text-mauve"
-                      aria-label={`Remove ${item.title}`}
+                      aria-label={t.aria_remove_item.replace(
+                        "{title}",
+                        item.title,
+                      )}
                     >
                       <Trash2 className="h-4 w-4" />
                     </button>
                   </div>
 
                   <p className="mt-1 text-sm text-charcoal">
-                    {formatPrice(item.price.amount, item.price.currencyCode)}
+                    {formatPrice(
+                      item.price.amount,
+                      item.price.currencyCode,
+                      locale,
+                    )}
                   </p>
 
                   <div className="mt-auto flex items-center gap-1 pt-2">
@@ -114,7 +121,7 @@ export default function CartDrawer() {
                         updateQuantity(item.variantId, item.quantity - 1)
                       }
                       className="flex min-h-11 min-w-11 items-center justify-center rounded-full border border-champagne text-charcoal transition-colors hover:border-mauve hover:text-mauve"
-                      aria-label="Decrease quantity"
+                        aria-label={t.aria_decrease_qty}
                     >
                       <Minus className="h-3.5 w-3.5" />
                     </button>
@@ -127,7 +134,7 @@ export default function CartDrawer() {
                         updateQuantity(item.variantId, item.quantity + 1)
                       }
                       className="flex min-h-11 min-w-11 items-center justify-center rounded-full border border-champagne text-charcoal transition-colors hover:border-mauve hover:text-mauve"
-                      aria-label="Increase quantity"
+                        aria-label={t.aria_increase_qty}
                     >
                       <Plus className="h-3.5 w-3.5" />
                     </button>
@@ -144,7 +151,7 @@ export default function CartDrawer() {
               {t.cart_subtotal}
             </span>
             <span className="text-lg font-normal tracking-wide text-charcoal">
-              {formatPrice(subtotal.toFixed(2), currencyCode)}
+              {formatPrice(subtotal.toFixed(2), currencyCode, locale)}
             </span>
           </div>
 

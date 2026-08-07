@@ -42,6 +42,7 @@ export const SUPPORT_PAGES: Record<SupportPageId, SupportPageConfig> = {
       { type: "section", titleKey: "faq_q3", bodyKey: "faq_a3" },
       { type: "section", titleKey: "faq_q4", bodyKey: "faq_a4" },
       { type: "section", titleKey: "faq_q5", bodyKey: "faq_a5" },
+      { type: "section", titleKey: "faq_q6", bodyKey: "faq_a6" },
     ],
   },
   "shipping-policy": {

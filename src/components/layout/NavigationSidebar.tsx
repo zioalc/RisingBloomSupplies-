@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
+import AuthNavControl from "@/components/account/AuthNavControl";
 import {
   getCollectionHref,
   getCollectionSlugForCategory,
@@ -13,6 +14,7 @@ import {
 } from "@/lib/navigation";
 import { isShopCollectionSlug } from "@/lib/shopCategories";
 import { useTranslation } from "@/lib/useTranslation";
+import { useWishlist } from "@/lib/wishlistContext";
 
 type NavigationSidebarProps = {
   onNavigate?: () => void;
@@ -33,10 +35,13 @@ export default function NavigationSidebar({
   onNavigate,
 }: NavigationSidebarProps) {
   const { t, locale, switchLocale } = useTranslation();
+  const { itemCount: wishlistCount, isHydrated: wishlistHydrated } =
+    useWishlist();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const activeCollection = searchParams.get("category");
   const activeNavId = searchParams.get("nav");
+  const showWishlistBadge = wishlistHydrated && wishlistCount > 0;
 
   const [expandedCategories, setExpandedCategories] = useState<
     Record<string, boolean>
@@ -84,6 +89,15 @@ export default function NavigationSidebar({
         {MOBILE_NAVIGATION_MENU.map((item) => {
           if (item.type === "link") {
             const link = item as NavLinkItem;
+
+            if (link.id === "account") {
+              return (
+                <li key={link.id}>
+                  <AuthNavControl variant="mobile" onNavigate={onNavigate} />
+                </li>
+              );
+            }
+
             const href = link.href(locale);
             const [path, queryString] = href.split("?");
             const isActive = queryString
@@ -102,7 +116,14 @@ export default function NavigationSidebar({
                   onClick={onNavigate}
                   className={rowClass(isActive)}
                 >
-                  <span>{t[link.labelKey as keyof typeof t]}</span>
+                  <span className="flex items-center gap-2">
+                    <span>{t[link.labelKey as keyof typeof t]}</span>
+                    {link.id === "favorites" && showWishlistBadge ? (
+                      <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-rose px-1.5 text-[11px] font-medium normal-case tracking-normal text-charcoal">
+                        {wishlistCount > 99 ? "99+" : wishlistCount}
+                      </span>
+                    ) : null}
+                  </span>
                 </Link>
               </li>
             );
@@ -131,7 +152,10 @@ export default function NavigationSidebar({
                   onClick={() => toggleCategory(category.id)}
                   className="ml-2 rounded-md p-1.5 text-nightview transition-colors hover:bg-nightview-light/30"
                   aria-expanded={isExpanded}
-                  aria-label={`${isExpanded ? "Collapse" : "Expand"} ${t[category.labelKey as keyof typeof t]}`}
+                  aria-label={(isExpanded ? t.aria_collapse : t.aria_expand).replace(
+                    "{label}",
+                    t[category.labelKey as keyof typeof t],
+                  )}
                 >
                   <ChevronRight
                     className={`h-4 w-4 transition-transform duration-200 ${
