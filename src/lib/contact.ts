@@ -1,4 +1,4 @@
-export const STORE_EMAIL = "shoplashgangg@gmail.com";
+export const STORE_EMAIL = "rabsupplies@gmail.com";
 
 /** Leave empty to hide phone in the footer */
 export const STORE_PHONE = "";

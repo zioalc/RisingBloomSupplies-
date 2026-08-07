@@ -55,3 +55,12 @@ export function defaultPostLoginPath(locale: Locale): string {
 export function defaultPostLogoutUrl(locale: Locale, origin: string): string {
   return `${origin}/${locale}`;
 }
+
+/** Absolute URL on the configured storefront origin (avoids apex/www host drift). */
+export function absoluteOnAuthOrigin(
+  origin: string,
+  path: string,
+): string {
+  const normalized = path.startsWith("/") ? path : `/${path}`;
+  return new URL(normalized, origin).toString();
+}

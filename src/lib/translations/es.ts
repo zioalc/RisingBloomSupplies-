@@ -192,7 +192,7 @@ export const es: Translation = {
   returns_p1:
     "Debido a la naturaleza higiénica de los productos de pestañas, uñas y belleza, Rise & Bloom no acepta devoluciones, cambios ni reembolsos una vez realizado el pedido.",
   returns_p2:
-    "Te recomendamos leer las descripciones de los productos y hacer preguntas antes de ordenar. Para ayuda antes de comprar, contáctanos en shoplashgangg@gmail.com.",
+    "Te recomendamos leer las descripciones de los productos y hacer preguntas antes de ordenar. Para ayuda antes de comprar, contáctanos en rabsupplies@gmail.com.",
   returns_p3:
     "Al completar el pago, reconoces y aceptas que todas las ventas son finales de acuerdo con esta política.",
   checkout_final_sale_notice:
@@ -208,7 +208,7 @@ export const es: Translation = {
   track_p1:
     "Una vez que tu pedido sea enviado, recibirás un correo con información de rastreo. Usa el enlace proporcionado para seguir tu paquete.",
   track_p2:
-    "Si no has recibido un correo de rastreo dentro de 3 días hábiles, contáctanos en shoplashgangg@gmail.com con tu número de pedido.",
+    "Si no has recibido un correo de rastreo dentro de 3 días hábiles, contáctanos en rabsupplies@gmail.com con tu número de pedido.",
   privacy_meta_title: "Política de Privacidad | Rise & Bloom",
   privacy_meta_description:
     "Lee cómo Rise & Bloom recopila, usa y protege tu información personal.",
@@ -252,7 +252,7 @@ export const es: Translation = {
   accessibility_p1:
     "Nos esforzamos por seguir pautas de accesibilidad reconocidas y mejorar continuamente la usabilidad de nuestro sitio.",
   accessibility_p2:
-    "Si tienes dificultades para acceder a cualquier parte de nuestro sitio, contáctanos en shoplashgangg@gmail.com y te ayudaremos.",
+    "Si tienes dificultades para acceder a cualquier parte de nuestro sitio, contáctanos en rabsupplies@gmail.com y te ayudaremos.",
   brand_notice_meta_title: "Aviso de Marca | Rise & Bloom",
   brand_notice_meta_description:
     "Rise & Bloom es un minorista independiente. Conoce cómo se usan los nombres de productos y marcas en nuestro sitio.",
@@ -262,7 +262,7 @@ export const es: Translation = {
   brand_notice_p1:
     "Rise & Bloom vende productos genuinos de una variedad de fabricantes. Todos los nombres de productos, marcas registradas y nombres de marca son propiedad de sus respectivos dueños y se usan únicamente para identificar los productos que se ofrecen a la venta.",
   brand_notice_p2:
-    "Rise & Bloom no está afiliada, respaldada ni patrocinada por esos fabricantes, salvo que se indique expresamente. Para preguntas sobre este aviso, contáctanos en shoplashgangg@gmail.com.",
+    "Rise & Bloom no está afiliada, respaldada ni patrocinada por esos fabricantes, salvo que se indique expresamente. Para preguntas sobre este aviso, contáctanos en rabsupplies@gmail.com.",
   sold_out: "Agotado",
   view_product: "Ver Producto",
   view_details: "Ver Detalles",

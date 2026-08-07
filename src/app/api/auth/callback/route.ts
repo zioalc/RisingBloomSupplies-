@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import {
+  absoluteOnAuthOrigin,
   defaultPostLoginPath,
   getCustomerAccountAuthConfig,
   isSecureCookieRequest,
@@ -17,13 +18,16 @@ import { localizedPath } from "@/lib/i18n";
 export const dynamic = "force-dynamic";
 
 function redirectToAccount(
-  request: Request,
+  origin: string,
   locale: "en" | "es",
   query: string,
   clearCookies: string[],
 ) {
   const response = NextResponse.redirect(
-    new URL(`${localizedPath(locale, "/account")}?${query}`, request.url),
+    absoluteOnAuthOrigin(
+      origin,
+      `${localizedPath(locale, "/account")}?${query}`,
+    ),
   );
   for (const cookie of clearCookies) {
     response.headers.append("Set-Cookie", cookie);
@@ -40,7 +44,9 @@ export async function GET(request: Request) {
   try {
     config = getCustomerAccountAuthConfig();
   } catch {
-    return redirectToAccount(request, "en", "auth=error", [clearOauth]);
+    // Config missing: fall back to the request host for the error page only.
+    const fallbackOrigin = new URL(request.url).origin;
+    return redirectToAccount(fallbackOrigin, "en", "auth=error", [clearOauth]);
   }
 
   const oauth = readOAuthCookie(
@@ -51,14 +57,18 @@ export async function GET(request: Request) {
 
   const errorParam = url.searchParams.get("error");
   if (errorParam) {
-    return redirectToAccount(request, locale, "auth=denied", [clearOauth]);
+    return redirectToAccount(config.origin, locale, "auth=denied", [
+      clearOauth,
+    ]);
   }
 
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
 
   if (!code || !state || !oauth || oauth.state !== state) {
-    return redirectToAccount(request, locale, "auth=error", [clearOauth]);
+    return redirectToAccount(config.origin, locale, "auth=error", [
+      clearOauth,
+    ]);
   }
 
   try {
@@ -76,7 +86,9 @@ export async function GET(request: Request) {
       payload && typeof payload.nonce === "string" ? payload.nonce : null;
 
     if (!tokenNonce || tokenNonce !== oauth.nonce) {
-      return redirectToAccount(request, locale, "auth=error", [clearOauth]);
+      return redirectToAccount(config.origin, locale, "auth=error", [
+        clearOauth,
+      ]);
     }
 
     const returnTo =
@@ -84,7 +96,9 @@ export async function GET(request: Request) {
         ? oauth.returnTo
         : defaultPostLoginPath(locale);
 
-    const response = NextResponse.redirect(new URL(returnTo, request.url));
+    const response = NextResponse.redirect(
+      absoluteOnAuthOrigin(config.origin, returnTo),
+    );
     response.headers.append("Set-Cookie", clearOauth);
     response.headers.append(
       "Set-Cookie",
@@ -92,6 +106,8 @@ export async function GET(request: Request) {
     );
     return response;
   } catch {
-    return redirectToAccount(request, locale, "auth=error", [clearOauth]);
+    return redirectToAccount(config.origin, locale, "auth=error", [
+      clearOauth,
+    ]);
   }
 }

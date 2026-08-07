@@ -1,23 +1,17 @@
 # Phase 2 — Shopify Customer Accounts (post-launch plan)
 
-**Status:** Planning / Shopify Admin configuration only.  
-**Do not implement auth code until after launch and explicit approval.**  
-**Phase 3** (cross-device wishlist sync) is out of scope here.
+**Status:** Implemented on the headless Next.js storefront.  
+**Phase 3** (cross-device wishlist sync) remains out of scope.
 
-This document lists the exact URLs to enter in Shopify **Customer Account API** settings, plus the implementation plan for after launch.
+This document lists the exact URLs to enter in Shopify **Customer Account API** settings, plus the implementation notes for production.
 
 ---
 
 ## 1. Confirmed production hostname
 
-**Canonical production host:** `riseandbloomsupplies.com` (apex, no `www`)
+**Canonical production host:** `www.riseandbloomsupplies.com`
 
-Verification (live DNS/HTTP, Aug 2026):
-
-- `https://www.riseandbloomsupplies.com/` → **301** → `https://riseandbloomsupplies.com/`
-- Final landing currently: `https://riseandbloomsupplies.com/password` (store password page)
-
-OAuth URLs **must** use the apex host so they match the browser origin after `www` redirects.
+The custom Next.js storefront is served on **www**. OAuth callback, JavaScript origin, and logout URIs must use the **www** host so session cookies and redirects stay on the same origin as the storefront.
 
 **Do not use** `https://riseandbloom.com`.
 
@@ -33,14 +27,14 @@ Use **HTTPS** only. Shopify does not accept `http://localhost` for web callbacks
 
 | Setting | Value |
 |---|---|
-| **Callback URI** | `https://riseandbloomsupplies.com/api/auth/callback` |
-| **JavaScript origin** | `https://riseandbloomsupplies.com` |
-| **Logout URI** | `https://riseandbloomsupplies.com/en` |
-| **Logout URI** | `https://riseandbloomsupplies.com/es` |
+| **Callback URI** | `https://www.riseandbloomsupplies.com/api/auth/callback` |
+| **JavaScript origin** | `https://www.riseandbloomsupplies.com` |
+| **Logout URI** | `https://www.riseandbloomsupplies.com/en` |
+| **Logout URI** | `https://www.riseandbloomsupplies.com/es` |
 
 Optional later (only if we add a dedicated post-logout route):
 
-- `https://riseandbloomsupplies.com/api/auth/logout/complete`
+- `https://www.riseandbloomsupplies.com/api/auth/logout/complete`
 
 ### Local development
 
@@ -63,7 +57,7 @@ Notes:
 
 - `http://localhost:3000/...`
 - `http://127.0.0.1:3000/...`
-- `https://www.riseandbloomsupplies.com/...` as the primary OAuth host (www redirects to apex; prefer apex)
+- Apex-only `https://riseandbloomsupplies.com/...` as the **only** callback/origin if the live storefront is on **www** (cookies will not match)
 - `https://riseandbloom.com/...` (wrong domain)
 
 ---
@@ -101,14 +95,14 @@ NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN=
 
 # Phase 2 — Public Customer Account API client
 SHOPIFY_CUSTOMER_ACCOUNT_CLIENT_ID=
-SHOPIFY_CUSTOMER_ACCOUNT_CALLBACK_URL=https://riseandbloomsupplies.com/api/auth/callback
+SHOPIFY_CUSTOMER_ACCOUNT_CALLBACK_URL=https://www.riseandbloomsupplies.com/api/auth/callback
 AUTH_SECRET=
 ```
 
 | Variable | Where it comes from | Notes |
 |---|---|---|
 | `SHOPIFY_CUSTOMER_ACCOUNT_CLIENT_ID` | Shopify Admin → Customer Account API → Client ID | Server-only. Not `NEXT_PUBLIC_`. |
-| `SHOPIFY_CUSTOMER_ACCOUNT_CALLBACK_URL` | Must match Admin callback exactly | Prod: `https://riseandbloomsupplies.com/api/auth/callback`. Local: your HTTPS tunnel callback URL. |
+| `SHOPIFY_CUSTOMER_ACCOUNT_CALLBACK_URL` | Must match Admin callback exactly | Prod: `https://www.riseandbloomsupplies.com/api/auth/callback`. Local: your HTTPS tunnel callback URL. |
 | `AUTH_SECRET` | You generate (long random string) | Signs/encrypts httpOnly session cookies. Not from Shopify. |
 
 **Do not add:**
@@ -184,14 +178,14 @@ Must preserve:
 
 ```text
 Callback URI:
-https://riseandbloomsupplies.com/api/auth/callback
+https://www.riseandbloomsupplies.com/api/auth/callback
 
 JavaScript origin:
-https://riseandbloomsupplies.com
+https://www.riseandbloomsupplies.com
 
 Logout URIs:
-https://riseandbloomsupplies.com/en
-https://riseandbloomsupplies.com/es
+https://www.riseandbloomsupplies.com/en
+https://www.riseandbloomsupplies.com/es
 ```
 
 **Local (replace tunnel host):**
@@ -214,11 +208,8 @@ https://YOUR-TUNNEL-SUBDOMAIN.ngrok-free.app/es
 
 | When | Action |
 |---|---|
-| **Now** | Enter production URLs above in Customer Account API settings; confirm Public vs Confidential; enable Customer accounts |
-| **Launch** | Ship site without customer login UI |
-| **Post-launch** | Approve Phase 2 with confirmed client type; add env vars on host; implement |
-| **Later** | Phase 2b checkout SSO; Phase 3 synced favorites |
+| **Now** | Enter **www** production URLs above in Customer Account API settings; confirm Public client; enable Customer accounts |
+| **Deploy** | Set matching `SHOPIFY_CUSTOMER_ACCOUNT_CALLBACK_URL` on Vercel |
+| **After cutover** | Verify Sign In → OTP → `/{locale}/account` on www |
 
----
-
-*Canonical production host: `https://riseandbloomsupplies.com` (www redirects to apex).*
+*Canonical production host: `https://www.riseandbloomsupplies.com`.*

@@ -27,10 +27,13 @@ function sanitizeReturnTo(value: string | null, locale: "en" | "es"): string {
 }
 
 export async function GET(request: Request) {
+  const locale = resolveAuthLocale(
+    new URL(request.url).searchParams.get("locale"),
+  );
+
   try {
     const config = getCustomerAccountAuthConfig();
     const url = new URL(request.url);
-    const locale = resolveAuthLocale(url.searchParams.get("locale"));
     const returnTo = sanitizeReturnTo(
       url.searchParams.get("returnTo"),
       locale,
@@ -65,11 +68,11 @@ export async function GET(request: Request) {
     );
     return response;
   } catch {
-    const locale = resolveAuthLocale(
-      new URL(request.url).searchParams.get("locale"),
-    );
     return NextResponse.redirect(
-      new URL(`${localizedPath(locale, "/account")}?auth=error`, request.url),
+      new URL(
+        `${localizedPath(locale, "/account")}?auth=error`,
+        request.url,
+      ),
     );
   }
 }

@@ -54,11 +54,12 @@ export default function AuthNavControl({
     };
   }, []);
 
+  // Always land on the custom account page first. Sign In on that page starts
+  // /api/auth/login → Shopify hosted OTP → callback → /{locale}/account.
   const accountHref = localizedPath(locale, "/account");
-  const loginHref = `/api/auth/login?locale=${locale}&returnTo=${encodeURIComponent(accountHref)}`;
   const signedIn = session.status === "signed_in";
   const label = signedIn ? t.nav_account : t.nav_sign_in;
-  const href = signedIn ? accountHref : loginHref;
+  const href = accountHref;
   const aria = signedIn ? t.aria_account : t.aria_sign_in;
 
   if (variant === "header") {

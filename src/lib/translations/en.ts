@@ -189,7 +189,7 @@ export const en = {
   returns_p1:
     "Due to the hygienic nature of lash, nail, and beauty products, Rise & Bloom does not accept returns, exchanges, or refunds once an order has been placed.",
   returns_p2:
-    "We encourage you to read product descriptions and ask questions before ordering. For pre-purchase help, contact us at shoplashgangg@gmail.com.",
+    "We encourage you to read product descriptions and ask questions before ordering. For pre-purchase help, contact us at rabsupplies@gmail.com.",
   returns_p3:
     "By completing checkout, you acknowledge and agree that all sales are final in accordance with this policy.",
   checkout_final_sale_notice:
@@ -205,7 +205,7 @@ export const en = {
   track_p1:
     "Once your order ships, you will receive an email with tracking information. Use the tracking link provided to follow your package in real time.",
   track_p2:
-    "If you haven't received a tracking email within 3 business days of placing your order, please contact us at shoplashgangg@gmail.com with your order number and we'll be happy to help.",
+    "If you haven't received a tracking email within 3 business days of placing your order, please contact us at rabsupplies@gmail.com with your order number and we'll be happy to help.",
   privacy_meta_title: "Privacy Policy | Rise & Bloom",
   privacy_meta_description:
     "Read how Rise & Bloom collects, uses, and protects your personal information.",
@@ -249,7 +249,7 @@ export const en = {
   accessibility_p1:
     "We strive to follow widely recognized accessibility guidelines and continuously improve the usability of our site, including keyboard navigation, readable text, and clear page structure.",
   accessibility_p2:
-    "If you experience difficulty accessing any part of our website, please contact us at shoplashgangg@gmail.com and we will work with you to provide the information or assistance you need.",
+    "If you experience difficulty accessing any part of our website, please contact us at rabsupplies@gmail.com and we will work with you to provide the information or assistance you need.",
   brand_notice_meta_title: "Brand Notice | Rise & Bloom",
   brand_notice_meta_description:
     "Rise & Bloom is an independent retailer. Learn how product names and trademarks are used on our website.",
@@ -259,7 +259,7 @@ export const en = {
   brand_notice_p1:
     "Rise & Bloom sells genuine products from a variety of manufacturers. All product names, trademarks, and brand names are the property of their respective owners and are used solely to identify the products being offered for sale.",
   brand_notice_p2:
-    "Rise & Bloom is not affiliated with, endorsed by, or sponsored by those manufacturers unless expressly stated. For questions about this notice, please contact shoplashgangg@gmail.com.",
+    "Rise & Bloom is not affiliated with, endorsed by, or sponsored by those manufacturers unless expressly stated. For questions about this notice, please contact rabsupplies@gmail.com.",
   sold_out: "Sold Out",
   view_product: "View Product",
   view_details: "View Details",
