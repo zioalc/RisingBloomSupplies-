@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { i18n, isLocale } from "@/lib/i18n";
+import { hasValidPreviewCookie } from "@/lib/previewAccess";
 
 function isMaintenanceMode() {
   return process.env.MAINTENANCE_MODE === "true";
 }
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   // Temporary Coming Soon gate. API routes are excluded by the matcher so
@@ -14,7 +15,12 @@ export function middleware(request: NextRequest) {
     if (pathname === "/coming-soon") {
       return NextResponse.next();
     }
-    return NextResponse.rewrite(new URL("/coming-soon", request.url));
+
+    if (await hasValidPreviewCookie(request)) {
+      // Developer preview cookie — allow normal storefront routing below.
+    } else {
+      return NextResponse.rewrite(new URL("/coming-soon", request.url));
+    }
   }
 
   if (pathname === "/") {
