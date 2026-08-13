@@ -12,7 +12,7 @@ export async function middleware(request: NextRequest) {
   // Temporary Coming Soon gate. API routes are excluded by the matcher so
   // auth callbacks and other APIs keep working while the storefront is hidden.
   if (isMaintenanceMode()) {
-    if (pathname === "/coming-soon") {
+    if (pathname === "/coming-soon" || pathname === "/preview-access") {
       return NextResponse.next();
     }
 
