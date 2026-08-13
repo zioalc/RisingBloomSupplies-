@@ -14,7 +14,7 @@ type SearchOverlayProps = {
 };
 
 export default function SearchOverlay({ open, onClose }: SearchOverlayProps) {
-  const { t } = useTranslation();
+  const { t, locale } = useTranslation();
   const inputId = useId();
   const inputRef = useRef<HTMLInputElement>(null);
   const [query, setQuery] = useState("");
@@ -76,7 +76,7 @@ export default function SearchOverlay({ open, onClose }: SearchOverlayProps) {
     const timer = window.setTimeout(async () => {
       try {
         const response = await fetch(
-          `/api/search?q=${encodeURIComponent(trimmed)}`,
+          `/api/search?q=${encodeURIComponent(trimmed)}&locale=${encodeURIComponent(locale)}`,
           { signal: controller.signal },
         );
 
@@ -101,7 +101,7 @@ export default function SearchOverlay({ open, onClose }: SearchOverlayProps) {
       controller.abort();
       window.clearTimeout(timer);
     };
-  }, [query]);
+  }, [query, locale]);
 
   if (!open) return null;
 

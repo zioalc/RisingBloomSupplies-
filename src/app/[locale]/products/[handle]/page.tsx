@@ -1,7 +1,7 @@
 import ProductDetails from "@/components/ui/ProductDetails";
 import BackToHomeLink from "@/components/ui/BackToHomeLink";
 import { type Locale } from "@/lib/i18n";
-import { getProductByHandle } from "@/lib/shopify";
+import { getProductByHandle, localeToShopifyLanguage } from "@/lib/shopify";
 import { getTranslation } from "@/lib/translations";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -16,7 +16,8 @@ export async function generateMetadata({
   const t = getTranslation(params.locale);
 
   try {
-    const product = await getProductByHandle(params.handle);
+    const language = localeToShopifyLanguage(params.locale);
+    const product = await getProductByHandle(params.handle, language);
 
     if (!product) {
       return { title: t.product_not_found_title };
@@ -28,9 +29,15 @@ export async function generateMetadata({
       .trim()
       .slice(0, 160);
 
+    const seoTitle = product.seo?.title?.trim();
+    const seoDescription = product.seo?.description?.trim();
+
     return {
-      title: `${product.title} | Rise & Bloom`,
+      title: seoTitle
+        ? `${seoTitle} | Rise & Bloom`
+        : `${product.title} | Rise & Bloom`,
       description:
+        seoDescription ||
         plainDescription ||
         t.product_meta_fallback.replace("{title}", product.title),
       openGraph: product.images[0]
@@ -46,7 +53,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
   let product = null;
 
   try {
-    product = await getProductByHandle(params.handle);
+    product = await getProductByHandle(
+      params.handle,
+      localeToShopifyLanguage(params.locale),
+    );
   } catch {
     product = null;
   }

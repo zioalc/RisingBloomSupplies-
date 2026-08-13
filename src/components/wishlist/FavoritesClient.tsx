@@ -49,7 +49,7 @@ export default function FavoritesClient() {
         const response = await fetch("/api/wishlist-products", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ items }),
+          body: JSON.stringify({ items, locale }),
           signal: controller.signal,
         });
 
@@ -88,7 +88,7 @@ export default function FavoritesClient() {
       cancelled = true;
       controller.abort();
     };
-  }, [items, isHydrated, removeManyFromWishlist, reloadToken]);
+  }, [items, isHydrated, locale, removeManyFromWishlist, reloadToken]);
 
   if (!isHydrated || loading) {
     return (

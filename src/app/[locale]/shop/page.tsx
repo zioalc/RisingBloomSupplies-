@@ -4,7 +4,7 @@ import type { Locale } from "@/lib/i18n";
 import { getShopPageLabelKey } from "@/lib/navigation";
 import { mapShopProducts, type ProductViewData } from "@/lib/products";
 import { isShopCollectionSlug } from "@/lib/shopCategories";
-import { getCollectionProducts, getProducts } from "@/lib/shopify";
+import { getCollectionProducts, getProducts, localeToShopifyLanguage } from "@/lib/shopify";
 import { getTranslation } from "@/lib/translations";
 import type { Metadata } from "next";
 
@@ -65,9 +65,10 @@ export default async function ShopPage({
   try {
     // Load the Shopify collection directly so new items appear on category pages.
     // Map on the server so the client only receives plain ProductViewData.
+    const language = localeToShopifyLanguage(params.locale);
     const shopifyProducts = activeCategory
-      ? await getCollectionProducts(activeCategory, 50)
-      : await getProducts(50);
+      ? await getCollectionProducts(activeCategory, 50, language)
+      : await getProducts(50, language);
     products = mapShopProducts(shopifyProducts);
   } catch {
     products = [];

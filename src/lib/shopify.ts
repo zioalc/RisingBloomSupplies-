@@ -1,4 +1,13 @@
+import type { Locale } from "@/lib/i18n";
+
 const SHOPIFY_API_VERSION = "2024-10";
+
+/** Shopify Storefront API LanguageCode values used by @inContext. */
+export type ShopifyLanguageCode = "EN" | "ES";
+
+export function localeToShopifyLanguage(locale: Locale): ShopifyLanguageCode {
+  return locale === "es" ? "ES" : "EN";
+}
 
 export type ShopifyImage = {
   url: string;
@@ -20,6 +29,11 @@ export type ShopifyVariant = {
   compareAtPrice: ShopifyMoney | null;
 };
 
+export type ShopifySeo = {
+  title: string | null;
+  description: string | null;
+};
+
 export type ShopifyProduct = {
   id: string;
   title: string;
@@ -34,6 +48,7 @@ export type ShopifyProduct = {
   images: ShopifyImage[];
   variants?: ShopifyVariant[];
   collections?: Array<{ handle: string; title: string }>;
+  seo?: ShopifySeo;
 };
 
 export type ShopifyCollection = {
@@ -130,6 +145,7 @@ const PRODUCT_CARD_FIELDS = `
   title
   handle
   description
+  descriptionHtml
   productType
   tags
   availableForSale
@@ -176,11 +192,68 @@ const PRODUCT_CARD_FIELDS = `
   }
 `;
 
+const PRODUCT_DETAIL_FIELDS = `
+  id
+  title
+  handle
+  description
+  descriptionHtml
+  productType
+  tags
+  availableForSale
+  priceRange {
+    minVariantPrice {
+      amount
+      currencyCode
+    }
+  }
+  images(first: 10) {
+    edges {
+      node {
+        url
+        altText
+        width
+        height
+      }
+    }
+  }
+  variants(first: 100) {
+    edges {
+      node {
+        id
+        title
+        availableForSale
+        price {
+          amount
+          currencyCode
+        }
+        compareAtPrice {
+          amount
+          currencyCode
+        }
+      }
+    }
+  }
+  collections(first: 10) {
+    edges {
+      node {
+        handle
+        title
+      }
+    }
+  }
+  seo {
+    title
+    description
+  }
+`;
+
 type ShopifyProductNode = {
   id: string;
   title: string;
   handle: string;
   description: string;
+  descriptionHtml?: string;
   productType: string;
   tags: string[];
   availableForSale: boolean;
@@ -198,14 +271,18 @@ type ShopifyProductNode = {
       node: { handle: string; title: string };
     }>;
   };
+  seo?: ShopifySeo;
 };
 
 function mapProductNode(node: ShopifyProductNode): ShopifyProduct {
+  const description =
+    node.descriptionHtml?.trim() || node.description?.trim() || undefined;
+
   return {
     id: node.id,
     title: node.title,
     handle: node.handle,
-    description: node.description,
+    description,
     productType: node.productType,
     tags: node.tags,
     availableForSale: node.availableForSale,
@@ -216,17 +293,25 @@ function mapProductNode(node: ShopifyProductNode): ShopifyProduct {
       handle: collection.handle,
       title: collection.title,
     })),
+    seo: node.seo,
   };
 }
 
-export async function getProducts(first: number): Promise<ShopifyProduct[]> {
+function productCacheTags(language: ShopifyLanguageCode, extra: string[] = []) {
+  return ["products", `products-${language}`, ...extra];
+}
+
+export async function getProducts(
+  first: number,
+  language: ShopifyLanguageCode,
+): Promise<ShopifyProduct[]> {
   const data = await shopifyFetch<{
     products: {
       edges: Array<{ node: ShopifyProductNode }>;
     };
   }>({
     query: `
-      query getProducts($first: Int!) {
+      query getProducts($first: Int!, $language: LanguageCode!) @inContext(language: $language) {
         products(first: $first) {
           edges {
             node {
@@ -236,9 +321,9 @@ export async function getProducts(first: number): Promise<ShopifyProduct[]> {
         }
       }
     `,
-    variables: { first },
+    variables: { first, language },
     cache: "no-store",
-    tags: ["products"],
+    tags: productCacheTags(language),
   });
 
   return data.products.edges.map(({ node }) => mapProductNode(node));
@@ -246,6 +331,7 @@ export async function getProducts(first: number): Promise<ShopifyProduct[]> {
 
 export async function searchProducts(
   searchQuery: string,
+  language: ShopifyLanguageCode,
   first = 20,
 ): Promise<ShopifyProduct[]> {
   const trimmed = searchQuery.trim();
@@ -257,7 +343,7 @@ export async function searchProducts(
     };
   }>({
     query: `
-      query searchProducts($first: Int!, $query: String!) {
+      query searchProducts($first: Int!, $query: String!, $language: LanguageCode!) @inContext(language: $language) {
         products(first: $first, query: $query) {
           edges {
             node {
@@ -267,8 +353,9 @@ export async function searchProducts(
         }
       }
     `,
-    variables: { first, query: trimmed },
+    variables: { first, query: trimmed, language },
     cache: "no-store",
+    tags: productCacheTags(language, ["search"]),
   });
 
   return data.products.edges.map(({ node }) => mapProductNode(node));
@@ -276,7 +363,8 @@ export async function searchProducts(
 
 export async function getCollectionProducts(
   handle: string,
-  first = 50,
+  first: number,
+  language: ShopifyLanguageCode,
 ): Promise<ShopifyProduct[]> {
   const data = await shopifyFetch<{
     collection: {
@@ -286,7 +374,7 @@ export async function getCollectionProducts(
     } | null;
   }>({
     query: `
-      query getCollectionProducts($handle: String!, $first: Int!) {
+      query getCollectionProducts($handle: String!, $first: Int!, $language: LanguageCode!) @inContext(language: $language) {
         collection(handle: $handle) {
           products(first: $first) {
             edges {
@@ -298,9 +386,9 @@ export async function getCollectionProducts(
         }
       }
     `,
-    variables: { handle, first },
+    variables: { handle, first, language },
     cache: "no-store",
-    tags: ["products", `collection-${handle}`],
+    tags: productCacheTags(language, [`collection-${handle}`]),
   });
 
   if (!data.collection) {
@@ -315,6 +403,7 @@ export async function getCollectionProducts(
  */
 export async function getProductsByIds(
   ids: string[],
+  language: ShopifyLanguageCode,
 ): Promise<{ products: ShopifyProduct[]; missingIds: string[] }> {
   const uniqueIds = Array.from(new Set(ids.filter(Boolean)));
   if (uniqueIds.length === 0) {
@@ -325,7 +414,7 @@ export async function getProductsByIds(
     nodes: Array<ShopifyProductNode | null>;
   }>({
     query: `
-      query getProductsByIds($ids: [ID!]!) {
+      query getProductsByIds($ids: [ID!]!, $language: LanguageCode!) @inContext(language: $language) {
         nodes(ids: $ids) {
           ... on Product {
             ${PRODUCT_CARD_FIELDS}
@@ -333,9 +422,9 @@ export async function getProductsByIds(
         }
       }
     `,
-    variables: { ids: uniqueIds },
+    variables: { ids: uniqueIds, language },
     cache: "no-store",
-    tags: ["products"],
+    tags: productCacheTags(language, ["wishlist"]),
   });
 
   const products: ShopifyProduct[] = [];
@@ -355,92 +444,32 @@ export async function getProductsByIds(
 
 export async function getProductByHandle(
   handle: string,
+  language: ShopifyLanguageCode,
 ): Promise<ShopifyProduct | null> {
   const data = await shopifyFetch<{
-    product: {
-      id: string;
-      title: string;
-      handle: string;
-      description: string;
-      availableForSale: boolean;
-      priceRange: {
-        minVariantPrice: ShopifyMoney;
-      };
-      images: {
-        edges: Array<{ node: ShopifyImage }>;
-      };
-      variants: {
-        edges: Array<{ node: ShopifyVariant }>;
-      };
-    } | null;
+    product: ShopifyProductNode | null;
   }>({
     query: `
-      query getProductByHandle($handle: String!) {
+      query getProductByHandle($handle: String!, $language: LanguageCode!) @inContext(language: $language) {
         product(handle: $handle) {
-          id
-          title
-          handle
-          description
-          availableForSale
-          priceRange {
-            minVariantPrice {
-              amount
-              currencyCode
-            }
-          }
-          images(first: 10) {
-            edges {
-              node {
-                url
-                altText
-                width
-                height
-              }
-            }
-          }
-          variants(first: 100) {
-            edges {
-              node {
-                id
-                title
-                availableForSale
-                price {
-                  amount
-                  currencyCode
-                }
-                compareAtPrice {
-                  amount
-                  currencyCode
-                }
-              }
-            }
-          }
+          ${PRODUCT_DETAIL_FIELDS}
         }
       }
     `,
-    variables: { handle },
-    tags: [`product-${handle}`],
+    variables: { handle, language },
+    tags: productCacheTags(language, [`product-${handle}`]),
   });
 
   if (!data.product) {
     return null;
   }
 
-  const { product } = data;
-
-  return {
-    id: product.id,
-    title: product.title,
-    handle: product.handle,
-    description: product.description,
-    availableForSale: product.availableForSale,
-    priceRange: product.priceRange,
-    images: mapImages(product.images.edges),
-    variants: product.variants.edges.map(({ node }) => node),
-  };
+  return mapProductNode(data.product);
 }
 
-export async function getCollections(): Promise<ShopifyCollection[]> {
+export async function getCollections(
+  language: ShopifyLanguageCode,
+): Promise<ShopifyCollection[]> {
   const data = await shopifyFetch<{
     collections: {
       edges: Array<{
@@ -454,7 +483,7 @@ export async function getCollections(): Promise<ShopifyCollection[]> {
     };
   }>({
     query: `
-      query getCollections {
+      query getCollections($language: LanguageCode!) @inContext(language: $language) {
         collections(first: 20) {
           edges {
             node {
@@ -472,7 +501,8 @@ export async function getCollections(): Promise<ShopifyCollection[]> {
         }
       }
     `,
-    tags: ["collections"],
+    variables: { language },
+    tags: ["collections", `collections-${language}`],
   });
 
   return data.collections.edges.map(({ node }) => ({

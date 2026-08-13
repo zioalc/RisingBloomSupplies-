@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
+import { isLocale } from "@/lib/i18n";
 import { mapShopProducts, type ProductViewData } from "@/lib/products";
 import {
   getProductByHandle,
   getProductsByIds,
+  localeToShopifyLanguage,
   type ShopifyProduct,
 } from "@/lib/shopify";
 
@@ -15,8 +17,13 @@ type WishlistRequestItem = {
 
 export async function POST(request: Request) {
   try {
-    const body = (await request.json()) as { items?: WishlistRequestItem[] };
+    const body = (await request.json()) as {
+      items?: WishlistRequestItem[];
+      locale?: string;
+    };
     const items = Array.isArray(body.items) ? body.items : [];
+    const locale = body.locale && isLocale(body.locale) ? body.locale : "en";
+    const language = localeToShopifyLanguage(locale);
 
     if (items.length === 0) {
       return NextResponse.json({ products: [], missingIds: [] });
@@ -26,7 +33,10 @@ export async function POST(request: Request) {
       .map((item) => item.productId)
       .filter((id): id is string => typeof id === "string" && id.length > 0);
 
-    const { products: byId, missingIds } = await getProductsByIds(ids);
+    const { products: byId, missingIds } = await getProductsByIds(
+      ids,
+      language,
+    );
 
     const foundById = new Set(byId.map((product) => product.id));
     const handleFallbacks = items.filter(
@@ -43,7 +53,7 @@ export async function POST(request: Request) {
       handleFallbacks.map(async (item) => {
         const handle = item.handle as string;
         try {
-          const product = await getProductByHandle(handle);
+          const product = await getProductByHandle(handle, language);
           if (product && !foundById.has(product.id)) {
             byHandle.push(product);
             foundById.add(product.id);

@@ -3,7 +3,7 @@ import TrustBanner from "@/components/sections/TrustBanner";
 import { HOMEPAGE_COLLECTION_SECTIONS } from "@/lib/homepageCollections";
 import { localizedPath, type Locale } from "@/lib/i18n";
 import { mapShopProducts, type ProductViewData } from "@/lib/products";
-import { getCollectionProducts } from "@/lib/shopify";
+import { getCollectionProducts, localeToShopifyLanguage } from "@/lib/shopify";
 import { getTranslation } from "@/lib/translations";
 
 const SECTION_PRODUCT_LIMIT = 8;
@@ -27,6 +27,7 @@ async function loadCollectionSection(
     const shopifyProducts = await getCollectionProducts(
       config.handle,
       config.limit ?? SECTION_PRODUCT_LIMIT,
+      localeToShopifyLanguage(locale),
     );
     const products = mapShopProducts(shopifyProducts);
 
