@@ -5,6 +5,7 @@ import { Search, X } from "lucide-react";
 import { useEffect, useId, useRef, useState } from "react";
 import ProductModal from "@/components/ui/ProductModal";
 import ProductPrice from "@/components/ui/ProductPrice";
+import { localizedProductCategory } from "@/lib/localizedProductCategory";
 import type { ProductViewData } from "@/lib/products";
 import { useTranslation } from "@/lib/useTranslation";
 
@@ -172,6 +173,7 @@ export default function SearchOverlay({ open, onClose }: SearchOverlayProps) {
                 {results.map((product) => {
                   const image =
                     product.coverImage ?? product.images[0] ?? null;
+                  const categoryLabel = localizedProductCategory(product, t);
 
                   return (
                     <li key={product.id}>
@@ -195,9 +197,9 @@ export default function SearchOverlay({ open, onClose }: SearchOverlayProps) {
                           <p className="truncate font-sans text-sm font-medium text-charcoal md:text-base">
                             {product.title}
                           </p>
-                          {product.category ? (
+                          {categoryLabel ? (
                             <p className="mt-0.5 text-xs uppercase tracking-wide text-soft-brown">
-                              {product.category}
+                              {categoryLabel}
                             </p>
                           ) : null}
                           <ProductPrice

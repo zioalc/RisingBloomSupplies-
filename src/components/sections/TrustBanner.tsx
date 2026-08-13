@@ -1,12 +1,11 @@
 "use client";
 
-import { MapPin, Truck, Zap } from "lucide-react";
+import { MapPin, Truck } from "lucide-react";
 import { TRUST_BANNER_ITEMS } from "@/lib/trustBanner";
 import { useTranslation } from "@/lib/useTranslation";
 
 const ICONS = {
   shipping: Truck,
-  processing: Zap,
   pickup: MapPin,
 } as const;
 
@@ -16,7 +15,7 @@ export default function TrustBanner() {
   return (
     <section className="border-y border-champagne/60 bg-warm-white">
       <div className="site-container py-10 md:py-12 lg:py-14">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-6 lg:gap-10">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-10 lg:gap-16">
           {TRUST_BANNER_ITEMS.map((item) => {
             const Icon = ICONS[item.icon];
 

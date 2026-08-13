@@ -5,6 +5,7 @@ import { Heart, ShoppingCart } from "lucide-react";
 import { useState, type MouseEvent } from "react";
 import ProductPrice from "@/components/ui/ProductPrice";
 import { isCompareAtSale } from "@/lib/utils";
+import { useScrollFade } from "@/lib/useScrollFade";
 import { useWishlist } from "@/lib/wishlistContext";
 import { useTranslation } from "@/lib/useTranslation";
 
@@ -56,6 +57,7 @@ export default function ProductCard({
 }: ProductCardProps) {
   const { t } = useTranslation();
   const { isInWishlist, toggleWishlist } = useWishlist();
+  const { ref: fadeRef, visible } = useScrollFade<HTMLElement>();
   const isAvailable = available ?? availableForSale;
   const gallery = resolveGallery(images, image);
   const onSale = isCompareAtSale(price, compareAtPrice);
@@ -86,8 +88,8 @@ export default function ProductCard({
         onClick={handleWishlist}
         className={`rounded-md p-2.5 transition-colors ${
           saved
-            ? "bg-mauve text-charcoal"
-            : "bg-charcoal/80 text-white hover:bg-mauve hover:text-charcoal"
+            ? "bg-charcoal text-warm-white"
+            : "bg-charcoal/80 text-white hover:bg-charcoal"
         }`}
         aria-label={saved ? t.wishlist_remove : t.wishlist_add}
         aria-pressed={saved}
@@ -103,7 +105,7 @@ export default function ProductCard({
         <button
           type="button"
           onClick={handleAddToCartClick}
-          className="rounded-md bg-charcoal/80 p-2.5 text-white transition-colors hover:bg-mauve hover:text-charcoal"
+          className="rounded-md bg-charcoal/80 p-2.5 text-white transition-colors hover:bg-charcoal"
           aria-label={t.add_to_cart}
         >
           <ShoppingCart className="h-4 w-4" strokeWidth={1.75} />
@@ -113,7 +115,14 @@ export default function ProductCard({
   );
 
   return (
-    <article className="group flex h-full flex-col">
+    <article
+      ref={fadeRef}
+      className={`group flex h-full flex-col transition-[opacity,transform] duration-700 ease-out motion-reduce:transition-none ${
+        visible
+          ? "translate-y-0 opacity-100"
+          : "translate-y-5 opacity-0 motion-reduce:translate-y-0 motion-reduce:opacity-100"
+      }`}
+    >
       <div
         className="relative aspect-square cursor-pointer overflow-hidden bg-warm-white/40"
         onMouseEnter={() => {
@@ -137,7 +146,7 @@ export default function ProductCard({
             alt={title}
             fill
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-            className="object-cover transition-opacity duration-300 ease-out"
+            className="object-contain p-1.5 transition-opacity duration-300 ease-out"
           />
         ) : (
           <div className="absolute inset-0 bg-champagne/40" aria-hidden />

@@ -33,6 +33,18 @@ export type NavigationItem = NavLinkItem | NavCategoryItem;
 export const MOBILE_NAVIGATION_MENU: NavigationItem[] = [
   {
     type: "link",
+    id: "account",
+    labelKey: "nav_account",
+    href: (locale) => localizedPath(locale, "/account"),
+  },
+  {
+    type: "link",
+    id: "favorites",
+    labelKey: "nav_favorites",
+    href: (locale) => localizedPath(locale, "/favorites"),
+  },
+  {
+    type: "link",
     id: "home",
     labelKey: "nav_home",
     href: (locale) => localizedPath(locale, "/"),
@@ -60,18 +72,6 @@ export const MOBILE_NAVIGATION_MENU: NavigationItem[] = [
     id: "tools-accessories",
     labelKey: "sidebar_tools_accessories",
     href: (locale) => getCollectionHref(locale, "tools-accessories"),
-  },
-  {
-    type: "link",
-    id: "favorites",
-    labelKey: "nav_favorites",
-    href: (locale) => localizedPath(locale, "/favorites"),
-  },
-  {
-    type: "link",
-    id: "account",
-    labelKey: "nav_account",
-    href: (locale) => localizedPath(locale, "/account"),
   },
   {
     type: "link",

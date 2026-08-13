@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ChevronLeft } from "lucide-react";
 import { localizedPath, type Locale } from "@/lib/i18n";
 import { getTranslation } from "@/lib/translations";
 
@@ -16,9 +17,10 @@ export default function BackToHomeLink({
   return (
     <Link
       href={localizedPath(locale, "/")}
-      className={`inline-block text-xs uppercase tracking-[0.15em] text-charcoal/60 transition-colors hover:text-mauve ${className}`}
+      className={`inline-flex items-center gap-1 font-sans text-xs tracking-[0.12em] text-charcoal/55 transition-colors hover:text-charcoal ${className}`}
     >
-      {t.back_to_home}
+      <ChevronLeft className="h-3.5 w-3.5 shrink-0" strokeWidth={1.5} aria-hidden />
+      <span>{t.back_to_home}</span>
     </Link>
   );
 }

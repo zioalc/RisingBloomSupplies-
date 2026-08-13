@@ -78,7 +78,7 @@ export default function ContactPage({
 
         <Link
           href={localizedPath(params.locale, "/shop")}
-          className="mt-8 inline-block rounded-full bg-rose px-8 py-3 text-sm font-medium text-charcoal transition-colors hover:bg-nightview-dark hover:text-charcoal"
+          className="mt-8 block rounded-lg bg-warm-white p-6 text-center text-sm font-medium text-charcoal shadow-sm shadow-mauve/10 transition-colors hover:text-mauve"
         >
           {t.contact_shop_btn}
         </Link>

@@ -34,6 +34,17 @@
     scrollbar-color: #1c1719 #eceaea;
   }
 
+  :root {
+    /* Promo bar + header + marquee — keeps short pages full-height on mobile */
+    --site-header-offset: 10.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    :root {
+      --site-header-offset: 12rem;
+    }
+  }
+
   body {
     color: #1c1719;
     font-family: "DM Sans", sans-serif;
@@ -147,5 +158,6 @@
 
   .page-padding {
     @apply pt-6 pb-12 md:pt-8 md:pb-16 lg:pt-8 lg:pb-20;
+    min-height: calc(100dvh - var(--site-header-offset));
   }
 }

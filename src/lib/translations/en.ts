@@ -31,26 +31,27 @@ export const en = {
   wishlist_remove: "Remove from wishlist",
   favorites_title: "Favorites",
   favorites_meta_title: "Favorites | Rise & Bloom",
-  favorites_meta_description:
-    "View products you saved on this device at Rise & Bloom.",
+  favorites_meta_description: "Your saved Rise & Bloom products.",
   favorites_heading: "Favorites",
-  favorites_sub: "Products you saved on this browser.",
-  favorites_device_notice:
-    "Saved items are stored only on this browser and device. They are not synced across phones or computers.",
-  favorites_empty_title: "No favorites yet",
-  favorites_empty_message:
-    "Tap the heart on any product to save it here for later.",
-  favorites_shop_cta: "Browse Shop",
-  favorites_loading: "Loading your favorites…",
-  favorites_error:
-    "We couldn’t load your saved products right now. Please try again.",
-  favorites_unavailable_notice:
-    "Some saved items are no longer available and were removed from this list.",
+  favorites_sub: "Saved products.",
+  favorites_device_notice: "Saved on this browser only.",
+  favorites_empty_title: "No favorites",
+  favorites_empty_message: "Tap the heart on a product to save it.",
+  favorites_shop_cta: "Shop",
+  favorites_loading: "Loading…",
+  favorites_error: "Couldn’t load favorites.",
+  favorites_unavailable_notice: "Some items were removed.",
   favorites_retry: "Try again",
   aria_favorites: "Favorites",
   nav_favorites: "Favorites",
   nav_account: "Account",
   nav_sign_in: "Sign In",
+  nav_search: "Search",
+  lang_label: "Language",
+  lang_english: "English",
+  lang_spanish: "Español",
+  aria_switch_to_english: "View site in English",
+  aria_switch_to_spanish: "View site in Spanish",
   aria_account: "Account",
   aria_sign_in: "Sign in",
   account_label: "ACCOUNT",
@@ -69,6 +70,14 @@ export const en = {
   account_continue_shopping: "Continue Shopping",
   account_signed_in_as: "Signed in as",
   account_orders_heading: "Order history",
+  account_order_fallback: "Order",
+  account_status_paid: "Paid",
+  account_status_pending: "Pending",
+  account_status_authorized: "Authorized",
+  account_status_partially_paid: "Partially paid",
+  account_status_partially_refunded: "Partially refunded",
+  account_status_refunded: "Refunded",
+  account_status_voided: "Voided",
   account_orders_empty_title: "No orders yet",
   account_orders_empty_message:
     "When you place an order while signed in, it will show up here.",
@@ -88,9 +97,6 @@ export const en = {
   trust_shipping_title: "Free Shipping",
   trust_shipping_body:
     "Free shipping on qualifying U.S. orders over $100.",
-  trust_processing_title: "Fast Processing",
-  trust_processing_body:
-    "Orders typically process within 1–2 business days.",
   trust_pickup_title: "Local Pickup Orders",
   trust_pickup_body:
     "Place your order online and select pickup in store at checkout. Pickup orders are ready within 15 minutes or less!",
@@ -140,6 +146,8 @@ export const en = {
   hours_saturday: "Saturday",
   hours_sunday: "Sunday",
   hours_closed: "Closed",
+  hours_time_weekday: "10:00 AM – 6:30 PM",
+  hours_time_sunday: "10:00 AM – 5:00 PM",
   footer_copyright: "© 2026 Rise & Bloom. All Rights Reserved.",
   faq_meta_title: "FAQ | Rise & Bloom",
   faq_meta_description:
@@ -267,6 +275,7 @@ export const en = {
   buy_now: "Buy Now",
   tap_for_details: "Tap for details",
   gallery_swipe_hint: "Swipe or use arrows to see all photos",
+  gallery_tap_full_hint: "Tap photo to view full size",
   carousel_swipe_short: "Swipe or use arrows",
   shop_empty_products: "No products available right now.",
   shop_empty_category: "No products in this category right now.",
@@ -300,10 +309,11 @@ export const en = {
   contact_meta_title: "Contact | Rise & Bloom",
   contact_meta_description:
     "Get in touch with Rise & Bloom. Email us, follow on social, or find us at pop-up events.",
-  back_to_home: "← Home",
-  back_to_shop: "← Shop",
+  back_to_home: "Home",
+  back_to_shop: "Shop",
   cart_title: "Your Cart",
   cart_empty: "Your cart is empty.",
+  cart_view_favorites: "View favorites",
   cart_subtotal: "Subtotal",
   cart_checkout: "Checkout",
   cart_added_toast: "Added to cart",
@@ -334,6 +344,7 @@ export const en = {
   aria_previous_image: "Previous image",
   aria_next_image: "Next image",
   aria_go_to_image: "Go to image {n}",
+  aria_view_full_image: "View full photo",
   aria_scroll_left: "Scroll products left",
   aria_scroll_right: "Scroll products right",
   aria_expand: "Expand {label}",
@@ -395,6 +406,13 @@ export const en = {
   promo_terms_bday_title: "{code} — Birthday promotion",
   promo_terms_bday_body:
     "• Offer: 10% off the entire order.\n• Intended as a birthday promotion.\n• Enter the code at Shopify checkout.",
+
+  coming_soon_meta_title: "Coming Soon | Rise & Bloom",
+  coming_soon_meta_description:
+    "Rise & Bloom Nail & Lash Supplies — we're putting the finishing touches on our new online store.",
+  coming_soon_title: "Coming Soon",
+  coming_soon_body:
+    "We're putting the finishing touches on our new online store. Check back soon!",
 } as const;
 
 export type Translation = {

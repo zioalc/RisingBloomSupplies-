@@ -1,75 +1,34 @@
 "use client";
 
 import { X } from "lucide-react";
-import { useEffect, useState } from "react";
-import {
-  PROMOTIONS,
-  PROMO_ANNOUNCEMENT_WELCOME_KEY,
-  PROMO_ANNOUNCEMENT_LOCAL_KEY,
-  PROMO_ANNOUNCEMENT_SHIPPING_KEY,
-} from "@/lib/promotions";
+import { useState } from "react";
+import { PROMOTIONS } from "@/lib/promotions";
 import { useTranslation } from "@/lib/useTranslation";
 
 type PromoStep = "welcome" | "instore" | "shipping" | "hidden";
 
-function readDismissed(key: string) {
-  try {
-    return Boolean(window.sessionStorage.getItem(key));
-  } catch {
-    return false;
-  }
-}
-
-function writeDismissed(key: string) {
-  try {
-    window.sessionStorage.setItem(key, "1");
-  } catch {
-    // ignore storage failures
-  }
-}
-
 export default function PromoAnnouncementBar() {
   const { t } = useTranslation();
+  // In-memory only so a page refresh shows the promo messages again.
   const [step, setStep] = useState<PromoStep>("welcome");
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    const welcomeDismissed = readDismissed(PROMO_ANNOUNCEMENT_WELCOME_KEY);
-    const localDismissed = readDismissed(PROMO_ANNOUNCEMENT_LOCAL_KEY);
-    const shippingDismissed = readDismissed(PROMO_ANNOUNCEMENT_SHIPPING_KEY);
-
-    if (shippingDismissed) {
-      setStep("hidden");
-    } else if (localDismissed) {
-      setStep("shipping");
-    } else if (welcomeDismissed) {
-      setStep("instore");
-    } else {
-      setStep("welcome");
-    }
-    setReady(true);
-  }, []);
 
   const dismiss = () => {
     if (step === "welcome") {
-      writeDismissed(PROMO_ANNOUNCEMENT_WELCOME_KEY);
       setStep("instore");
       return;
     }
 
     if (step === "instore") {
-      writeDismissed(PROMO_ANNOUNCEMENT_LOCAL_KEY);
       setStep("shipping");
       return;
     }
 
     if (step === "shipping") {
-      writeDismissed(PROMO_ANNOUNCEMENT_SHIPPING_KEY);
       setStep("hidden");
     }
   };
 
-  if (!ready || step === "hidden") return null;
+  if (step === "hidden") return null;
 
   const message =
     step === "welcome"

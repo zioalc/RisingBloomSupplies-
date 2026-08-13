@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import AuthNavControl from "@/components/account/AuthNavControl";
 import {
@@ -18,6 +18,7 @@ import { useWishlist } from "@/lib/wishlistContext";
 
 type NavigationSidebarProps = {
   onNavigate?: () => void;
+  onOpenSearch?: () => void;
 };
 
 function isCategoryExpandedByDefault(
@@ -33,6 +34,7 @@ function isCategoryExpandedByDefault(
 
 export default function NavigationSidebar({
   onNavigate,
+  onOpenSearch,
 }: NavigationSidebarProps) {
   const { t, locale, switchLocale } = useTranslation();
   const { itemCount: wishlistCount, isHydrated: wishlistHydrated } =
@@ -72,8 +74,8 @@ export default function NavigationSidebar({
   const rowClass = (isActive: boolean) =>
     `flex min-h-[3.25rem] w-full items-center justify-between px-4 py-3.5 font-sans text-[0.8rem] uppercase tracking-[0.16em] transition-colors ${
       isActive
-        ? "bg-nightview-light/35 font-medium text-charcoal"
-        : "font-normal text-charcoal/80 hover:bg-nightview-light/20 hover:text-charcoal"
+        ? "bg-charcoal/[0.06] font-medium text-charcoal"
+        : "font-normal text-charcoal/80 hover:bg-charcoal/[0.04] hover:text-charcoal"
     }`;
 
   const childLinkClass = (isActive: boolean) =>
@@ -86,6 +88,21 @@ export default function NavigationSidebar({
   return (
     <nav className="flex flex-1 flex-col pb-6" aria-label={t.sidebar_menu_title}>
       <ul className="divide-y divide-nightview-light/50">
+        {onOpenSearch ? (
+          <li>
+            <button
+              type="button"
+              onClick={onOpenSearch}
+              className={`${rowClass(false)} w-full text-left`}
+            >
+              <span className="flex items-center gap-2.5">
+                <Search className="h-4 w-4" strokeWidth={1.5} aria-hidden />
+                <span>{t.nav_search}</span>
+              </span>
+            </button>
+          </li>
+        ) : null}
+
         {MOBILE_NAVIGATION_MENU.map((item) => {
           if (item.type === "link") {
             const link = item as NavLinkItem;
@@ -96,6 +113,10 @@ export default function NavigationSidebar({
                   <AuthNavControl variant="mobile" onNavigate={onNavigate} />
                 </li>
               );
+            }
+
+            if (link.id === "favorites" && (!wishlistHydrated || wishlistCount === 0)) {
+              return null;
             }
 
             const href = link.href(locale);
@@ -119,7 +140,7 @@ export default function NavigationSidebar({
                   <span className="flex items-center gap-2">
                     <span>{t[link.labelKey as keyof typeof t]}</span>
                     {link.id === "favorites" && showWishlistBadge ? (
-                      <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-rose px-1.5 text-[11px] font-medium normal-case tracking-normal text-charcoal">
+                      <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-charcoal px-1.5 text-[11px] font-medium normal-case tracking-normal text-warm-white">
                         {wishlistCount > 99 ? "99+" : wishlistCount}
                       </span>
                     ) : null}
@@ -150,7 +171,7 @@ export default function NavigationSidebar({
                 <button
                   type="button"
                   onClick={() => toggleCategory(category.id)}
-                  className="ml-2 rounded-md p-1.5 text-nightview transition-colors hover:bg-nightview-light/30"
+                  className="ml-2 rounded-md p-1.5 text-charcoal/60 transition-colors hover:bg-charcoal/5"
                   aria-expanded={isExpanded}
                   aria-label={(isExpanded ? t.aria_collapse : t.aria_expand).replace(
                     "{label}",
@@ -198,22 +219,31 @@ export default function NavigationSidebar({
       </ul>
 
       <div className="mt-auto border-t border-nightview-light/50 px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4">
-        <div className="flex items-center justify-center gap-1 rounded-full border border-nightview/40 px-3 py-2 text-xs">
+        <p className="mb-2 text-center font-sans text-[0.65rem] uppercase tracking-[0.18em] text-charcoal/45">
+          {t.lang_label}
+        </p>
+        <div
+          className="flex items-center justify-center gap-1 rounded-full border border-charcoal/15 px-2 py-1.5 text-xs"
+          role="group"
+          aria-label={t.lang_label}
+        >
           <button
             type="button"
             onClick={() => {
               switchLocale("en");
               onNavigate?.();
             }}
-            className={`min-h-11 min-w-[2.75rem] rounded-md px-2 ${
+            aria-label={t.aria_switch_to_english}
+            aria-pressed={locale === "en"}
+            className={`min-h-11 rounded-md px-3 tracking-wide transition-colors ${
               locale === "en"
-                ? "font-semibold text-nightview"
-                : "text-soft-brown/60 hover:text-nightview"
+                ? "font-semibold text-charcoal"
+                : "text-soft-brown/60 hover:text-charcoal"
             }`}
           >
-            EN
+            {t.lang_english}
           </button>
-          <span className="text-nightview-light" aria-hidden>
+          <span className="text-charcoal/25" aria-hidden>
             |
           </span>
           <button
@@ -222,13 +252,15 @@ export default function NavigationSidebar({
               switchLocale("es");
               onNavigate?.();
             }}
-            className={`min-h-11 min-w-[2.75rem] rounded-md px-2 ${
+            aria-label={t.aria_switch_to_spanish}
+            aria-pressed={locale === "es"}
+            className={`min-h-11 rounded-md px-3 tracking-wide transition-colors ${
               locale === "es"
-                ? "font-semibold text-nightview"
-                : "text-soft-brown/60 hover:text-nightview"
+                ? "font-semibold text-charcoal"
+                : "text-soft-brown/60 hover:text-charcoal"
             }`}
           >
-            ES
+            {t.lang_spanish}
           </button>
         </div>
       </div>

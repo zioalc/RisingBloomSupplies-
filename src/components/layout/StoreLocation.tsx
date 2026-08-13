@@ -16,9 +16,9 @@ export default function StoreLocation({
 }: StoreLocationProps) {
   const { t } = useTranslation();
 
-  const textSize = compact ? "text-xs" : "text-sm";
+  const textSize = compact ? "text-[11px] md:text-sm" : "text-sm";
   const headingSize = compact
-    ? "text-[10px] md:text-[11px]"
+    ? "text-[10px] md:text-xs"
     : "text-xs md:text-sm";
 
   const alignClass =
@@ -27,12 +27,16 @@ export default function StoreLocation({
   return (
     <div className={`${alignClass} ${className}`}>
       <h3
-        className={`font-serif font-bold uppercase tracking-[0.2em] text-mauve ${headingSize}`}
+        className={`font-serif font-bold uppercase tracking-[0.2em] text-charcoal/90 ${headingSize}`}
       >
         {t.footer_store_location}
       </h3>
 
-      <div className={compact ? "mt-3 space-y-2" : "mt-4 space-y-2.5"}>
+      <div
+        className={
+          compact ? "mt-2 space-y-1.5 md:mt-4 md:space-y-2.5" : "mt-4 space-y-2.5"
+        }
+      >
         <p
           className={`font-serif font-medium leading-snug text-charcoal ${textSize}`}
         >
@@ -44,7 +48,7 @@ export default function StoreLocation({
             href={STORE_ADDRESS.mapsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block font-sans leading-relaxed text-charcoal/85 transition-colors hover:text-nightview"
+            className="inline-block font-sans leading-relaxed text-charcoal/85 transition-colors hover:text-charcoal"
           >
             <span className="block">{STORE_ADDRESS.line1}</span>
             <span className="block">
@@ -58,7 +62,7 @@ export default function StoreLocation({
             href={SOCIAL_LINKS.instagram}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block transition-colors hover:text-nightview"
+            className="inline-block transition-colors hover:text-charcoal"
           >
             @riseandbloom_supplies
           </a>
@@ -70,7 +74,7 @@ export default function StoreLocation({
             href={SOCIAL_LINKS.nailSpa}
             target="_blank"
             rel="noopener noreferrer"
-            className="whitespace-nowrap text-charcoal/85 transition-colors hover:text-nightview"
+            className="whitespace-nowrap text-charcoal/85 transition-colors hover:text-charcoal"
           >
             @riseandbloom_nailsspa
           </a>

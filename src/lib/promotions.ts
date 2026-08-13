@@ -48,7 +48,3 @@ export const PROMOTIONS: Record<PromotionId, PromotionDefinition> = {
     advertisePublicly: true,
   },
 };
-
-export const PROMO_ANNOUNCEMENT_WELCOME_KEY = "rb-promo-welcome2026-bar-v4";
-export const PROMO_ANNOUNCEMENT_LOCAL_KEY = "rb-promo-local-bar-v4";
-export const PROMO_ANNOUNCEMENT_SHIPPING_KEY = "rb-promo-shipping-bar-v4";

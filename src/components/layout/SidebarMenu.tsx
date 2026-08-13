@@ -8,9 +8,14 @@ import { useTranslation } from "@/lib/useTranslation";
 type SidebarMenuProps = {
   open: boolean;
   onClose: () => void;
+  onOpenSearch?: () => void;
 };
 
-export default function SidebarMenu({ open, onClose }: SidebarMenuProps) {
+export default function SidebarMenu({
+  open,
+  onClose,
+  onOpenSearch,
+}: SidebarMenuProps) {
   const [visible, setVisible] = useState(false);
   const { t } = useTranslation();
 
@@ -30,7 +35,7 @@ export default function SidebarMenu({ open, onClose }: SidebarMenuProps) {
     <>
       <button
         type="button"
-        className={`fixed inset-0 z-[60] bg-charcoal/50 transition-opacity duration-300 lg:hidden ${
+        className={`fixed inset-0 z-[60] bg-charcoal/50 transition-opacity duration-300 ${
           open ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
         onClick={onClose}
@@ -39,7 +44,7 @@ export default function SidebarMenu({ open, onClose }: SidebarMenuProps) {
       />
 
       <aside
-        className={`fixed inset-y-0 left-0 z-[70] flex w-[82.5%] max-w-[22rem] flex-col overflow-y-auto border-r border-nightview-light/60 bg-warm-white shadow-2xl transition-transform duration-300 ease-out lg:hidden ${
+        className={`fixed inset-y-0 left-0 z-[70] flex w-[82.5%] max-w-[22rem] flex-col overflow-y-auto border-r border-nightview-light/60 bg-warm-white shadow-2xl transition-transform duration-300 ease-out ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
         aria-hidden={!open}
@@ -48,7 +53,7 @@ export default function SidebarMenu({ open, onClose }: SidebarMenuProps) {
           <button
             type="button"
             onClick={onClose}
-            className="rounded-md p-2 text-nightview transition-colors hover:bg-nightview-light/25 hover:text-brand-pink"
+            className="rounded-md p-2 text-charcoal transition-colors hover:bg-charcoal/5"
             aria-label={t.aria_close_menu}
           >
             <X className="h-5 w-5" strokeWidth={1.5} />
@@ -57,7 +62,10 @@ export default function SidebarMenu({ open, onClose }: SidebarMenuProps) {
 
         <Suspense fallback={<div className="flex-1 px-4 py-5" />}>
           <div className="flex min-h-0 flex-1 flex-col">
-            <NavigationSidebar onNavigate={onClose} />
+            <NavigationSidebar
+              onNavigate={onClose}
+              onOpenSearch={onOpenSearch}
+            />
           </div>
         </Suspense>
       </aside>

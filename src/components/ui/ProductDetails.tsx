@@ -1,5 +1,6 @@
 "use client";
 
+import { Heart } from "lucide-react";
 import { useState } from "react";
 import { useCart } from "@/lib/cartContext";
 import type { ShopifyProduct, ShopifyVariant } from "@/lib/shopify";
@@ -8,6 +9,7 @@ import ProductGallery from "@/components/ui/ProductGallery";
 import ProductPrice from "@/components/ui/ProductPrice";
 import { getCheckoutUrl } from "@/lib/utils";
 import { useTranslation } from "@/lib/useTranslation";
+import { useWishlist } from "@/lib/wishlistContext";
 
 type ProductDetailsProps = {
   product: ShopifyProduct;
@@ -24,8 +26,10 @@ function shouldShowVariantSelector(variants: ShopifyVariant[]) {
 
 export default function ProductDetails({ product }: ProductDetailsProps) {
   const { addItem } = useCart();
+  const { isInWishlist, toggleWishlist } = useWishlist();
   const { t } = useTranslation();
   const variants = product.variants ?? [];
+  const saved = isInWishlist(product.id);
   const [selectedVariant, setSelectedVariant] = useState<
     ShopifyVariant | undefined
   >(() => getDefaultVariant(variants));
@@ -45,17 +49,32 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
           images={galleryImages}
           alt={product.title}
         />
-        {galleryImages.length > 1 && (
-          <p className="mt-2 text-center text-xs text-soft-brown">
-            {t.gallery_swipe_hint}
-          </p>
-        )}
       </div>
 
       <div>
-        <h1 className="font-serif text-3xl text-charcoal md:text-4xl">
-          {product.title}
-        </h1>
+        <div className="flex items-start justify-between gap-3">
+          <h1 className="font-serif text-3xl text-charcoal md:text-4xl">
+            {product.title}
+          </h1>
+          <button
+            type="button"
+            onClick={() =>
+              toggleWishlist({
+                productId: product.id,
+                handle: product.handle,
+              })
+            }
+            className="mt-1 shrink-0 rounded-md p-2 text-charcoal transition-colors hover:bg-charcoal/5"
+            aria-label={saved ? t.wishlist_remove : t.wishlist_add}
+            aria-pressed={saved}
+          >
+            <Heart
+              className="h-5 w-5"
+              strokeWidth={1.5}
+              fill={saved ? "currentColor" : "none"}
+            />
+          </button>
+        </div>
 
         <ProductPrice
           className="mt-3"

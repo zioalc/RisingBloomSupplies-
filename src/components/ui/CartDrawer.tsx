@@ -1,12 +1,15 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { Minus, Plus, Trash2, X } from "lucide-react";
 import { useEffect } from "react";
 import { FinalSaleCheckoutBlock } from "@/components/checkout/FinalSaleCheckoutBlock";
 import { useCart } from "@/lib/cartContext";
+import { localizedPath } from "@/lib/i18n";
 import { formatPrice, getMultiItemCheckoutUrl } from "@/lib/utils";
 import { useTranslation } from "@/lib/useTranslation";
+import { useWishlist } from "@/lib/wishlistContext";
 
 export default function CartDrawer() {
   const { t, locale } = useTranslation();
@@ -17,6 +20,9 @@ export default function CartDrawer() {
     removeItem,
     updateQuantity,
   } = useCart();
+  const { itemCount: wishlistCount, isHydrated: wishlistHydrated } =
+    useWishlist();
+  const showFavoritesLink = wishlistHydrated && wishlistCount > 0;
 
   useEffect(() => {
     document.body.style.overflow = isDrawerOpen ? "hidden" : "";
@@ -66,8 +72,17 @@ export default function CartDrawer() {
         </div>
 
         {items.length === 0 ? (
-          <div className="flex flex-1 items-center justify-center px-6">
+          <div className="flex flex-1 flex-col items-center justify-center gap-4 px-6 text-center">
             <p className="text-sm text-charcoal/60">{t.cart_empty}</p>
+            {showFavoritesLink ? (
+              <Link
+                href={localizedPath(locale, "/favorites")}
+                onClick={closeDrawer}
+                className="text-xs uppercase tracking-[0.14em] text-charcoal/70 underline-offset-4 transition-colors hover:text-charcoal hover:underline"
+              >
+                {t.cart_view_favorites}
+              </Link>
+            ) : null}
           </div>
         ) : (
           <ul className="flex-1 space-y-4 overflow-y-auto px-6 py-4">
@@ -162,6 +177,16 @@ export default function CartDrawer() {
                 buttonLabel={t.cart_checkout}
               />
             </div>
+          ) : null}
+
+          {showFavoritesLink ? (
+            <Link
+              href={localizedPath(locale, "/favorites")}
+              onClick={closeDrawer}
+              className="mt-4 block text-center text-xs uppercase tracking-[0.14em] text-charcoal/70 underline-offset-4 transition-colors hover:text-charcoal hover:underline"
+            >
+              {t.cart_view_favorites}
+            </Link>
           ) : null}
         </div>
       </aside>

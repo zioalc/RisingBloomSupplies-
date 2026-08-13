@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { CustomerAccountProfile } from "@/lib/auth/customer-api";
+import { localizedOrderFinancialStatus } from "@/lib/accountOrderStatus";
 import { formatPrice } from "@/lib/utils";
 import { localizedPath } from "@/lib/i18n";
 import { useTranslation } from "@/lib/useTranslation";
@@ -154,7 +155,9 @@ export default function AccountClient({ authQuery }: AccountClientProps) {
             {t.account_signed_in_as}
           </p>
           <h2 className="mt-1 font-serif text-2xl text-charcoal md:text-3xl">
-            {profile.displayName}
+            {profile.displayName === "Account"
+              ? t.nav_account
+              : profile.displayName}
           </h2>
           {profile.email ? (
             <p className="mt-2 text-sm text-soft-brown">{profile.email}</p>
@@ -196,7 +199,11 @@ export default function AccountClient({ authQuery }: AccountClientProps) {
                   className="flex flex-wrap items-baseline justify-between gap-2 px-4 py-4"
                 >
                   <div>
-                    <p className="font-medium text-charcoal">{order.name}</p>
+                    <p className="font-medium text-charcoal">
+                      {order.name === "Order"
+                        ? t.account_order_fallback
+                        : order.name}
+                    </p>
                     {order.processedAt ? (
                       <p className="mt-1 text-xs text-soft-brown">
                         {new Date(order.processedAt).toLocaleDateString(
@@ -211,7 +218,10 @@ export default function AccountClient({ authQuery }: AccountClientProps) {
                     ) : null}
                     {order.financialStatus ? (
                       <p className="mt-1 text-xs uppercase tracking-[0.12em] text-charcoal/50">
-                        {order.financialStatus}
+                        {localizedOrderFinancialStatus(
+                          order.financialStatus,
+                          t,
+                        )}
                       </p>
                     ) : null}
                   </div>

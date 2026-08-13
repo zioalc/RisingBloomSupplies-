@@ -11,9 +11,10 @@ type ProductCarouselProps = {
 
 export default function ProductCarousel({
   children,
-  ariaLabel = "Product carousel",
+  ariaLabel,
 }: ProductCarouselProps) {
   const { t } = useTranslation();
+  const resolvedAriaLabel = ariaLabel ?? t.shop_products_label;
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -74,7 +75,7 @@ export default function ProductCarousel({
         ref={scrollRef}
         onScroll={updateScrollState}
         className="flex snap-x snap-mandatory gap-[clamp(1rem,2vw,2rem)] overflow-x-auto scroll-smooth pb-2 pt-1 scrollbar-hide [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-        aria-label={ariaLabel}
+        aria-label={resolvedAriaLabel}
       >
         {children}
       </div>

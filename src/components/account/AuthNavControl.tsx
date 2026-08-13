@@ -66,7 +66,7 @@ export default function AuthNavControl({
     return (
       <Link
         href={href}
-        className="relative rounded-md p-2 text-charcoal transition-colors hover:text-mauve"
+        className="relative rounded-md p-2 text-charcoal transition-colors hover:text-charcoal/70"
         aria-label={aria}
         title={label}
       >

@@ -1,16 +1,18 @@
 "use client";
 
-import { Minus, Plus, X } from "lucide-react";
+import { Heart, Minus, Plus, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { FinalSaleCheckoutBlock } from "@/components/checkout/FinalSaleCheckoutBlock";
 import ProductGallery from "@/components/ui/ProductGallery";
 import ProductPrice from "@/components/ui/ProductPrice";
 import { useCart } from "@/lib/cartContext";
+import { localizedProductCategory } from "@/lib/localizedProductCategory";
 import type { ProductViewData } from "@/lib/products";
 import { getDefaultVariant } from "@/lib/products";
 import type { ShopifyVariant } from "@/lib/shopify";
 import { getCheckoutUrl } from "@/lib/utils";
 import { useTranslation } from "@/lib/useTranslation";
+import { useWishlist } from "@/lib/wishlistContext";
 
 type ProductModalProps = {
   product: ProductViewData | null;
@@ -29,9 +31,11 @@ export default function ProductModal({
   onClose,
 }: ProductModalProps) {
   const { addItem } = useCart();
+  const { isInWishlist, toggleWishlist } = useWishlist();
   const { t } = useTranslation();
   const isOpen = product !== null;
   const variants = product?.variants ?? [];
+  const saved = product ? isInWishlist(product.productId) : false;
 
   const [selectedVariant, setSelectedVariant] = useState<
     ShopifyVariant | undefined
@@ -75,6 +79,7 @@ export default function ProductModal({
     activeVariant?.availableForSale ?? product.available;
   const description = product.description?.trim() ?? "";
   const descriptionNeedsToggle = description.length > 180;
+  const categoryLabel = localizedProductCategory(product, t);
 
   const handleAddToCart = () => {
     if (!activeVariant || !isAvailable) return;
@@ -121,27 +126,44 @@ export default function ProductModal({
                 alt={product.title}
                 initialIndex={initialImageIndex}
               />
-              {product.images.length > 1 && (
-                <p className="mt-2 text-center text-xs text-soft-brown">
-                  {t.gallery_swipe_hint}
-                </p>
-              )}
             </div>
 
             <div className="flex flex-col p-6 pt-2 md:p-6 md:pt-6">
-              {product.category ? (
+              {categoryLabel ? (
                 <p className="font-sans text-xs uppercase tracking-wide text-rose">
-                  {product.category}
+                  {categoryLabel}
                 </p>
               ) : null}
-              <h2
-                id="product-modal-title"
-                className={`font-serif text-2xl text-charcoal md:text-3xl ${
-                  product.category ? "mt-2" : ""
+              <div
+                className={`flex items-start justify-between gap-3 ${
+                  categoryLabel ? "mt-2" : ""
                 }`}
               >
-                {product.title}
-              </h2>
+                <h2
+                  id="product-modal-title"
+                  className="font-serif text-2xl text-charcoal md:text-3xl"
+                >
+                  {product.title}
+                </h2>
+                <button
+                  type="button"
+                  onClick={() =>
+                    toggleWishlist({
+                      productId: product.productId,
+                      handle: product.handle,
+                    })
+                  }
+                  className="mt-1 shrink-0 rounded-md p-2 text-charcoal transition-colors hover:bg-charcoal/5"
+                  aria-label={saved ? t.wishlist_remove : t.wishlist_add}
+                  aria-pressed={saved}
+                >
+                  <Heart
+                    className="h-5 w-5"
+                    strokeWidth={1.5}
+                    fill={saved ? "currentColor" : "none"}
+                  />
+                </button>
+              </div>
 
               {product.tagline ? (
                 <p className="mt-2 text-sm leading-relaxed text-soft-brown md:text-base">
