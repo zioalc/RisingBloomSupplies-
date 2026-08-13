@@ -14,6 +14,7 @@ export type SessionApiResponse =
         displayName: string;
         email: string | null;
       };
+      warning?: "orders_unavailable";
     };
 
 export async function GET(request: Request) {
@@ -36,25 +37,36 @@ export async function GET(request: Request) {
   }
 
   try {
-    const profile = await fetchCustomerAccountProfile(
+    const result = await fetchCustomerAccountProfile(
       resolved.tokens.accessToken,
     );
 
-    if (!profile) {
+    if (!result.ok) {
+      const shouldClearSession =
+        result.reason === "customer_unavailable" ||
+        result.reason === "access_denied";
+
       const response = NextResponse.json({
         authenticated: false,
         reason: "expired",
       } satisfies SessionApiResponse);
-      response.headers.append("Set-Cookie", clearSessionCookie(secure));
+
+      if (shouldClearSession) {
+        response.headers.append("Set-Cookie", clearSessionCookie(secure));
+      } else if (resolved.setCookie) {
+        response.headers.append("Set-Cookie", resolved.setCookie);
+      }
+
       return response;
     }
 
     const response = NextResponse.json({
       authenticated: true,
       customer: {
-        displayName: profile.displayName,
-        email: profile.email,
+        displayName: result.profile.displayName,
+        email: result.profile.email,
       },
+      ...(result.warning ? { warning: result.warning } : {}),
     } satisfies SessionApiResponse);
 
     if (resolved.setCookie) {
@@ -67,7 +79,9 @@ export async function GET(request: Request) {
       authenticated: false,
       reason: "expired",
     } satisfies SessionApiResponse);
-    response.headers.append("Set-Cookie", clearSessionCookie(secure));
+    if (resolved.setCookie) {
+      response.headers.append("Set-Cookie", resolved.setCookie);
+    }
     return response;
   }
 }

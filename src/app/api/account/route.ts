@@ -1,17 +1,30 @@
 import { NextResponse } from "next/server";
 import { clearSessionCookie } from "@/lib/auth/cookies";
-import { fetchCustomerAccountProfile } from "@/lib/auth/customer-api";
+import {
+  fetchCustomerAccountProfile,
+  type CustomerAccountProfile,
+} from "@/lib/auth/customer-api";
 import { isSecureCookieRequest } from "@/lib/auth/config";
 import { getValidCustomerSession } from "@/lib/auth/session";
-import type { CustomerAccountProfile } from "@/lib/auth/customer-api";
 
 export const dynamic = "force-dynamic";
 
 export type AccountApiResponse =
   | { status: "unauthenticated" }
   | { status: "expired" }
-  | { status: "error" }
-  | { status: "authenticated"; profile: CustomerAccountProfile };
+  | {
+      status: "error";
+      reason?:
+        | "graphql_http_error"
+        | "customer_unavailable"
+        | "access_denied"
+        | "unknown_graphql_error";
+    }
+  | {
+      status: "authenticated";
+      profile: CustomerAccountProfile;
+      warning?: "orders_unavailable";
+    };
 
 export async function GET(request: Request) {
   const secure = isSecureCookieRequest(request);
@@ -31,21 +44,35 @@ export async function GET(request: Request) {
   }
 
   try {
-    const profile = await fetchCustomerAccountProfile(
+    const result = await fetchCustomerAccountProfile(
       resolved.tokens.accessToken,
     );
 
-    if (!profile) {
+    if (!result.ok) {
+      // Keep the session for transient GraphQL issues; only clear when the
+      // customer resource itself is unavailable / denied.
+      const shouldClearSession =
+        result.reason === "customer_unavailable" ||
+        result.reason === "access_denied";
+
       const response = NextResponse.json({
         status: "error",
+        reason: result.reason,
       } satisfies AccountApiResponse);
-      response.headers.append("Set-Cookie", clearSessionCookie(secure));
+
+      if (shouldClearSession) {
+        response.headers.append("Set-Cookie", clearSessionCookie(secure));
+      } else if (resolved.setCookie) {
+        response.headers.append("Set-Cookie", resolved.setCookie);
+      }
+
       return response;
     }
 
     const response = NextResponse.json({
       status: "authenticated",
-      profile,
+      profile: result.profile,
+      ...(result.warning ? { warning: result.warning } : {}),
     } satisfies AccountApiResponse);
 
     if (resolved.setCookie) {
@@ -56,8 +83,11 @@ export async function GET(request: Request) {
   } catch {
     const response = NextResponse.json({
       status: "error",
+      reason: "unknown_graphql_error",
     } satisfies AccountApiResponse);
-    response.headers.append("Set-Cookie", clearSessionCookie(secure));
+    if (resolved.setCookie) {
+      response.headers.append("Set-Cookie", resolved.setCookie);
+    }
     return response;
   }
 }

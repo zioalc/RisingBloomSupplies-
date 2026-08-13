@@ -21,31 +21,54 @@ export type CustomerAccountProfile = {
   orders: CustomerOrderSummary[];
 };
 
-type CustomerQueryResult = {
-  customer?: {
-    id: string;
-    firstName?: string | null;
-    lastName?: string | null;
-    emailAddress?: { emailAddress?: string | null } | null;
-    orders?: {
-      edges?: Array<{
-        node?: {
-            id: string;
-            name?: string | null;
-            processedAt?: string | null;
-            financialStatus?: string | null;
-            totalPrice?: {
-              amount: string;
-              currencyCode: string;
-            } | null;
+/** Safe, non-PII reason codes for account GraphQL diagnostics. */
+export type CustomerAccountFetchReason =
+  | "ok"
+  | "graphql_http_error"
+  | "customer_unavailable"
+  | "access_denied"
+  | "orders_unavailable"
+  | "unknown_graphql_error";
+
+export type CustomerAccountFetchResult =
+  | {
+      ok: true;
+      profile: CustomerAccountProfile;
+      warning?: Extract<CustomerAccountFetchReason, "orders_unavailable">;
+    }
+  | {
+      ok: false;
+      reason: Exclude<CustomerAccountFetchReason, "ok" | "orders_unavailable">;
+    };
+
+type GraphQlError = {
+  message?: string;
+  extensions?: { code?: string };
+};
+
+type CustomerNode = {
+  id: string;
+  firstName?: string | null;
+  lastName?: string | null;
+  emailAddress?: { emailAddress?: string | null } | null;
+  orders?: {
+    edges?: Array<{
+      node?: {
+        id: string;
+        name?: string | null;
+        processedAt?: string | null;
+        financialStatus?: string | null;
+        totalPrice?: {
+          amount: string;
+          currencyCode: string;
         } | null;
-      } | null>;
-    } | null;
+      } | null;
+    } | null>;
   } | null;
 };
 
-const CUSTOMER_QUERY = `
-  query CustomerAccount {
+const CUSTOMER_PROFILE_QUERY = `
+  query CustomerAccountProfile {
     customer {
       id
       firstName
@@ -53,6 +76,14 @@ const CUSTOMER_QUERY = `
       emailAddress {
         emailAddress
       }
+    }
+  }
+`;
+
+const CUSTOMER_ORDERS_QUERY = `
+  query CustomerAccountOrders {
+    customer {
+      id
       orders(first: 25) {
         edges {
           node {
@@ -82,45 +113,29 @@ function buildDisplayName(
   return "Account";
 }
 
-export async function fetchCustomerAccountProfile(
-  accessToken: string,
-): Promise<CustomerAccountProfile | null> {
-  const { shopDomain, origin } = getCustomerAccountAuthConfig();
-  const { graphql_api } = await discoverCustomerAccountApi(shopDomain);
+type CustomerAccountFailureReason = Exclude<
+  CustomerAccountFetchReason,
+  "ok" | "orders_unavailable"
+>;
 
-  const response = await fetch(graphql_api, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: accessToken.startsWith("Bearer ")
-        ? accessToken
-        : `Bearer ${accessToken}`,
-      Origin: origin,
-      "User-Agent": "RiseAndBloomStorefront/1.0",
-    },
-    body: JSON.stringify({ query: CUSTOMER_QUERY }),
-    cache: "no-store",
-  });
+function classifyGraphqlErrors(
+  errors: GraphQlError[] | undefined,
+): CustomerAccountFailureReason {
+  if (!errors?.length) return "unknown_graphql_error";
 
-  if (!response.ok) {
-    throw new Error("Customer Account API request failed.");
+  const codes = errors
+    .map((error) => error.extensions?.code?.toUpperCase())
+    .filter((code): code is string => Boolean(code));
+
+  if (codes.some((code) => code.includes("ACCESS") || code === "FORBIDDEN")) {
+    return "access_denied";
   }
 
-  const payload = (await response.json()) as {
-    data?: CustomerQueryResult;
-    errors?: Array<{ message: string }>;
-  };
+  return "unknown_graphql_error";
+}
 
-  if (payload.errors?.length || !payload.data?.customer) {
-    return null;
-  }
-
-  const customer = payload.data.customer;
-  const email = customer.emailAddress?.emailAddress ?? null;
-  const firstName = customer.firstName ?? null;
-  const lastName = customer.lastName ?? null;
-
-  const orders: CustomerOrderSummary[] = (customer.orders?.edges ?? [])
+function mapOrders(customer: CustomerNode | null | undefined): CustomerOrderSummary[] {
+  return (customer?.orders?.edges ?? [])
     .map((edge) => edge?.node)
     .filter((node): node is NonNullable<typeof node> => Boolean(node?.id))
     .map((node) => ({
@@ -135,13 +150,105 @@ export async function fetchCustomerAccountProfile(
           }
         : null,
     }));
+}
+
+async function customerAccountGraphql<T>(
+  accessToken: string,
+  query: string,
+): Promise<
+  | { ok: true; data: T; errors?: GraphQlError[] }
+  | { ok: false; reason: CustomerAccountFailureReason }
+> {
+  const { shopDomain, origin } = getCustomerAccountAuthConfig();
+  const { graphql_api } = await discoverCustomerAccountApi(shopDomain);
+
+  const response = await fetch(graphql_api, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: accessToken.startsWith("Bearer ")
+        ? accessToken
+        : `Bearer ${accessToken}`,
+      Origin: origin,
+      "User-Agent": "RiseAndBloomStorefront/1.0",
+    },
+    body: JSON.stringify({ query }),
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    return { ok: false, reason: "graphql_http_error" };
+  }
+
+  const payload = (await response.json()) as {
+    data?: T;
+    errors?: GraphQlError[];
+  };
+
+  if (!payload.data) {
+    return { ok: false, reason: classifyGraphqlErrors(payload.errors) };
+  }
 
   return {
-    id: customer.id,
-    firstName,
-    lastName,
-    email,
-    displayName: buildDisplayName(firstName, lastName, email),
-    orders,
+    ok: true,
+    data: payload.data,
+    errors: payload.errors,
+  };
+}
+
+/**
+ * Load customer profile first, then orders separately so an orders-only
+ * permission/field failure does not wipe the whole account page.
+ */
+export async function fetchCustomerAccountProfile(
+  accessToken: string,
+): Promise<CustomerAccountFetchResult> {
+  const profileResult = await customerAccountGraphql<{
+    customer?: CustomerNode | null;
+  }>(accessToken, CUSTOMER_PROFILE_QUERY);
+
+  if (!profileResult.ok) {
+    return profileResult;
+  }
+
+  const customer = profileResult.data.customer;
+  if (!customer?.id) {
+    return {
+      ok: false,
+      reason: profileResult.errors?.length
+        ? classifyGraphqlErrors(profileResult.errors)
+        : "customer_unavailable",
+    };
+  }
+
+  // Profile fields may partially fail under protected-data rules; keep what we have.
+  const email = customer.emailAddress?.emailAddress ?? null;
+  const firstName = customer.firstName ?? null;
+  const lastName = customer.lastName ?? null;
+
+  let orders: CustomerOrderSummary[] = [];
+  let warning: "orders_unavailable" | undefined;
+
+  const ordersResult = await customerAccountGraphql<{
+    customer?: CustomerNode | null;
+  }>(accessToken, CUSTOMER_ORDERS_QUERY);
+
+  if (!ordersResult.ok || ordersResult.errors?.length || !ordersResult.data.customer) {
+    warning = "orders_unavailable";
+  } else {
+    orders = mapOrders(ordersResult.data.customer);
+  }
+
+  return {
+    ok: true,
+    warning,
+    profile: {
+      id: customer.id,
+      firstName,
+      lastName,
+      email,
+      displayName: buildDisplayName(firstName, lastName, email),
+      orders,
+    },
   };
 }
