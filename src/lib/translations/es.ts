@@ -225,18 +225,51 @@ export const es: Translation = {
     "Una vez que tu pedido sea enviado, recibirás un correo con información de rastreo. Usa el enlace proporcionado para seguir tu paquete.",
   track_p2:
     "Si no has recibido un correo de rastreo dentro de 3 días hábiles, contáctanos en rabsupplies@gmail.com con tu número de pedido.",
-  privacy_meta_title: "Privacy Policy | Rise & Bloom",
+  privacy_meta_title: "Política de privacidad | Rise & Bloom",
   privacy_meta_description:
-    "Lee cómo Rise & Bloom recopila, usa y protege tu información personal.",
-  privacy_title: "Privacy Policy",
+    "Conozca cómo Rise & Bloom maneja la información en nuestra tienda personalizada, las cuentas de clientes de Shopify y el pago.",
+  privacy_title: "Política de privacidad",
   privacy_intro:
-    "Tu privacidad es importante para nosotros. Esta política explica cómo Rise & Bloom maneja tu información.",
-  privacy_p1:
-    "Recopilamos la información que proporcionas directamente, como tu nombre, correo, dirección de envío y datos de pago al realizar un pedido.",
-  privacy_p2:
-    "Usamos tu información para procesar pedidos, comunicarnos contigo y mejorar nuestros servicios. Solo enviamos marketing si te has suscrito.",
-  privacy_p3:
-    "No vendemos tu información personal. Podemos compartir datos con proveedores de confianza que nos ayudan a operar la tienda.",
+    "Última actualización: 15 de agosto de 2026. Esta política explica cómo Rise & Bloom Nails & Lash Supplies maneja la información cuando usted utiliza nuestra tienda personalizada, las cuentas de clientes y el proceso de pago alojado por Shopify.",
+  privacy_information_title: "Información que procesamos",
+  privacy_information_body:
+    "Según cómo utilice el sitio, la tienda puede procesar su nombre, correo electrónico, información de la cuenta de cliente e historial de pedidos recibidos de Shopify; los términos que ingrese en las búsquedas; la información de los productos y las cantidades de su carrito; y los identificadores de productos guardados en sus favoritos. Shopify, Vercel y la infraestructura relacionada también pueden procesar información técnica estándar, como su dirección IP, datos del navegador o agente de usuario y detalles de las solicitudes, para prestar y proteger sus servicios.",
+  privacy_use_title: "Cómo utilizamos la información",
+  privacy_use_body:
+    "Utilizamos la información para operar la tienda, ofrecer búsquedas de productos, mostrar su carrito y favoritos, mantener el acceso a su cuenta, presentar información de la cuenta y los pedidos, facilitar las compras realizadas mediante Shopify, responder preguntas, proteger el sitio y cumplir requisitos legales y comerciales aplicables.",
+  privacy_accounts_title: "Cuentas de clientes",
+  privacy_accounts_body:
+    "Las cuentas se proporcionan mediante Shopify Customer Accounts. Los clientes inician sesión con el sistema de autenticación sin contraseña de Shopify, y se utilizan cookies necesarias y seguras para mantener la sesión y proteger el proceso de autenticación. Los datos de la cuenta que muestra esta tienda provienen de Shopify y se presentan cuando son necesarios; la tienda personalizada no guarda información de la cuenta del cliente en localStorage.",
+  privacy_orders_title: "Pedidos y pagos",
+  privacy_orders_body:
+    "El pago y el procesamiento de pagos se realizan a través de Shopify. La tienda personalizada de Rise & Bloom creada con Next.js no recibe ni procesa directamente la información completa de su tarjeta de crédito o débito. Shopify procesa la información relacionada con el proceso de pago, los pagos, el envío y los pedidos conforme a sus prácticas de privacidad aplicables. Después de iniciar sesión, la tienda puede obtener de Shopify información limitada del historial de pedidos para mostrarla en su cuenta.",
+  privacy_cart_favorites_title: "Carrito y favoritos",
+  privacy_cart_favorites_body:
+    "La tienda utiliza el almacenamiento local del navegador para recordar el contenido del carrito y las selecciones de la lista de deseos o favoritos. Este almacenamiento contiene información relacionada con productos, como identificadores de productos y variantes, títulos, precios, imágenes y cantidades, y no credenciales de la cuenta del cliente. La información puede permanecer en su navegador hasta que elimine los artículos o borre los datos del sitio.",
+  privacy_cookies_title: "Cookies y tecnologías similares",
+  privacy_cookies_body:
+    "La tienda personalizada utiliza cookies estrictamente necesarias para el inicio de sesión seguro, la protección del proceso de autenticación y la gestión de sesiones. Estas cookies permiten las funciones de cuenta solicitadas y no se utilizan con fines publicitarios. El almacenamiento local del navegador utilizado para el carrito y los favoritos es distinto de las cookies. Consulte nuestra Política de cookies para obtener más información.",
+  privacy_analytics_title: "Análisis y publicidad",
+  privacy_analytics_body:
+    "Actualmente, la tienda personalizada no utiliza píxeles publicitarios, seguimiento de conversiones ni tecnologías de análisis de comportamiento como Google Analytics, Google Tag Manager, Meta Pixel, TikTok Pixel, seguimiento de Pinterest, Hotjar, Microsoft Clarity o Shopify Web Pixels. Si estas prácticas cambian, actualizaremos esta política y ofreceremos las opciones de privacidad aplicables antes de utilizar seguimiento opcional cuando la ley lo requiera.",
+  privacy_providers_title: "Proveedores de servicios",
+  privacy_providers_body:
+    "Shopify proporciona los datos de productos, las cuentas de clientes, el proceso de pago, los pagos y los servicios de pedidos. Vercel aloja y distribuye la tienda personalizada. La infraestructura de distribución de contenido de Shopify sirve las imágenes de los productos. Estos proveedores pueden procesar la información necesaria para prestar, proteger y operar sus servicios conforme a sus propios términos y prácticas de privacidad. Los enlaces a redes sociales como Instagram o TikTok son enlaces externos; la tienda personalizada no instala actualmente píxeles de seguimiento de redes sociales.",
+  privacy_retention_title: "Conservación de datos",
+  privacy_retention_body:
+    "La información se conserva durante el tiempo razonablemente necesario para prestar los servicios descritos, administrar cuentas y pedidos, cumplir requisitos legales o comerciales y respaldar la seguridad y la resolución de disputas. Shopify y otros proveedores aplican sus propias prácticas de conservación. La información del carrito y los favoritos guardada en su navegador puede permanecer allí hasta que usted la elimine o borre los datos del sitio.",
+  privacy_choices_title: "Sus opciones de privacidad",
+  privacy_choices_body:
+    "Puede borrar las cookies y el almacenamiento local desde la configuración de su navegador. Al borrar los datos necesarios de sesión, es posible que se cierre su sesión; al borrar el almacenamiento local, se eliminarán el carrito y los favoritos guardados. Según la implementación actual, no utilizamos la tienda personalizada para vender información personal ni para publicidad conductual entre distintos contextos. Puede contactarnos si tiene preguntas o solicitudes de privacidad, y respetaremos los derechos aplicables según lo exija la ley.",
+  privacy_children_title: "Privacidad de los menores",
+  privacy_children_body:
+    "Nuestro sitio minorista general no está dirigido a menores de 13 años y no recopilamos deliberadamente información personal de menores de 13 años a través de la tienda personalizada. Si cree que un menor nos proporcionó información personal, contáctenos para que podamos revisar la solicitud y tomar las medidas correspondientes.",
+  privacy_changes_title: "Cambios a esta Política de privacidad",
+  privacy_changes_body:
+    "Podemos actualizar esta política cuando cambien nuestras prácticas, servicios u obligaciones legales. Publicaremos la política revisada en esta página y actualizaremos la fecha indicada arriba. Le recomendamos consultar esta página periódicamente.",
+  privacy_contact_title: "Contáctenos",
+  privacy_contact_body:
+    "Para preguntas o solicitudes relacionadas con la privacidad, comuníquese con Rise & Bloom Nails & Lash Supplies mediante la información que aparece a continuación.",
   terms_meta_title: "Terms & Conditions | Rise & Bloom",
   terms_meta_description:
     "Lee los términos y condiciones para usar el sitio web de Rise & Bloom.",
@@ -252,16 +285,39 @@ export const es: Translation = {
   terms_third_party_title: "Productos de terceros",
   terms_third_party_body:
     "Rise & Bloom Nails & Lash Supplies ofrece productos de la marca Rise & Bloom, así como productos auténticos de marcas de terceros. Todas las marcas comerciales, nombres de productos y nombres de marcas de terceros pertenecen a sus respectivos propietarios. A menos que se indique expresamente lo contrario, la venta de un producto de terceros no implica patrocinio, respaldo, afiliación ni autorización por parte del propietario de la marca comercial.",
-  cookie_meta_title: "Cookie Policy | Rise & Bloom",
+  cookie_meta_title: "Política de cookies | Rise & Bloom",
   cookie_meta_description:
-    "Conoce cómo Rise & Bloom usa cookies en nuestro sitio web.",
-  cookie_title: "Cookie Policy",
+    "Conozca las cookies necesarias y el almacenamiento del navegador utilizados por la tienda personalizada de Rise & Bloom.",
+  cookie_title: "Política de cookies",
   cookie_intro:
-    "Esta política explica cómo Rise & Bloom usa cookies para mejorar tu experiencia de navegación.",
-  cookie_p1:
-    "Las cookies son pequeños archivos almacenados en tu dispositivo. Nos ayudan a recordar preferencias y mejorar el rendimiento del sitio.",
-  cookie_p2:
-    "Puedes controlar o desactivar las cookies en la configuración de tu navegador. Desactivarlas puede afectar algunas funciones del sitio.",
+    "Última actualización: 15 de agosto de 2026. Esta política explica las cookies y el almacenamiento del navegador que utiliza actualmente la tienda personalizada de Rise & Bloom.",
+  cookie_necessary_title: "Cookies necesarias",
+  cookie_necessary_body:
+    "Las cookies necesarias permiten el inicio de sesión seguro en Shopify Customer Accounts, protegen el proceso de autenticación sin contraseña y mantienen la sesión iniciada. Estas cookies son necesarias para las funciones de cuenta solicitadas y no se utilizan para análisis ni publicidad.",
+  cookie_storage_title: "Almacenamiento local del navegador",
+  cookie_storage_body:
+    "El almacenamiento local es una función del navegador distinta de las cookies. La tienda lo utiliza para conservar la información del carrito y los favoritos en su dispositivo entre visitas. Contiene información relacionada con productos y no credenciales de la cuenta del cliente.",
+  cookie_preferences_title: "Funciones y preferencias",
+  cookie_preferences_body:
+    "La función de favoritos o lista de deseos utiliza almacenamiento local para recordar los identificadores de los productos que usted decide guardar. Esta preferencia funcional permanece en su navegador hasta que elimine los artículos guardados o borre los datos del sitio.",
+  cookie_cart_title: "Carrito de compras",
+  cookie_cart_body:
+    "El contenido del carrito se guarda localmente en su navegador y puede incluir identificadores de productos y variantes, títulos, precios, imágenes, cantidades e información de moneda. Los datos permanecen hasta que elimine los artículos, vacíe el carrito o borre los datos del sitio.",
+  cookie_analytics_title: "Análisis",
+  cookie_analytics_body:
+    "Actualmente, la tienda personalizada no utiliza cookies de análisis ni seguimiento del comportamiento. No instala Google Analytics, Google Tag Manager, Hotjar, Microsoft Clarity ni Shopify Web Pixels.",
+  cookie_marketing_title: "Marketing y publicidad",
+  cookie_marketing_body:
+    "Actualmente, la tienda personalizada no utiliza cookies de seguimiento publicitario o de marketing, píxeles de redes sociales ni píxeles de seguimiento de conversiones. No instala Meta Pixel, TikTok Pixel, seguimiento de Pinterest ni tecnologías publicitarias similares.",
+  cookie_shopify_title: "Servicios alojados por Shopify",
+  cookie_shopify_body:
+    "Cuando usted sale de la tienda personalizada para utilizar servicios alojados por Shopify, como la autenticación de clientes o el proceso de pago, Shopify puede utilizar sus propias cookies y tecnologías similares conforme a sus prácticas de privacidad. La tienda personalizada de Rise & Bloom no controla todas las cookies establecidas en las páginas alojadas por Shopify.",
+  cookie_control_title: "Cómo administrar cookies y almacenamiento",
+  cookie_control_body:
+    "Puede borrar o bloquear las cookies y el almacenamiento local desde la configuración de su navegador. Bloquear las cookies necesarias puede impedir el inicio de sesión o finalizar su sesión. Borrar el almacenamiento local eliminará el carrito y los favoritos guardados en ese navegador.",
+  cookie_changes_title: "Cambios a esta Política de cookies",
+  cookie_changes_body:
+    "Si la tienda comienza a utilizar tecnologías opcionales de análisis o marketing, actualizaremos esta política y ofreceremos las opciones de consentimiento o privacidad aplicables antes de utilizarlas cuando la ley lo requiera.",
   accessibility_meta_title: "Accessibility Statement | Rise & Bloom",
   accessibility_meta_description:
     "Compromiso de accesibilidad de Rise & Bloom y cómo solicitar asistencia.",

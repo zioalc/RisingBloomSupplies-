@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import BackToHomeLink from "@/components/ui/BackToHomeLink";
+import {
+  STORE_ADDRESS,
+  STORE_EMAIL,
+  STORE_PHONE,
+} from "@/lib/contact";
 import type { Locale } from "@/lib/i18n";
 import { localizedPath } from "@/lib/i18n";
 import {
@@ -42,6 +47,47 @@ export function SupportPage({ locale, pageId }: SupportPageProps) {
                 >
                   {t[block.key]}
                 </p>
+              );
+            }
+
+            if (block.type === "contact") {
+              return (
+                <div
+                  key={block.titleKey}
+                  className="rounded-2xl border border-champagne/80 bg-warm-white/80 p-6 shadow-sm shadow-mauve/5 md:p-8"
+                >
+                  <h2 className="font-serif text-xl text-charcoal md:text-2xl">
+                    {t[block.titleKey]}
+                  </h2>
+                  <p className="mt-3 font-sans text-sm leading-relaxed text-charcoal/80 md:text-base">
+                    {t[block.bodyKey]}
+                  </p>
+                  <address className="mt-4 space-y-1 font-sans text-sm not-italic text-charcoal/80 md:text-base">
+                    <a
+                      href={`mailto:${STORE_EMAIL}`}
+                      className="block underline underline-offset-2 transition-colors hover:text-mauve"
+                    >
+                      {STORE_EMAIL}
+                    </a>
+                    {STORE_PHONE ? (
+                      <a
+                        href={`tel:${STORE_PHONE}`}
+                        className="block underline underline-offset-2 transition-colors hover:text-mauve"
+                      >
+                        {STORE_PHONE}
+                      </a>
+                    ) : null}
+                    <a
+                      href={STORE_ADDRESS.mapsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block underline underline-offset-2 transition-colors hover:text-mauve"
+                    >
+                      {STORE_ADDRESS.line1}, {STORE_ADDRESS.city},{" "}
+                      {STORE_ADDRESS.state} {STORE_ADDRESS.zip}
+                    </a>
+                  </address>
+                </div>
               );
             }
 

@@ -16,7 +16,8 @@ type TranslationKey = keyof Translation;
 
 type SupportPageBlock =
   | { type: "paragraph"; key: TranslationKey }
-  | { type: "section"; titleKey: TranslationKey; bodyKey: TranslationKey };
+  | { type: "section"; titleKey: TranslationKey; bodyKey: TranslationKey }
+  | { type: "contact"; titleKey: TranslationKey; bodyKey: TranslationKey };
 
 export type SupportPageConfig = {
   id: SupportPageId;
@@ -92,9 +93,71 @@ export const SUPPORT_PAGES: Record<SupportPageId, SupportPageConfig> = {
     titleKey: "privacy_title",
     introKey: "privacy_intro",
     blocks: [
-      { type: "paragraph", key: "privacy_p1" },
-      { type: "paragraph", key: "privacy_p2" },
-      { type: "paragraph", key: "privacy_p3" },
+      {
+        type: "section",
+        titleKey: "privacy_information_title",
+        bodyKey: "privacy_information_body",
+      },
+      {
+        type: "section",
+        titleKey: "privacy_use_title",
+        bodyKey: "privacy_use_body",
+      },
+      {
+        type: "section",
+        titleKey: "privacy_accounts_title",
+        bodyKey: "privacy_accounts_body",
+      },
+      {
+        type: "section",
+        titleKey: "privacy_orders_title",
+        bodyKey: "privacy_orders_body",
+      },
+      {
+        type: "section",
+        titleKey: "privacy_cart_favorites_title",
+        bodyKey: "privacy_cart_favorites_body",
+      },
+      {
+        type: "section",
+        titleKey: "privacy_cookies_title",
+        bodyKey: "privacy_cookies_body",
+      },
+      {
+        type: "section",
+        titleKey: "privacy_analytics_title",
+        bodyKey: "privacy_analytics_body",
+      },
+      {
+        type: "section",
+        titleKey: "privacy_providers_title",
+        bodyKey: "privacy_providers_body",
+      },
+      {
+        type: "section",
+        titleKey: "privacy_retention_title",
+        bodyKey: "privacy_retention_body",
+      },
+      {
+        type: "section",
+        titleKey: "privacy_choices_title",
+        bodyKey: "privacy_choices_body",
+      },
+      {
+        type: "section",
+        titleKey: "privacy_children_title",
+        bodyKey: "privacy_children_body",
+      },
+      {
+        type: "section",
+        titleKey: "privacy_changes_title",
+        bodyKey: "privacy_changes_body",
+      },
+      {
+        type: "contact",
+        titleKey: "privacy_contact_title",
+        bodyKey: "privacy_contact_body",
+      },
     ],
   },
   "terms-and-conditions": {
@@ -123,8 +186,51 @@ export const SUPPORT_PAGES: Record<SupportPageId, SupportPageConfig> = {
     titleKey: "cookie_title",
     introKey: "cookie_intro",
     blocks: [
-      { type: "paragraph", key: "cookie_p1" },
-      { type: "paragraph", key: "cookie_p2" },
+      {
+        type: "section",
+        titleKey: "cookie_necessary_title",
+        bodyKey: "cookie_necessary_body",
+      },
+      {
+        type: "section",
+        titleKey: "cookie_storage_title",
+        bodyKey: "cookie_storage_body",
+      },
+      {
+        type: "section",
+        titleKey: "cookie_preferences_title",
+        bodyKey: "cookie_preferences_body",
+      },
+      {
+        type: "section",
+        titleKey: "cookie_cart_title",
+        bodyKey: "cookie_cart_body",
+      },
+      {
+        type: "section",
+        titleKey: "cookie_analytics_title",
+        bodyKey: "cookie_analytics_body",
+      },
+      {
+        type: "section",
+        titleKey: "cookie_marketing_title",
+        bodyKey: "cookie_marketing_body",
+      },
+      {
+        type: "section",
+        titleKey: "cookie_shopify_title",
+        bodyKey: "cookie_shopify_body",
+      },
+      {
+        type: "section",
+        titleKey: "cookie_control_title",
+        bodyKey: "cookie_control_body",
+      },
+      {
+        type: "section",
+        titleKey: "cookie_changes_title",
+        bodyKey: "cookie_changes_body",
+      },
     ],
   },
   accessibility: {

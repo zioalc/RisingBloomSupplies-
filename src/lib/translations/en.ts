@@ -220,16 +220,49 @@ export const en = {
     "If you haven't received a tracking email within 3 business days of placing your order, please contact us at rabsupplies@gmail.com with your order number and we'll be happy to help.",
   privacy_meta_title: "Privacy Policy | Rise & Bloom",
   privacy_meta_description:
-    "Read how Rise & Bloom collects, uses, and protects your personal information.",
+    "Learn how Rise & Bloom handles information across our custom storefront, Shopify customer accounts, and checkout.",
   privacy_title: "Privacy Policy",
   privacy_intro:
-    "Your privacy matters to us. This policy explains how Rise & Bloom handles your information when you visit our website or make a purchase.",
-  privacy_p1:
-    "We collect information you provide directly, such as your name, email address, shipping address, and payment details when you place an order or subscribe to our newsletter.",
-  privacy_p2:
-    "We use your information to process orders, communicate with you about your purchase, improve our services, and send marketing communications if you have opted in.",
-  privacy_p3:
-    "We do not sell your personal information. We may share data with trusted service providers who help us operate our store, process payments, and fulfill orders.",
+    "Last updated: August 15, 2026. This policy explains how Rise & Bloom Nails & Lash Supplies handles information when you use our custom storefront, customer accounts, and Shopify-hosted checkout.",
+  privacy_information_title: "Information We Process",
+  privacy_information_body:
+    "Depending on how you use the site, the storefront may process your name, email address, customer account information, and order history received from Shopify; search terms you submit; product information and quantities in your shopping cart; and product identifiers saved to your favorites. Shopify, Vercel, and related infrastructure may also process standard request and device information, such as your IP address, browser or user-agent information, and request details, to provide and secure their services.",
+  privacy_use_title: "How We Use Information",
+  privacy_use_body:
+    "We use information to operate the storefront, provide product search, display your cart and favorites, maintain customer account access, show account and order information, support purchases completed through Shopify, respond to questions, secure the site, and meet applicable legal and business requirements.",
+  privacy_accounts_title: "Customer Accounts",
+  privacy_accounts_body:
+    "Customer accounts are provided through Shopify Customer Accounts. Customers sign in through Shopify's passwordless authentication flow, and necessary secure cookies maintain the signed-in session and protect the authentication process. Account details displayed by this storefront come from Shopify and are displayed as needed; the custom storefront does not store customer account information in localStorage.",
+  privacy_orders_title: "Orders and Payments",
+  privacy_orders_body:
+    "Checkout and payment processing take place through Shopify. Rise & Bloom's custom Next.js storefront does not directly receive or process your complete credit or debit card information. Shopify processes checkout, payment, shipping, and order information under its applicable privacy practices. After sign-in, the storefront may retrieve limited order-history information from Shopify for display in your account.",
+  privacy_cart_favorites_title: "Cart and Favorites",
+  privacy_cart_favorites_body:
+    "The storefront uses browser local storage to remember shopping-cart contents and wishlist or favorites selections. This storage contains product-related information, such as product and variant identifiers, product titles, prices, images, and quantities, rather than customer account credentials. It may remain in your browser until items are removed or you clear your browser's site data.",
+  privacy_cookies_title: "Cookies and Similar Technologies",
+  privacy_cookies_body:
+    "The custom storefront uses strictly necessary cookies for secure customer sign-in, authentication-flow protection, and session management. These cookies support requested account functionality and are not used for advertising. Browser local storage used for the cart and favorites is separate from cookies. See our Cookie Policy for more information.",
+  privacy_analytics_title: "Analytics and Advertising",
+  privacy_analytics_body:
+    "The custom storefront does not currently use advertising pixels, conversion tracking, or behavioral analytics technologies such as Google Analytics, Google Tag Manager, Meta Pixel, TikTok Pixel, Pinterest tracking, Hotjar, Microsoft Clarity, or Shopify Web Pixels. If these practices change, we will update this policy and provide applicable privacy choices before using optional tracking where required.",
+  privacy_providers_title: "Service Providers",
+  privacy_providers_body:
+    "Shopify provides product data, customer accounts, checkout, payments, and order services. Vercel hosts and delivers the custom storefront. Shopify's content-delivery infrastructure serves product images. These providers may process information needed to deliver, secure, and operate their services under their own terms and privacy practices. Links to social-media services such as Instagram or TikTok are outbound links; the custom storefront does not currently install social-media tracking pixels.",
+  privacy_retention_title: "Data Retention",
+  privacy_retention_body:
+    "Information is retained for as long as reasonably necessary to provide the services described, administer accounts and orders, meet legal or business requirements, and support security and dispute resolution. Shopify and other service providers apply their own retention practices. Cart and favorites information stored in your browser may remain until you remove it or clear the site's browser data.",
+  privacy_choices_title: "Your Privacy Choices",
+  privacy_choices_body:
+    "You may clear cookies and local storage through your browser settings, although clearing necessary session data may sign you out and clearing local storage will remove your saved cart or favorites. Based on the storefront's current implementation, we do not use it to sell personal information or for cross-context behavioral advertising. You may contact us with privacy questions or requests, and we will honor applicable privacy rights as required by law.",
+  privacy_children_title: "Children's Privacy",
+  privacy_children_body:
+    "Our general retail website is not directed to children under 13, and we do not knowingly collect personal information from children under 13 through the custom storefront. If you believe a child has provided personal information, please contact us so we can review the request and take appropriate action.",
+  privacy_changes_title: "Changes to This Privacy Policy",
+  privacy_changes_body:
+    "We may update this policy when our practices, services, or legal obligations change. We will post the revised policy on this page and update the date above. Please review this page periodically for current information.",
+  privacy_contact_title: "Contact Us",
+  privacy_contact_body:
+    "For privacy questions or requests, contact Rise & Bloom Nails & Lash Supplies using the information below.",
   terms_meta_title: "Terms & Conditions | Rise & Bloom",
   terms_meta_description:
     "Read the terms and conditions for using the Rise & Bloom website and purchasing products.",
@@ -247,14 +280,37 @@ export const en = {
     "Rise & Bloom Nails & Lash Supplies offers products manufactured by Rise & Bloom as well as genuine products from third-party brands. All third-party trademarks, product names, and brand names are the property of their respective owners. Unless expressly stated otherwise, the sale of a third-party product does not imply sponsorship, endorsement, affiliation, or authorization by the trademark owner.",
   cookie_meta_title: "Cookie Policy | Rise & Bloom",
   cookie_meta_description:
-    "Learn how Rise & Bloom uses cookies and similar technologies on our website.",
+    "Learn about necessary cookies and browser storage used by the Rise & Bloom custom storefront.",
   cookie_title: "Cookie Policy",
   cookie_intro:
-    "This policy explains how Rise & Bloom uses cookies to improve your browsing experience.",
-  cookie_p1:
-    "Cookies are small text files stored on your device when you visit our website. They help us remember your preferences, understand how visitors use our site, and improve performance.",
-  cookie_p2:
-    "You can control or disable cookies through your browser settings. Please note that disabling cookies may affect certain features of our website.",
+    "Last updated: August 15, 2026. This policy explains the cookies and browser storage currently used by the Rise & Bloom custom storefront.",
+  cookie_necessary_title: "Necessary Cookies",
+  cookie_necessary_body:
+    "Necessary cookies support secure Shopify Customer Account sign-in, protect the passwordless authentication process, and maintain a signed-in session. These cookies are required for requested account functionality and are not used for analytics or advertising.",
+  cookie_storage_title: "Browser Local Storage",
+  cookie_storage_body:
+    "Local storage is browser storage that is separate from cookies. The storefront uses local storage to keep cart and favorites information on your device between visits. It stores product-related information rather than customer account credentials.",
+  cookie_preferences_title: "Functional and Preference Features",
+  cookie_preferences_body:
+    "The favorites or wishlist feature uses local storage to remember product identifiers you choose to save. This functional preference remains in your browser until you remove saved items or clear the site's browser data.",
+  cookie_cart_title: "Shopping Cart",
+  cookie_cart_body:
+    "Cart contents are stored locally in your browser and may include product and variant identifiers, titles, prices, images, quantities, and currency information. Cart data remains until items are removed, the cart is cleared, or you clear the site's browser data.",
+  cookie_analytics_title: "Analytics",
+  cookie_analytics_body:
+    "The custom storefront does not currently use analytics cookies or behavioral analytics tracking. It does not currently install Google Analytics, Google Tag Manager, Hotjar, Microsoft Clarity, or Shopify Web Pixels.",
+  cookie_marketing_title: "Marketing and Advertising",
+  cookie_marketing_body:
+    "The custom storefront does not currently use advertising or marketing tracking cookies, social-media pixels, or conversion-tracking pixels. It does not currently install Meta Pixel, TikTok Pixel, Pinterest tracking, or similar advertising technologies.",
+  cookie_shopify_title: "Shopify-Hosted Services",
+  cookie_shopify_body:
+    "When you leave the custom storefront for Shopify-hosted services, such as customer authentication or checkout, Shopify may use its own cookies and similar technologies under its privacy practices. Rise & Bloom's custom storefront does not control every cookie set on Shopify-hosted pages.",
+  cookie_control_title: "Managing Cookies and Browser Storage",
+  cookie_control_body:
+    "You can clear or block cookies and local storage through your browser settings. Blocking necessary cookies may prevent customer sign-in or end your session. Clearing local storage will remove the cart and favorites saved in that browser.",
+  cookie_changes_title: "Changes to This Cookie Policy",
+  cookie_changes_body:
+    "If the storefront begins using optional analytics or marketing technologies, we will update this policy and provide applicable consent or privacy choices before using them where required.",
   accessibility_meta_title: "Accessibility Statement | Rise & Bloom",
   accessibility_meta_description:
     "Rise & Bloom accessibility commitment and how to request assistance.",
