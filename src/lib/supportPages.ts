@@ -108,6 +108,11 @@ export const SUPPORT_PAGES: Record<SupportPageId, SupportPageConfig> = {
       { type: "paragraph", key: "terms_p1" },
       { type: "paragraph", key: "terms_p2" },
       { type: "paragraph", key: "terms_p3" },
+      {
+        type: "section",
+        titleKey: "terms_third_party_title",
+        bodyKey: "terms_third_party_body",
+      },
     ],
   },
   "cookie-policy": {

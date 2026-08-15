@@ -242,6 +242,9 @@ export const en = {
     "Prices are listed in USD unless otherwise stated and are subject to change. You are responsible for providing accurate shipping and payment information at checkout.",
   terms_p3:
     "Rise & Bloom is not liable for indirect, incidental, or consequential damages arising from the use of our products or website. Please follow all product instructions carefully.",
+  terms_third_party_title: "Third-Party Products",
+  terms_third_party_body:
+    "Rise & Bloom Nails & Lash Supplies offers products manufactured by Rise & Bloom as well as genuine products from third-party brands. All third-party trademarks, product names, and brand names are the property of their respective owners. Unless expressly stated otherwise, the sale of a third-party product does not imply sponsorship, endorsement, affiliation, or authorization by the trademark owner.",
   cookie_meta_title: "Cookie Policy | Rise & Bloom",
   cookie_meta_description:
     "Learn how Rise & Bloom uses cookies and similar technologies on our website.",

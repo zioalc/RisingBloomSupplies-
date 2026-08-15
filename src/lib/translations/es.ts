@@ -249,6 +249,9 @@ export const es: Translation = {
     "Los precios están en USD salvo que se indique lo contrario. Eres responsable de proporcionar información de envío y pago precisa.",
   terms_p3:
     "Rise & Bloom no es responsable de daños indirectos derivados del uso de nuestros productos. Sigue todas las instrucciones del producto.",
+  terms_third_party_title: "Productos de terceros",
+  terms_third_party_body:
+    "Rise & Bloom Nails & Lash Supplies ofrece productos de la marca Rise & Bloom, así como productos auténticos de marcas de terceros. Todas las marcas comerciales, nombres de productos y nombres de marcas de terceros pertenecen a sus respectivos propietarios. A menos que se indique expresamente lo contrario, la venta de un producto de terceros no implica patrocinio, respaldo, afiliación ni autorización por parte del propietario de la marca comercial.",
   cookie_meta_title: "Cookie Policy | Rise & Bloom",
   cookie_meta_description:
     "Conoce cómo Rise & Bloom usa cookies en nuestro sitio web.",
