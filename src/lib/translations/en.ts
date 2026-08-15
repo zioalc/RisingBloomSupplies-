@@ -87,6 +87,10 @@ export const en = {
   account_error_title: "Something went wrong",
   account_error_message:
     "We couldn’t load your account right now. Please try signing in again.",
+  account_try_again: "Try Again",
+  account_favorites_link: "View Favorites",
+  account_orders_unavailable:
+    "Order history isn’t available right now. Your account details are up to date.",
   account_auth_denied: "Sign-in was cancelled. You can try again anytime.",
   account_auth_error: "Sign-in didn’t complete. Please try again.",
   quick_view: "Quick view",

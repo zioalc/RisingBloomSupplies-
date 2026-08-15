@@ -16,17 +16,23 @@ type LoadState =
   | { status: "loading" }
   | { status: "unauthenticated" }
   | { status: "expired" }
-  | { status: "error" }
-  | { status: "authenticated"; profile: CustomerAccountProfile };
+  | { status: "error"; reason?: string }
+  | {
+      status: "authenticated";
+      profile: CustomerAccountProfile;
+      ordersUnavailable: boolean;
+    };
 
 export default function AccountClient({ authQuery }: AccountClientProps) {
   const { locale, t } = useTranslation();
   const [state, setState] = useState<LoadState>({ status: "loading" });
+  const [reloadKey, setReloadKey] = useState(0);
 
   const accountPath = localizedPath(locale, "/account");
   const loginHref = `/api/auth/login?locale=${locale}&returnTo=${encodeURIComponent(accountPath)}`;
   const logoutHref = `/api/auth/logout?locale=${locale}`;
   const shopHref = localizedPath(locale, "/shop");
+  const favoritesHref = localizedPath(locale, "/favorites");
 
   useEffect(() => {
     let cancelled = false;
@@ -44,16 +50,22 @@ export default function AccountClient({ authQuery }: AccountClientProps) {
         }
         const data = (await response.json()) as {
           status: string;
+          reason?: string;
+          warning?: string;
           profile?: CustomerAccountProfile;
         };
         if (cancelled) return;
 
         if (data.status === "authenticated" && data.profile) {
-          setState({ status: "authenticated", profile: data.profile });
+          setState({
+            status: "authenticated",
+            profile: data.profile,
+            ordersUnavailable: data.warning === "orders_unavailable",
+          });
         } else if (data.status === "expired") {
           setState({ status: "expired" });
         } else if (data.status === "error") {
-          setState({ status: "error" });
+          setState({ status: "error", reason: data.reason });
         } else {
           setState({ status: "unauthenticated" });
         }
@@ -66,7 +78,12 @@ export default function AccountClient({ authQuery }: AccountClientProps) {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [reloadKey]);
+
+  const retry = () => {
+    setState({ status: "loading" });
+    setReloadKey((key) => key + 1);
+  };
 
   if (state.status === "loading") {
     return (
@@ -135,12 +152,30 @@ export default function AccountClient({ authQuery }: AccountClientProps) {
         <p className="mt-3 text-sm text-soft-brown md:text-base">
           {t.account_error_message}
         </p>
-        <a
-          href={loginHref}
-          className="mt-6 inline-flex min-h-11 items-center justify-center bg-charcoal px-5 text-xs uppercase tracking-[0.16em] text-warm-white transition-colors hover:bg-mauve"
-        >
-          {t.account_sign_in}
-        </a>
+        <div className="mt-6 flex flex-wrap gap-3">
+          <button
+            type="button"
+            onClick={retry}
+            className="inline-flex min-h-11 items-center justify-center bg-charcoal px-5 text-xs uppercase tracking-[0.16em] text-warm-white transition-colors hover:bg-mauve"
+          >
+            {t.account_try_again}
+          </button>
+          <a
+            href={loginHref}
+            className="inline-flex min-h-11 items-center justify-center border border-charcoal/20 px-5 text-xs uppercase tracking-[0.16em] text-charcoal transition-colors hover:border-mauve hover:text-mauve"
+          >
+            {t.account_sign_in_again}
+          </a>
+          <a
+            href={logoutHref}
+            className="inline-flex min-h-11 items-center justify-center border border-charcoal/20 px-5 text-xs uppercase tracking-[0.16em] text-charcoal transition-colors hover:border-mauve hover:text-mauve"
+          >
+            {t.account_sign_out}
+          </a>
+        </div>
+        {state.reason ? (
+          <p className="mt-4 text-xs text-charcoal/40">{state.reason}</p>
+        ) : null}
       </div>
     );
   }
@@ -163,12 +198,20 @@ export default function AccountClient({ authQuery }: AccountClientProps) {
             <p className="mt-2 text-sm text-soft-brown">{profile.email}</p>
           ) : null}
         </div>
-        <a
-          href={logoutHref}
-          className="inline-flex min-h-11 items-center justify-center border border-charcoal/20 px-5 text-xs uppercase tracking-[0.16em] text-charcoal transition-colors hover:border-mauve hover:text-mauve"
-        >
-          {t.account_sign_out}
-        </a>
+        <div className="flex flex-wrap gap-3">
+          <Link
+            href={favoritesHref}
+            className="inline-flex min-h-11 items-center justify-center border border-charcoal/20 px-5 text-xs uppercase tracking-[0.16em] text-charcoal transition-colors hover:border-mauve hover:text-mauve"
+          >
+            {t.account_favorites_link}
+          </Link>
+          <a
+            href={logoutHref}
+            className="inline-flex min-h-11 items-center justify-center border border-charcoal/20 px-5 text-xs uppercase tracking-[0.16em] text-charcoal transition-colors hover:border-mauve hover:text-mauve"
+          >
+            {t.account_sign_out}
+          </a>
+        </div>
       </div>
 
       <section>
@@ -176,7 +219,20 @@ export default function AccountClient({ authQuery }: AccountClientProps) {
           {t.account_orders_heading}
         </h3>
         <div className="mt-4">
-          {profile.orders.length === 0 ? (
+          {state.ordersUnavailable ? (
+            <div className="border border-nightview-light/60 bg-warm-white/50 px-5 py-6">
+              <p className="text-sm text-soft-brown">
+                {t.account_orders_unavailable}
+              </p>
+              <button
+                type="button"
+                onClick={retry}
+                className="mt-4 inline-flex min-h-11 items-center justify-center border border-charcoal/20 px-5 text-xs uppercase tracking-[0.16em] text-charcoal transition-colors hover:border-mauve hover:text-mauve"
+              >
+                {t.account_try_again}
+              </button>
+            </div>
+          ) : profile.orders.length === 0 ? (
             <div className="border border-nightview-light/60 bg-warm-white/50 px-5 py-8">
               <p className="font-serif text-xl text-charcoal">
                 {t.account_orders_empty_title}

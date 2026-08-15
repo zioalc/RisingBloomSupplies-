@@ -25,6 +25,7 @@ export type CustomerAccountProfile = {
 export type CustomerAccountFetchReason =
   | "ok"
   | "graphql_http_error"
+  | "graphql_unauthorized"
   | "customer_unavailable"
   | "access_denied"
   | "orders_unavailable"
@@ -162,22 +163,36 @@ async function customerAccountGraphql<T>(
   const { shopDomain, origin } = getCustomerAccountAuthConfig();
   const { graphql_api } = await discoverCustomerAccountApi(shopDomain);
 
-  const response = await fetch(graphql_api, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: accessToken.startsWith("Bearer ")
-        ? accessToken
-        : `Bearer ${accessToken}`,
-      Origin: origin,
-      "User-Agent": "RiseAndBloomStorefront/1.0",
-    },
-    body: JSON.stringify({ query }),
-    cache: "no-store",
-  });
+  // The Customer Account API expects the raw access token in Authorization.
+  // The Origin header must match a configured JavaScript origin, and a
+  // User-Agent is required or Shopify answers 403.
+  const bareToken = accessToken.replace(/^Bearer\s+/i, "");
+  const post = (authorization: string) =>
+    fetch(graphql_api, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: authorization,
+        Origin: origin,
+        "User-Agent": "RiseAndBloomStorefront/1.0",
+      },
+      body: JSON.stringify({ query }),
+      cache: "no-store",
+    });
+
+  let response = await post(bareToken);
+  if (response.status === 401 || response.status === 403) {
+    response = await post(`Bearer ${bareToken}`);
+  }
 
   if (!response.ok) {
-    return { ok: false, reason: "graphql_http_error" };
+    return {
+      ok: false,
+      reason:
+        response.status === 401 || response.status === 403
+          ? "graphql_unauthorized"
+          : "graphql_http_error",
+    };
   }
 
   const payload = (await response.json()) as {
@@ -202,7 +217,10 @@ async function customerAccountGraphql<T>(
  */
 export async function fetchCustomerAccountProfile(
   accessToken: string,
+  options: { includeOrders?: boolean } = {},
 ): Promise<CustomerAccountFetchResult> {
+  const includeOrders = options.includeOrders ?? true;
+
   const profileResult = await customerAccountGraphql<{
     customer?: CustomerNode | null;
   }>(accessToken, CUSTOMER_PROFILE_QUERY);
@@ -229,14 +247,20 @@ export async function fetchCustomerAccountProfile(
   let orders: CustomerOrderSummary[] = [];
   let warning: "orders_unavailable" | undefined;
 
-  const ordersResult = await customerAccountGraphql<{
-    customer?: CustomerNode | null;
-  }>(accessToken, CUSTOMER_ORDERS_QUERY);
+  if (includeOrders) {
+    const ordersResult = await customerAccountGraphql<{
+      customer?: CustomerNode | null;
+    }>(accessToken, CUSTOMER_ORDERS_QUERY);
 
-  if (!ordersResult.ok || ordersResult.errors?.length || !ordersResult.data.customer) {
-    warning = "orders_unavailable";
-  } else {
-    orders = mapOrders(ordersResult.data.customer);
+    if (
+      !ordersResult.ok ||
+      ordersResult.errors?.length ||
+      !ordersResult.data.customer
+    ) {
+      warning = "orders_unavailable";
+    } else {
+      orders = mapOrders(ordersResult.data.customer);
+    }
   }
 
   return {

@@ -14,7 +14,6 @@ export type SessionApiResponse =
         displayName: string;
         email: string | null;
       };
-      warning?: "orders_unavailable";
     };
 
 export async function GET(request: Request) {
@@ -37,14 +36,17 @@ export async function GET(request: Request) {
   }
 
   try {
+    // The nav only needs identity, so skip the orders query on every page load.
     const result = await fetchCustomerAccountProfile(
       resolved.tokens.accessToken,
+      { includeOrders: false },
     );
 
     if (!result.ok) {
       const shouldClearSession =
         result.reason === "customer_unavailable" ||
-        result.reason === "access_denied";
+        result.reason === "access_denied" ||
+        result.reason === "graphql_unauthorized";
 
       const response = NextResponse.json({
         authenticated: false,
@@ -66,7 +68,6 @@ export async function GET(request: Request) {
         displayName: result.profile.displayName,
         email: result.profile.email,
       },
-      ...(result.warning ? { warning: result.warning } : {}),
     } satisfies SessionApiResponse);
 
     if (resolved.setCookie) {

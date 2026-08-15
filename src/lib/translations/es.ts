@@ -93,6 +93,10 @@ export const es: Translation = {
   account_error_title: "Something went wrong",
   account_error_message:
     "No pudimos cargar tu cuenta ahora. Intenta iniciar sesión de nuevo.",
+  account_try_again: "Intentar de nuevo",
+  account_favorites_link: "Ver favoritos",
+  account_orders_unavailable:
+    "El historial de pedidos no está disponible ahora. Los datos de tu cuenta están actualizados.",
   account_auth_denied:
     "Se canceló el inicio de sesión. Puedes intentarlo de nuevo.",
   account_auth_error: "El inicio de sesión no se completó. Inténtalo de nuevo.",

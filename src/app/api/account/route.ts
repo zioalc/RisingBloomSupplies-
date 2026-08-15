@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
 
 export type AccountApiResponse =
   | { status: "unauthenticated" }
-  | { status: "expired" }
+  | { status: "expired"; reason?: "graphql_unauthorized" }
   | {
       status: "error";
       reason?:
@@ -49,6 +49,17 @@ export async function GET(request: Request) {
     );
 
     if (!result.ok) {
+      // A rejected token is recoverable by signing in again, so surface it as
+      // an expired session rather than a generic error the user can't escape.
+      if (result.reason === "graphql_unauthorized") {
+        const response = NextResponse.json({
+          status: "expired",
+          reason: "graphql_unauthorized",
+        } satisfies AccountApiResponse);
+        response.headers.append("Set-Cookie", clearSessionCookie(secure));
+        return response;
+      }
+
       // Keep the session for transient GraphQL issues; only clear when the
       // customer resource itself is unavailable / denied.
       const shouldClearSession =
