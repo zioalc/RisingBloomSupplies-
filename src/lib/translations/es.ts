@@ -57,17 +57,17 @@ export const es: Translation = {
   lang_spanish: "Español",
   aria_switch_to_english: "Ver el sitio en inglés",
   aria_switch_to_spanish: "Ver el sitio en español",
-  aria_account: "Account",
+  aria_account: "Cuenta",
   aria_sign_in: "Iniciar sesión",
-  account_label: "ACCOUNT",
-  account_heading: "Your Account",
+  account_label: "CUENTA",
+  account_heading: "Tu cuenta",
   account_sub:
     "Inicia sesión con tu correo para ver tus pedidos y los datos de tu cuenta.",
-  account_meta_title: "Account | Rise & Bloom",
+  account_meta_title: "Cuenta | Rise & Bloom",
   account_meta_description:
     "Inicia sesión en tu cuenta de Rise & Bloom para ver pedidos y detalles de la cuenta.",
   account_loading: "Cargando tu cuenta…",
-  account_guest_title: "Sign in to continue",
+  account_guest_title: "Inicia sesión para continuar",
   account_guest_message:
     "Usa tu correo y un código de un solo uso. El pago como invitado sigue disponible.",
   account_sign_in: "Iniciar sesión",
@@ -75,7 +75,7 @@ export const es: Translation = {
   account_sign_out: "Cerrar sesión",
   account_continue_shopping: "Seguir comprando",
   account_signed_in_as: "Sesión iniciada como",
-  account_orders_heading: "Order history",
+  account_orders_heading: "Historial de pedidos",
   account_order_fallback: "Pedido",
   account_status_paid: "Pagado",
   account_status_pending: "Pendiente",
@@ -87,10 +87,10 @@ export const es: Translation = {
   account_orders_empty_title: "Aún no hay pedidos",
   account_orders_empty_message:
     "Cuando hagas un pedido con la sesión iniciada, aparecerá aquí.",
-  account_expired_title: "Session expired",
+  account_expired_title: "Sesión expirada",
   account_expired_message:
     "Por tu seguridad, vuelve a iniciar sesión para ver tu cuenta.",
-  account_error_title: "Something went wrong",
+  account_error_title: "Algo salió mal",
   account_error_message:
     "No pudimos cargar tu cuenta ahora. Intenta iniciar sesión de nuevo.",
   account_try_again: "Intentar de nuevo",
@@ -320,7 +320,7 @@ export const es: Translation = {
   contact_meta_title: "Contact | Rise & Bloom",
   contact_meta_description:
     "Ponte en contacto con Rise & Bloom. Escríbenos, síguenos en redes o visítanos en eventos pop-up.",
-  back_to_home: "Home",
+  back_to_home: "Inicio",
   back_to_shop: "Shop",
   cart_title: "Tu carrito",
   cart_empty: "Tu carrito está vacío.",
