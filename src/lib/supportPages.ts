@@ -173,6 +173,11 @@ export const SUPPORT_PAGES: Record<SupportPageId, SupportPageConfig> = {
       { type: "paragraph", key: "terms_p3" },
       {
         type: "section",
+        titleKey: "terms_returns_title",
+        bodyKey: "terms_returns_body",
+      },
+      {
+        type: "section",
         titleKey: "terms_third_party_title",
         bodyKey: "terms_third_party_body",
       },

@@ -47,6 +47,7 @@ export const en = {
   nav_account: "Account",
   nav_sign_in: "Sign In",
   nav_search: "Search",
+  nav_cart: "Cart",
   lang_label: "Language",
   lang_english: "English",
   lang_spanish: "Español",
@@ -167,7 +168,7 @@ export const en = {
     "Orders are processed within 1–2 business days. Standard shipping typically arrives within 3–7 business days depending on your location.",
   faq_q3: "What is your return policy?",
   faq_a3:
-    "All sales are final. We do not accept returns, exchanges, or refunds. Please review your order carefully before checkout.",
+    "Due to the nature of beauty and personal-care products, all sales are generally final. We do not accept returns or exchanges for change of mind. If your order arrives damaged, defective, or incorrect, or there is a problem fulfilling your order, please contact us promptly so we can review the issue and determine an appropriate resolution. Please review your order carefully before checkout.",
   faq_q4: "Are your products salon-quality?",
   faq_a4:
     "Yes. Every product in our shop is handpicked for quality, ease of use, and results you can trust at home.",
@@ -176,7 +177,7 @@ export const en = {
     "Yes. Place your order online, then select the pickup in store option at checkout. Pickup orders are ready within 15 minutes or less!",
   faq_q6: "Do you offer discount codes?",
   faq_a6:
-    "Yes. Active Shopify codes include WELCOME2026 (10% off the entire order for first-time customers), BLOOMDAY (10% off the entire order for birthday purchases), and BLOOMLOCAL10 (10% off the entire order with a $25 minimum, intended for local customers). Enter your code at Shopify checkout. See Promotion Terms for full details.",
+    "Yes. Public Shopify codes include WELCOME2026 (10% off the entire order for first-time customers) and BLOOMDAY (10% off the entire order for birthday purchases). Enter your code at Shopify checkout. See Promotion Terms for full details. Additional offers may be shared privately with eligible customers.",
   shipping_meta_title: "Shipping & Pickup Policy | Rise & Bloom",
   shipping_meta_description:
     "Learn about Rise & Bloom shipping, local store pickup, rates, and delivery information.",
@@ -194,20 +195,20 @@ export const en = {
     "Place your order online and select the pickup in store option at checkout. Pickup orders are ready within 15 minutes or less!",
   returns_meta_title: "Returns & Refund Policy | Rise & Bloom",
   returns_meta_description:
-    "Rise & Bloom policy: all sales are final. No returns, exchanges, or refunds.",
+    "Rise & Bloom policy: beauty and personal-care purchases are generally final sale, with limited issue resolution for damaged, defective, incorrect, or unfulfilled orders.",
   returns_title: "Returns & Refund Policy",
   returns_intro:
-    "All sales are final. Please review your order carefully before completing your purchase.",
+    "Due to the nature of beauty and personal-care products, all sales are generally final. Please review your order carefully before completing your purchase.",
   returns_p1:
-    "Due to the hygienic nature of lash, nail, and beauty products, Rise & Bloom does not accept returns, exchanges, or refunds once an order has been placed.",
+    "Rise & Bloom does not accept returns or exchanges for change of mind, and we do not offer refunds once an order has been placed, except as described below for limited fulfillment or product issues.",
   returns_p2:
-    "We encourage you to read product descriptions and ask questions before ordering. For pre-purchase help, contact us at rabsupplies@gmail.com.",
+    "If your order arrives damaged, defective, or incorrect, or there is a problem fulfilling or shipping your order, please contact us promptly at rabsupplies@gmail.com so we can review the issue and determine an appropriate resolution.",
   returns_p3:
-    "By completing checkout, you acknowledge and agree that all sales are final in accordance with this policy.",
+    "We encourage you to read product descriptions and ask questions before ordering. For pre-purchase help, contact us at rabsupplies@gmail.com. By completing checkout, you acknowledge and agree that beauty and personal-care purchases are generally final sale in accordance with this policy.",
   checkout_final_sale_notice:
-    "All sales are final. No returns, exchanges, or refunds.",
+    "Beauty and personal-care purchases are generally final sale. No returns or exchanges for change of mind.",
   checkout_final_sale_acknowledge:
-    "I understand that all sales are final and agree to the Returns & Refund Policy.",
+    "I understand that beauty and personal-care purchases are generally final sale and agree to the Returns & Refund Policy.",
   track_meta_title: "Track Order | Rise & Bloom",
   track_meta_description:
     "Track your Rise & Bloom order and get delivery updates.",
@@ -268,13 +269,16 @@ export const en = {
     "Read the terms and conditions for using the Rise & Bloom website and purchasing products.",
   terms_title: "Terms & Conditions",
   terms_intro:
-    "By accessing riseandbloom.com and placing an order, you agree to the following terms and conditions.",
+    "By accessing this website and placing an order, you agree to the following terms and conditions.",
   terms_p1:
     "All products are subject to availability. We reserve the right to limit quantities, refuse orders, or discontinue products at any time without prior notice.",
   terms_p2:
     "Prices are listed in USD unless otherwise stated and are subject to change. You are responsible for providing accurate shipping and payment information at checkout.",
   terms_p3:
     "Rise & Bloom is not liable for indirect, incidental, or consequential damages arising from the use of our products or website. Please follow all product instructions carefully.",
+  terms_returns_title: "Returns and Final Sale",
+  terms_returns_body:
+    "Purchases are subject to our Returns & Refund Policy. Due to the nature of beauty and personal-care products, sales are generally final. Limited issue-resolution provisions for damaged, defective, incorrect, or unfulfilled orders are described in that policy.",
   terms_third_party_title: "Third-Party Products",
   terms_third_party_body:
     "Rise & Bloom Nails & Lash Supplies offers products manufactured by Rise & Bloom as well as genuine products from third-party brands. All third-party trademarks, product names, and brand names are the property of their respective owners. Unless expressly stated otherwise, the sale of a third-party product does not imply sponsorship, endorsement, affiliation, or authorization by the trademark owner.",
@@ -453,19 +457,19 @@ export const en = {
     "A thank-you offer for Rise & Bloom local customers.",
   promo_terms_meta_title: "Promotion Terms | Rise & Bloom",
   promo_terms_meta_description:
-    "Terms for Rise & Bloom online promotion codes: WELCOME2026, BLOOMLOCAL10, and BLOOMDAY.",
+    "Terms for Rise & Bloom online promotion codes: WELCOME2026 and BLOOMDAY.",
   promo_terms_title: "Promotion Terms",
   promo_terms_intro:
     "Promotion codes are created and validated in Shopify. This website only advertises offers. Enter codes at Shopify checkout — discounted totals are applied by Shopify, not on this site.",
   promo_terms_general_title: "General",
   promo_terms_general_body:
-    "• Codes must be entered at Shopify checkout to apply.\n• Rise & Bloom does not calculate discounted totals on this website before Shopify confirms the discount.\n• Active codes: WELCOME2026, BLOOMLOCAL10, and BLOOMDAY.\n• Rise & Bloom may modify or end promotions at any time as permitted by Shopify discount settings.",
+    "• Codes must be entered at Shopify checkout to apply.\n• Rise & Bloom does not calculate discounted totals on this website before Shopify confirms the discount.\n• Publicly advertised codes: WELCOME2026 and BLOOMDAY.\n• Additional offers may be shared privately with eligible customers and are validated by Shopify at checkout.\n• Rise & Bloom may modify or end promotions at any time as permitted by Shopify discount settings.",
   promo_terms_welcome_title: "{code} — First-time customers",
   promo_terms_welcome_body:
     "• Offer: 10% off the entire order.\n• Eligible customers: first-time customers only.\n• Enter the code at Shopify checkout.",
-  promo_terms_local_title: "{code} — Local customers",
+  promo_terms_local_title: "Local customer offers",
   promo_terms_local_body:
-    "• Offer: 10% off the entire order.\n• Minimum purchase: $25.\n• Intended for local customers.\n• Enter the code at Shopify checkout.",
+    "• Local customer offers may be shared privately in store or through targeted thank-you communications.\n• Eligibility, minimum purchase requirements, and discount details are validated by Shopify at checkout.\n• These offers are not publicly advertised on this website.",
   promo_terms_bday_title: "{code} — Birthday promotion",
   promo_terms_bday_body:
     "• Offer: 10% off the entire order.\n• Intended as a birthday promotion.\n• Enter the code at Shopify checkout.",

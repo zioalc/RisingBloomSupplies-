@@ -34,10 +34,7 @@ export default function PromotionTermsPage({ params }: PageProps) {
       body: t.promo_terms_welcome_body,
     },
     {
-      title: t.promo_terms_local_title.replace(
-        "{code}",
-        PROMOTIONS.bloomlocal10.code,
-      ),
+      title: t.promo_terms_local_title,
       body: t.promo_terms_local_body,
     },
     {
