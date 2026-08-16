@@ -42,7 +42,7 @@ export default function PromoAnnouncementBar() {
 
   return (
     <div
-      className="relative z-[60] border-b border-rose/20 bg-[#f6eef2] px-10 py-2.5 text-center md:px-14"
+      className="relative z-[60] border-b border-nightview-light/40 bg-warm-white px-10 py-2.5 text-center md:px-14"
       role="region"
       aria-label={t.promo_announcement_aria}
     >

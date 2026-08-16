@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { ChevronRight, Search } from "lucide-react";
+import { ChevronRight, Heart, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import AuthNavControl from "@/components/account/AuthNavControl";
+import { localizedPath } from "@/lib/i18n";
 import {
   getCollectionHref,
   getCollectionSlugForCategory,
@@ -89,7 +90,7 @@ export default function NavigationSidebar({
     <nav className="flex flex-1 flex-col pb-6" aria-label={t.sidebar_menu_title}>
       <ul className="divide-y divide-nightview-light/50">
         {onOpenSearch ? (
-          <li>
+          <li className="lg:hidden">
             <button
               type="button"
               onClick={onOpenSearch}
@@ -103,19 +104,33 @@ export default function NavigationSidebar({
           </li>
         ) : null}
 
+        <li className="lg:hidden">
+          <AuthNavControl variant="mobile" onNavigate={onNavigate} />
+        </li>
+
+        <li className="lg:hidden">
+          <Link
+            href={localizedPath(locale, "/favorites")}
+            onClick={onNavigate}
+            className={rowClass(pathname === localizedPath(locale, "/favorites"))}
+          >
+            <span className="flex items-center gap-2.5">
+              <Heart className="h-4 w-4" strokeWidth={1.5} aria-hidden />
+              <span>{t.nav_favorites}</span>
+              {showWishlistBadge ? (
+                <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-charcoal px-1.5 text-[11px] font-medium normal-case tracking-normal text-warm-white">
+                  {wishlistCount > 99 ? "99+" : wishlistCount}
+                </span>
+              ) : null}
+            </span>
+          </Link>
+        </li>
+
         {MOBILE_NAVIGATION_MENU.map((item) => {
           if (item.type === "link") {
             const link = item as NavLinkItem;
 
-            if (link.id === "account") {
-              return (
-                <li key={link.id}>
-                  <AuthNavControl variant="mobile" onNavigate={onNavigate} />
-                </li>
-              );
-            }
-
-            if (link.id === "favorites" && (!wishlistHydrated || wishlistCount === 0)) {
+            if (link.id === "account" || link.id === "favorites") {
               return null;
             }
 
@@ -137,14 +152,7 @@ export default function NavigationSidebar({
                   onClick={onNavigate}
                   className={rowClass(isActive)}
                 >
-                  <span className="flex items-center gap-2">
-                    <span>{t[link.labelKey as keyof typeof t]}</span>
-                    {link.id === "favorites" && showWishlistBadge ? (
-                      <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-charcoal px-1.5 text-[11px] font-medium normal-case tracking-normal text-warm-white">
-                        {wishlistCount > 99 ? "99+" : wishlistCount}
-                      </span>
-                    ) : null}
-                  </span>
+                  <span>{t[link.labelKey as keyof typeof t]}</span>
                 </Link>
               </li>
             );

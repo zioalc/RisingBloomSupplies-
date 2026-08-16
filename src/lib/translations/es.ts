@@ -16,8 +16,8 @@ export const es: Translation = {
   hero_stat_1: "Fácil aplicación en casa",
   hero_stat_2: "Fijación duradera",
   hero_stat_3: "Resultados de salón",
-  featured_label: "SHOP",
-  featured_heading: "Featured",
+  featured_label: "TIENDA",
+  featured_heading: "Destacados",
   featured_sub:
     "Favoritos seleccionados de Rise & Bloom — listos para explorar y comprar.",
   featured_btn: "Ver producto",

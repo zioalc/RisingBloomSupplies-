@@ -57,10 +57,10 @@ export default function AuthNavControl({
   // Always land on the custom account page first. Sign In on that page starts
   // /api/auth/login → Shopify hosted OTP → callback → /{locale}/account.
   const accountHref = localizedPath(locale, "/account");
-  const signedIn = session.status === "signed_in";
-  const label = signedIn ? t.nav_account : t.nav_sign_in;
+  const label = t.nav_account;
   const href = accountHref;
-  const aria = signedIn ? t.aria_account : t.aria_sign_in;
+  const aria = t.aria_account;
+  const authenticated = session.status === "signed_in";
 
   if (variant === "header") {
     return (
@@ -69,6 +69,7 @@ export default function AuthNavControl({
         className="relative rounded-md p-2 text-charcoal transition-colors hover:text-charcoal/70"
         aria-label={aria}
         title={label}
+        data-authenticated={authenticated}
       >
         <User className="h-5 w-5 md:h-6 md:w-6" strokeWidth={1.5} />
       </Link>
@@ -81,8 +82,12 @@ export default function AuthNavControl({
       onClick={onNavigate}
       className="flex min-h-[3.25rem] w-full items-center justify-between px-4 py-3.5 font-sans text-[0.8rem] uppercase tracking-[0.16em] text-charcoal/80 transition-colors hover:bg-nightview-light/20 hover:text-charcoal"
       aria-label={aria}
+      data-authenticated={authenticated}
     >
-      <span>{label}</span>
+      <span className="flex items-center gap-2.5">
+        <User className="h-4 w-4" strokeWidth={1.5} aria-hidden />
+        <span>{label}</span>
+      </span>
     </Link>
   );
 }
