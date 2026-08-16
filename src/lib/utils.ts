@@ -20,30 +20,3 @@ export function isCompareAtSale(
   return parseFloat(compareAtPrice.amount) > parseFloat(price.amount);
 }
 
-function getVariantNumericId(variantId: string) {
-  return variantId.split("/").pop() ?? variantId;
-}
-
-export function getCartUrl(variantId: string, quantity = 1) {
-  const domain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN;
-  const numericId = getVariantNumericId(variantId);
-  const safeQuantity = Math.max(1, Math.floor(quantity));
-  return `https://${domain}/cart/${numericId}:${safeQuantity}`;
-}
-
-export function getCheckoutUrl(variantId: string, quantity = 1) {
-  return `${getCartUrl(variantId, quantity)}?checkout`;
-}
-
-export function getMultiItemCheckoutUrl(
-  items: Array<{ variantId: string; quantity: number }>,
-) {
-  const domain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN;
-  const cartLine = items
-    .map(
-      ({ variantId, quantity }) =>
-        `${getVariantNumericId(variantId)}:${quantity}`,
-    )
-    .join(",");
-  return `https://${domain}/cart/${cartLine}?checkout`;
-}

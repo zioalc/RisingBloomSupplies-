@@ -216,6 +216,14 @@ export const es: Translation = {
     "Las compras de productos de belleza y cuidado personal son generalmente de venta final. No se aceptan devoluciones ni cambios por cambio de opinión.",
   checkout_final_sale_acknowledge:
     "Entiendo que las compras de productos de belleza y cuidado personal son generalmente de venta final y acepto la Política de devoluciones y reembolsos.",
+  checkout_account_choice_title: "¿Cómo deseas completar tu compra?",
+  checkout_account_choice_body:
+    "Inicia sesión para usar tu cuenta de Rise & Bloom o continúa sin una cuenta.",
+  checkout_sign_in: "Iniciar sesión",
+  checkout_guest: "Continuar como invitada",
+  checkout_loading: "Preparando el pago…",
+  checkout_error:
+    "El proceso de pago no está disponible en este momento. Inténtalo de nuevo.",
   track_meta_title: "Rastrear pedido | Rise & Bloom",
   track_meta_description:
     "Rastrea tu pedido de Rise & Bloom y recibe actualizaciones de entrega.",

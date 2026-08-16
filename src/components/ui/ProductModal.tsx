@@ -10,7 +10,6 @@ import { localizedProductCategory } from "@/lib/localizedProductCategory";
 import type { ProductViewData } from "@/lib/products";
 import { getDefaultVariant } from "@/lib/products";
 import type { ShopifyVariant } from "@/lib/shopify";
-import { getCheckoutUrl } from "@/lib/utils";
 import { useTranslation } from "@/lib/useTranslation";
 import { useWishlist } from "@/lib/wishlistContext";
 
@@ -286,7 +285,9 @@ export default function ProductModal({
                   </button>
 
                   <FinalSaleCheckoutBlock
-                    checkoutUrl={getCheckoutUrl(activeVariant.id, quantity)}
+                    lines={[
+                      { variantId: activeVariant.id, quantity },
+                    ]}
                     buttonLabel={t.buy_now}
                     buttonClassName="w-full rounded-full border border-rose px-6 py-3 text-center text-sm font-medium text-mauve transition-colors hover:bg-rose hover:text-charcoal"
                   />

@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { FinalSaleCheckoutBlock } from "@/components/checkout/FinalSaleCheckoutBlock";
 import { useCart } from "@/lib/cartContext";
 import { localizedPath } from "@/lib/i18n";
-import { formatPrice, getMultiItemCheckoutUrl } from "@/lib/utils";
+import { formatPrice } from "@/lib/utils";
 import { useTranslation } from "@/lib/useTranslation";
 import { useWishlist } from "@/lib/wishlistContext";
 
@@ -37,9 +37,6 @@ export default function CartDrawer() {
   );
 
   const currencyCode = items[0]?.price.currencyCode ?? "USD";
-  const checkoutUrl =
-    items.length > 0 ? getMultiItemCheckoutUrl(items) : undefined;
-
   return (
     <>
       <div
@@ -170,10 +167,13 @@ export default function CartDrawer() {
             </span>
           </div>
 
-          {checkoutUrl ? (
+          {items.length > 0 ? (
             <div className="mt-4">
               <FinalSaleCheckoutBlock
-                checkoutUrl={checkoutUrl}
+                lines={items.map((item) => ({
+                  variantId: item.variantId,
+                  quantity: item.quantity,
+                }))}
                 buttonLabel={t.cart_checkout}
               />
             </div>

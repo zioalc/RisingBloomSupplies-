@@ -209,6 +209,14 @@ export const en = {
     "Beauty and personal-care purchases are generally final sale. No returns or exchanges for change of mind.",
   checkout_final_sale_acknowledge:
     "I understand that beauty and personal-care purchases are generally final sale and agree to the Returns & Refund Policy.",
+  checkout_account_choice_title: "How would you like to check out?",
+  checkout_account_choice_body:
+    "Sign in to use your Rise & Bloom customer account, or continue without an account.",
+  checkout_sign_in: "Sign In",
+  checkout_guest: "Continue as Guest",
+  checkout_loading: "Preparing checkout…",
+  checkout_error:
+    "Checkout is unavailable right now. Please try again.",
   track_meta_title: "Track Order | Rise & Bloom",
   track_meta_description:
     "Track your Rise & Bloom order and get delivery updates.",

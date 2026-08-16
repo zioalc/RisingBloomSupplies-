@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { localizedPath } from "@/lib/i18n";
 import { useTranslation } from "@/lib/useTranslation";
 
 type FinalSaleCheckoutBlockProps = {
-  checkoutUrl: string;
+  lines: Array<{ variantId: string; quantity: number }>;
   buttonLabel: string;
   buttonClassName?: string;
 };
@@ -29,12 +30,70 @@ export function FinalSaleCheckoutNotice() {
 }
 
 export function FinalSaleCheckoutBlock({
-  checkoutUrl,
+  lines,
   buttonLabel,
   buttonClassName = "rounded-full bg-rose py-3 text-center text-sm font-medium text-charcoal transition-colors hover:bg-nightview-dark hover:text-charcoal",
 }: FinalSaleCheckoutBlockProps) {
-  const { t } = useTranslation();
+  const { t, locale } = useTranslation();
+  const pathname = usePathname();
   const [acknowledged, setAcknowledged] = useState(false);
+  const [showGuestChoice, setShowGuestChoice] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState(false);
+
+  const startCheckout = async () => {
+    setSubmitting(true);
+    setError(false);
+
+    try {
+      const response = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ lines }),
+      });
+      const result = (await response.json()) as { checkoutUrl?: string };
+      if (!response.ok || !result.checkoutUrl) {
+        throw new Error("Checkout unavailable");
+      }
+
+      window.location.assign(result.checkoutUrl);
+    } catch {
+      setError(true);
+      setSubmitting(false);
+    }
+  };
+
+  const handleCheckout = async () => {
+    if (!acknowledged || submitting) return;
+
+    setSubmitting(true);
+    setError(false);
+    try {
+      const response = await fetch("/api/auth/session", {
+        credentials: "same-origin",
+        cache: "no-store",
+      });
+      const session = response.ok
+        ? ((await response.json()) as { authenticated?: boolean })
+        : null;
+
+      if (session?.authenticated) {
+        setSubmitting(false);
+        await startCheckout();
+        return;
+      }
+
+      setShowGuestChoice(true);
+      setSubmitting(false);
+    } catch {
+      setShowGuestChoice(true);
+      setSubmitting(false);
+    }
+  };
+
+  const signInHref = `/api/auth/login?locale=${locale}&returnTo=${encodeURIComponent(
+    pathname,
+  )}`;
 
   return (
     <div className="flex flex-col gap-3">
@@ -52,20 +111,50 @@ export function FinalSaleCheckoutBlock({
         </span>
       </label>
 
-      <a
-        href={acknowledged ? checkoutUrl : undefined}
-        onClick={(event) => {
-          if (!acknowledged) {
-            event.preventDefault();
-          }
-        }}
+      <button
+        type="button"
+        onClick={() => void handleCheckout()}
+        disabled={!acknowledged || submitting}
         aria-disabled={!acknowledged}
         className={`relative z-0 inline-flex w-full items-center justify-center ${buttonClassName} ${
-          acknowledged ? "" : "pointer-events-none opacity-50"
+          acknowledged && !submitting ? "" : "opacity-50"
         }`}
       >
-        {buttonLabel}
-      </a>
+        {submitting ? t.checkout_loading : buttonLabel}
+      </button>
+
+      {showGuestChoice ? (
+        <div className="rounded-xl border border-champagne/70 bg-cream/50 p-4 text-center">
+          <p className="font-sans text-sm font-medium text-charcoal">
+            {t.checkout_account_choice_title}
+          </p>
+          <p className="mt-1 font-sans text-xs leading-relaxed text-charcoal/65">
+            {t.checkout_account_choice_body}
+          </p>
+          <div className="mt-3 grid gap-2 sm:grid-cols-2">
+            <Link
+              href={signInHref}
+              className="rounded-full border border-charcoal/20 px-4 py-2.5 text-sm text-charcoal transition-colors hover:border-charcoal/40"
+            >
+              {t.checkout_sign_in}
+            </Link>
+            <button
+              type="button"
+              onClick={() => void startCheckout()}
+              disabled={submitting}
+              className="rounded-full bg-rose px-4 py-2.5 text-sm text-charcoal transition-colors hover:bg-nightview-dark disabled:opacity-50"
+            >
+              {submitting ? t.checkout_loading : t.checkout_guest}
+            </button>
+          </div>
+        </div>
+      ) : null}
+
+      {error ? (
+        <p role="alert" className="text-center text-xs text-red-700">
+          {t.checkout_error}
+        </p>
+      ) : null}
     </div>
   );
 }

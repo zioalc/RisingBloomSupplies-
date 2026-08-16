@@ -7,7 +7,6 @@ import type { ShopifyProduct, ShopifyVariant } from "@/lib/shopify";
 import { FinalSaleCheckoutBlock } from "@/components/checkout/FinalSaleCheckoutBlock";
 import ProductGallery from "@/components/ui/ProductGallery";
 import ProductPrice from "@/components/ui/ProductPrice";
-import { getCheckoutUrl } from "@/lib/utils";
 import { useTranslation } from "@/lib/useTranslation";
 import { useWishlist } from "@/lib/wishlistContext";
 
@@ -149,7 +148,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
             </button>
 
             <FinalSaleCheckoutBlock
-              checkoutUrl={getCheckoutUrl(activeVariant.id)}
+              lines={[{ variantId: activeVariant.id, quantity: 1 }]}
               buttonLabel={t.buy_now}
               buttonClassName="inline-block w-full rounded-full border border-rose px-8 py-3 text-center text-sm font-medium text-mauve transition-colors hover:bg-rose hover:text-charcoal sm:w-auto"
             />

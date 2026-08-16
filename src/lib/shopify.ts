@@ -58,6 +58,11 @@ export type ShopifyCollection = {
   image: ShopifyImage | null;
 };
 
+export type ShopifyCartLineInput = {
+  merchandiseId: string;
+  quantity: number;
+};
+
 type ShopifyFetchOptions = {
   query: string;
   variables?: Record<string, unknown>;
@@ -118,6 +123,42 @@ export async function shopifyFetch<T>({
   }
 
   return json.data;
+}
+
+const CREATE_CART_MUTATION = /* GraphQL */ `
+  mutation CreateCart($lines: [CartLineInput!]!) {
+    cartCreate(input: { lines: $lines }) {
+      cart {
+        checkoutUrl
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+export async function createCheckout(
+  lines: ShopifyCartLineInput[],
+): Promise<string> {
+  const result = await shopifyFetch<{
+    cartCreate: {
+      cart: { checkoutUrl: string } | null;
+      userErrors: Array<{ field: string[] | null; message: string }>;
+    };
+  }>({
+    query: CREATE_CART_MUTATION,
+    variables: { lines },
+    cache: "no-store",
+  });
+
+  const checkoutUrl = result.cartCreate.cart?.checkoutUrl;
+  if (!checkoutUrl || result.cartCreate.userErrors.length > 0) {
+    throw new Error("Shopify could not create the checkout.");
+  }
+
+  return checkoutUrl;
 }
 
 function mapImage(
