@@ -211,12 +211,34 @@ export const en = {
     "I understand that beauty and personal-care purchases are generally final sale and agree to the Returns & Refund Policy.",
   checkout_account_choice_title: "How would you like to check out?",
   checkout_account_choice_body:
-    "Sign in to use your Rise & Bloom customer account, or continue without an account.",
+    "Sign in for account access and order history, or continue as a guest.",
+  checkout_account_benefit_account: "Access your Rise & Bloom customer account",
+  checkout_account_benefit_orders: "View your order history",
+  checkout_account_benefit_past_purchases:
+    "Easier access to past purchases",
+  checkout_guest_note:
+    "You can still complete your purchase as a guest without signing in.",
   checkout_sign_in: "Sign In",
   checkout_guest: "Continue as Guest",
   checkout_loading: "Preparing checkout…",
   checkout_error:
     "Checkout is unavailable right now. Please try again.",
+  checkout_resume_meta_title: "Continuing to Checkout | Rise & Bloom",
+  checkout_resume_meta_description:
+    "Finishing sign-in and continuing to Shopify checkout.",
+  checkout_resume_label: "Checkout",
+  checkout_resume_heading: "Continuing to checkout",
+  checkout_resume_preparing: "Preparing your checkout…",
+  checkout_resume_missing_cart:
+    "We could not find the cart items saved for checkout after sign-in. Please open your cart and try again.",
+  checkout_resume_not_signed_in:
+    "Your sign-in session is missing or expired. Sign in again to continue to checkout, or return to your cart.",
+  checkout_resume_error:
+    "We could not start checkout right now. Please try again, or return to your cart.",
+  checkout_resume_retry: "Try again",
+  checkout_resume_return_cart: "Return to cart",
+  checkout_resume_continue_shopping: "Continue shopping",
+  checkout_resume_sign_in: "Sign In",
   track_meta_title: "Track Order | Rise & Bloom",
   track_meta_description:
     "Track your Rise & Bloom order and get delivery updates.",

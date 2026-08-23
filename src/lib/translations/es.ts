@@ -218,12 +218,35 @@ export const es: Translation = {
     "Entiendo que las compras de productos de belleza y cuidado personal son generalmente de venta final y acepto la Política de devoluciones y reembolsos.",
   checkout_account_choice_title: "¿Cómo deseas completar tu compra?",
   checkout_account_choice_body:
-    "Inicia sesión para usar tu cuenta de Rise & Bloom o continúa sin una cuenta.",
+    "Inicia sesión para acceder a tu cuenta e historial de pedidos, o continúa como invitada.",
+  checkout_account_benefit_account:
+    "Accede a tu cuenta de cliente de Rise & Bloom",
+  checkout_account_benefit_orders: "Consulta el historial de tus pedidos",
+  checkout_account_benefit_past_purchases:
+    "Acceso más fácil a compras anteriores",
+  checkout_guest_note:
+    "También puedes completar tu compra como invitada sin iniciar sesión.",
   checkout_sign_in: "Iniciar sesión",
   checkout_guest: "Continuar como invitada",
   checkout_loading: "Preparando el pago…",
   checkout_error:
     "El proceso de pago no está disponible en este momento. Inténtalo de nuevo.",
+  checkout_resume_meta_title: "Continuando al pago | Rise & Bloom",
+  checkout_resume_meta_description:
+    "Finalizando el inicio de sesión y continuando al pago de Shopify.",
+  checkout_resume_label: "Pago",
+  checkout_resume_heading: "Continuando al pago",
+  checkout_resume_preparing: "Preparando tu pago…",
+  checkout_resume_missing_cart:
+    "No encontramos los artículos del carrito guardados para el pago después de iniciar sesión. Abre tu carrito e inténtalo de nuevo.",
+  checkout_resume_not_signed_in:
+    "Tu sesión no está disponible o ha expirado. Inicia sesión de nuevo para continuar al pago, o vuelve a tu carrito.",
+  checkout_resume_error:
+    "No pudimos iniciar el pago en este momento. Inténtalo de nuevo o vuelve a tu carrito.",
+  checkout_resume_retry: "Intentar de nuevo",
+  checkout_resume_return_cart: "Volver al carrito",
+  checkout_resume_continue_shopping: "Seguir comprando",
+  checkout_resume_sign_in: "Iniciar sesión",
   track_meta_title: "Rastrear pedido | Rise & Bloom",
   track_meta_description:
     "Rastrea tu pedido de Rise & Bloom y recibe actualizaciones de entrega.",

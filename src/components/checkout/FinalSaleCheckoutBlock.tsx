@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { localizedPath } from "@/lib/i18n";
+import { savePendingCheckout } from "@/lib/pendingCheckout";
 import { useTranslation } from "@/lib/useTranslation";
 
 type FinalSaleCheckoutBlockProps = {
@@ -35,7 +35,6 @@ export function FinalSaleCheckoutBlock({
   buttonClassName = "rounded-full bg-rose py-3 text-center text-sm font-medium text-charcoal transition-colors hover:bg-nightview-dark hover:text-charcoal",
 }: FinalSaleCheckoutBlockProps) {
   const { t, locale } = useTranslation();
-  const pathname = usePathname();
   const [acknowledged, setAcknowledged] = useState(false);
   const [showGuestChoice, setShowGuestChoice] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -91,9 +90,13 @@ export function FinalSaleCheckoutBlock({
     }
   };
 
-  const signInHref = `/api/auth/login?locale=${locale}&returnTo=${encodeURIComponent(
-    pathname,
-  )}`;
+  const handleSignIn = () => {
+    savePendingCheckout(lines);
+    const returnTo = localizedPath(locale, "/checkout-resume");
+    window.location.assign(
+      `/api/auth/login?locale=${locale}&returnTo=${encodeURIComponent(returnTo)}`,
+    );
+  };
 
   return (
     <div className="flex flex-col gap-3">
@@ -124,20 +127,29 @@ export function FinalSaleCheckoutBlock({
       </button>
 
       {showGuestChoice ? (
-        <div className="rounded-xl border border-champagne/70 bg-cream/50 p-4 text-center">
-          <p className="font-sans text-sm font-medium text-charcoal">
+        <div className="rounded-xl border border-champagne/70 bg-cream/50 p-4 text-left">
+          <p className="font-sans text-sm font-medium text-charcoal text-center">
             {t.checkout_account_choice_title}
           </p>
-          <p className="mt-1 font-sans text-xs leading-relaxed text-charcoal/65">
+          <p className="mt-1 font-sans text-xs leading-relaxed text-charcoal/65 text-center">
             {t.checkout_account_choice_body}
           </p>
+          <ul className="mt-3 list-disc space-y-1 pl-5 font-sans text-xs leading-relaxed text-charcoal/70">
+            <li>{t.checkout_account_benefit_account}</li>
+            <li>{t.checkout_account_benefit_orders}</li>
+            <li>{t.checkout_account_benefit_past_purchases}</li>
+          </ul>
+          <p className="mt-3 font-sans text-xs leading-relaxed text-charcoal/65 text-center">
+            {t.checkout_guest_note}
+          </p>
           <div className="mt-3 grid gap-2 sm:grid-cols-2">
-            <Link
-              href={signInHref}
+            <button
+              type="button"
+              onClick={handleSignIn}
               className="rounded-full border border-charcoal/20 px-4 py-2.5 text-sm text-charcoal transition-colors hover:border-charcoal/40"
             >
               {t.checkout_sign_in}
-            </Link>
+            </button>
             <button
               type="button"
               onClick={() => void startCheckout()}
