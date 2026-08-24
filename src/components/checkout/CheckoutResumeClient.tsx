@@ -7,7 +7,7 @@ import { localizedPath } from "@/lib/i18n";
 import {
   clearPendingCheckout,
   readPendingCheckout,
-  type PendingCheckoutLine,
+  type PendingCheckoutPayload,
 } from "@/lib/pendingCheckout";
 import { useTranslation } from "@/lib/useTranslation";
 
@@ -30,7 +30,7 @@ export default function CheckoutResumeClient() {
   )}`;
 
   const startCheckoutWithLines = useCallback(
-    async (lines: PendingCheckoutLine[], signal: AbortSignal) => {
+    async (payload: PendingCheckoutPayload, signal: AbortSignal) => {
       setState({ status: "loading" });
 
       try {
@@ -53,7 +53,7 @@ export default function CheckoutResumeClient() {
         const response = await fetch("/api/checkout", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ lines }),
+          body: JSON.stringify({ lines: payload.lines, locale: payload.locale }),
           signal,
         });
         if (signal.aborted) return;
@@ -81,14 +81,14 @@ export default function CheckoutResumeClient() {
 
   useEffect(() => {
     const controller = new AbortController();
-    const lines = readPendingCheckout();
+    const pending = readPendingCheckout();
 
-    if (!lines) {
+    if (!pending) {
       setState({ status: "missing_cart" });
       return () => controller.abort();
     }
 
-    void startCheckoutWithLines(lines, controller.signal);
+    void startCheckoutWithLines(pending, controller.signal);
     return () => controller.abort();
   }, [retryKey, startCheckoutWithLines]);
 

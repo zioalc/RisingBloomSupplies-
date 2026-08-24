@@ -126,7 +126,8 @@ export async function shopifyFetch<T>({
 }
 
 const CREATE_CART_MUTATION = /* GraphQL */ `
-  mutation CreateCart($lines: [CartLineInput!]!) {
+  mutation CreateCart($lines: [CartLineInput!]!, $language: LanguageCode!)
+    @inContext(language: $language) {
     cartCreate(input: { lines: $lines }) {
       cart {
         checkoutUrl
@@ -141,6 +142,7 @@ const CREATE_CART_MUTATION = /* GraphQL */ `
 
 export async function createCheckout(
   lines: ShopifyCartLineInput[],
+  language: ShopifyLanguageCode,
 ): Promise<string> {
   const result = await shopifyFetch<{
     cartCreate: {
@@ -149,7 +151,7 @@ export async function createCheckout(
     };
   }>({
     query: CREATE_CART_MUTATION,
-    variables: { lines },
+    variables: { lines, language },
     cache: "no-store",
   });
 

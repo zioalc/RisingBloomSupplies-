@@ -48,7 +48,7 @@ export function FinalSaleCheckoutBlock({
       const response = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ lines }),
+        body: JSON.stringify({ lines, locale }),
       });
       const result = (await response.json()) as { checkoutUrl?: string };
       if (!response.ok || !result.checkoutUrl) {
@@ -91,7 +91,7 @@ export function FinalSaleCheckoutBlock({
   };
 
   const handleSignIn = () => {
-    savePendingCheckout(lines);
+    savePendingCheckout(lines, locale);
     const returnTo = localizedPath(locale, "/checkout-resume");
     window.location.assign(
       `/api/auth/login?locale=${locale}&returnTo=${encodeURIComponent(returnTo)}`,

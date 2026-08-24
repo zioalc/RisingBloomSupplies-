@@ -1,11 +1,20 @@
 import { NextResponse } from "next/server";
-import { createCheckout, type ShopifyCartLineInput } from "@/lib/shopify";
+import {
+  createCheckout,
+  localeToShopifyLanguage,
+  type ShopifyCartLineInput,
+} from "@/lib/shopify";
 
 export const dynamic = "force-dynamic";
 
 type CheckoutRequest = {
   lines?: Array<{ variantId?: unknown; quantity?: unknown }>;
+  locale?: unknown;
 };
+
+function parseLocale(value: unknown): "en" | "es" {
+  return value === "es" ? "es" : "en";
+}
 
 function parseLines(body: CheckoutRequest): ShopifyCartLineInput[] | null {
   if (!Array.isArray(body.lines) || body.lines.length === 0) {
@@ -43,7 +52,9 @@ export async function POST(request: Request) {
       );
     }
 
-    const checkoutUrl = await createCheckout(lines);
+    const locale = parseLocale(body.locale);
+    const language = localeToShopifyLanguage(locale);
+    const checkoutUrl = await createCheckout(lines, language);
     return NextResponse.json({ checkoutUrl });
   } catch {
     return NextResponse.json(

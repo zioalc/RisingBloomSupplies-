@@ -10,8 +10,9 @@ export type PendingCheckoutLine = {
   quantity: number;
 };
 
-type PendingCheckoutPayload = {
+export type PendingCheckoutPayload = {
   lines: PendingCheckoutLine[];
+  locale: "en" | "es";
 };
 
 function isValidLine(value: unknown): value is PendingCheckoutLine {
@@ -27,26 +28,36 @@ function isValidLine(value: unknown): value is PendingCheckoutLine {
   return Number.isInteger(quantity) && quantity >= 1 && quantity <= 100;
 }
 
-function parsePayload(raw: string): PendingCheckoutLine[] | null {
+function parsePayload(raw: string): PendingCheckoutPayload | null {
   try {
-    const parsed = JSON.parse(raw) as PendingCheckoutPayload | PendingCheckoutLine[];
+    const parsed = JSON.parse(raw) as Partial<PendingCheckoutPayload> | PendingCheckoutLine[];
     const lines = Array.isArray(parsed)
       ? parsed
-      : Array.isArray(parsed?.lines)
-        ? parsed.lines
+      : Array.isArray((parsed as PendingCheckoutPayload).lines)
+        ? (parsed as PendingCheckoutPayload).lines
         : null;
     if (!lines || lines.length === 0) return null;
     if (!lines.every(isValidLine)) return null;
-    return lines.map((line) => ({
-      variantId: line.variantId,
-      quantity: Number(line.quantity),
-    }));
+    const locale: "en" | "es" =
+      !Array.isArray(parsed) && (parsed as PendingCheckoutPayload).locale === "es"
+        ? "es"
+        : "en";
+    return {
+      lines: lines.map((line) => ({
+        variantId: line.variantId,
+        quantity: Number(line.quantity),
+      })),
+      locale,
+    };
   } catch {
     return null;
   }
 }
 
-export function savePendingCheckout(lines: PendingCheckoutLine[]): void {
+export function savePendingCheckout(
+  lines: PendingCheckoutLine[],
+  locale: "en" | "es",
+): void {
   if (typeof window === "undefined") return;
   if (!lines.length || !lines.every(isValidLine)) return;
 
@@ -55,6 +66,7 @@ export function savePendingCheckout(lines: PendingCheckoutLine[]): void {
       variantId: line.variantId,
       quantity: line.quantity,
     })),
+    locale,
   };
 
   try {
@@ -67,7 +79,7 @@ export function savePendingCheckout(lines: PendingCheckoutLine[]): void {
   }
 }
 
-export function readPendingCheckout(): PendingCheckoutLine[] | null {
+export function readPendingCheckout(): PendingCheckoutPayload | null {
   if (typeof window === "undefined") return null;
 
   try {
