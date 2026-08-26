@@ -407,7 +407,7 @@ export const es: Translation = {
     "Nos encantaría saber de ti. Escríbenos con preguntas sobre kits de pestañas, pedidos o próximos eventos — siempre estamos felices de ayudarte.",
   contact_email_label: "Correo",
   contact_social_label: "Redes sociales",
-  contact_events_label: "Pop-Up Events",
+  contact_events_label: "Eventos pop-up",
   contact_events_body:
     "Encuéntranos en mercados de belleza y eventos pop-up durante todo el año. Síguenos en Instagram para fechas, ubicaciones y ofertas exclusivas de eventos en kits de pestañas.",
   contact_shop_btn: "Ver la tienda",
