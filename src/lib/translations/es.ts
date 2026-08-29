@@ -108,7 +108,7 @@ export const es: Translation = {
   read_less: "Leer menos",
   trust_shipping_title: "Envío gratis",
   trust_shipping_body:
-    "Envío gratis en pedidos elegibles en EE. UU. mayores de $100.",
+    "Envío gratis en pedidos elegibles en EE. UU. mayores de $75.",
   trust_pickup_title: "Pedidos para recogida local",
   trust_pickup_body:
     "Haz tu pedido en línea y elige recogida en tienda al pagar. ¡Los pedidos para recoger están listos en 15 minutos o menos!",
@@ -467,7 +467,7 @@ export const es: Translation = {
   promo_announcement_instore:
     "Clientas locales: pregunta en tienda sobre descuentos en línea (puede aplicar compra mínima).",
   promo_announcement_shipping:
-    "Pedidos mayores de $100 califican para envío gratis.",
+    "Pedidos mayores de $75 califican para envío gratis.",
   promo_copy_code: "Copiar código",
   promo_code_copied: "Código {code} copiado. Ingrésalo al pagar en Shopify.",
   promo_enter_at_checkout:

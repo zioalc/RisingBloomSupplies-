@@ -101,7 +101,7 @@ export const en = {
   read_less: "Read less",
   trust_shipping_title: "Free Shipping",
   trust_shipping_body:
-    "Free shipping on qualifying U.S. orders over $100.",
+    "Free shipping on qualifying U.S. orders over $75.",
   trust_pickup_title: "Local Pickup Orders",
   trust_pickup_body:
     "Place your order online and select pickup in store at checkout. Pickup orders are ready within 15 minutes or less!",
@@ -460,7 +460,7 @@ export const en = {
   promo_announcement_instore:
     "Local customers: ask in-store about online discount opportunities (minimum purchase may apply).",
   promo_announcement_shipping:
-    "Orders over $100 qualify for free shipping.",
+    "Orders over $75 qualify for free shipping.",
   promo_copy_code: "Copy code",
   promo_code_copied: "Code {code} copied. Enter it at Shopify checkout.",
   promo_enter_at_checkout:
